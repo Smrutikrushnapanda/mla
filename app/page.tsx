@@ -1,11 +1,5 @@
-import React from 'react'
+import { redirect } from "next/navigation";
 
-function page() {
-  return (
-    <div>
-      HEllo
-    </div>
-  )
+export default function Page() {
+  redirect("/admin/dashboard");
 }
-
-export default page
