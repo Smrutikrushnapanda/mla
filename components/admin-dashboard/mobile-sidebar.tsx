@@ -1,11 +1,11 @@
 import React from 'react'
 
-function page() {
+function MobileSidebar() {
   return (
     <div>
-      HEllo
+      
     </div>
   )
 }
 
-export default page
+export default MobileSidebar
