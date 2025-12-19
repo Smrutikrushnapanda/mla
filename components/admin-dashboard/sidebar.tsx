@@ -117,7 +117,7 @@ export function AppSidebar() {
         {
           id: "archive-users",
           label: "Archive Users",
-          href: "/admin/users/archived",
+          href: "/admin/archived",
           icon: Archive,
         },
       ],
@@ -131,25 +131,25 @@ export function AppSidebar() {
         { 
           id: "project-category", 
           label: "Project Category", 
-          href: "/admin/categories/projects", 
+          href: "/admin/project-category", 
           icon: Target 
         },
         { 
           id: "grievance-category", 
           label: "Grievance Category", 
-          href: "/admin/categories/grievances", 
+          href: "/admin/grievances", 
           icon: FileText 
         },
         { 
           id: "poll-category", 
           label: "Poll Category", 
-          href: "/admin/categories/polls", 
+          href: "/admin/polls", 
           icon: BarChart3 
         },
         { 
           id: "myvoice-category", 
           label: "My Voice Category", 
-          href: "/admin/categories/myvoice", 
+          href: "/admin/myvoice", 
           icon: MessageSquare 
         },
       ],

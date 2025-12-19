@@ -56,11 +56,11 @@ export const lightTheme = {
   
   // Inputs
   input: {
-    bg: "#f8fafc",
-    border: "#cbd5e1",
+    bg: "#ffffff",           // Changed from #f8fafc to white for better contrast
+    border: "#e2e8f0",       // Changed from #cbd5e1 to match border color
     focusBorder: "#3b82f6",
     text: "#0f172a",
-    placeholder: "#94a3b8",
+    placeholder: "#94a3b8",  // Light gray for placeholder text
   },
 };
 
@@ -95,7 +95,7 @@ export const darkTheme = {
   
   // Borders & Dividers
   border: "#334155",
-  borderSecondary: "#475569",
+  borderSecondary: "#cbd5e1",
   
   // Effects
   shadow: "rgba(0, 0, 0, 0.5)",
@@ -121,11 +121,11 @@ export const darkTheme = {
   
   // Inputs
   input: {
-    bg: "#1e293b",
-    border: "#334155",
+    bg: "#0f172a",           // Changed from #1e293b to darker background for better contrast
+    border: "#334155",       // Kept the same for consistency
     focusBorder: "#60a5fa",
     text: "#f8fafc",
-    placeholder: "#64748b",
+    placeholder: "#64748b",  // Medium gray for placeholder text (darker than light theme)
   },
 };
 

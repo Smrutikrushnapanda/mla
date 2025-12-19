@@ -229,7 +229,7 @@ export default function AdminUsersPage() {
                 borderColor: theme.border 
               }}
             >
-              <CardContent className="p-6">
+              <CardContent className="p-2">
                 <div className="flex items-center justify-between">
                   <div>
                     <p 
