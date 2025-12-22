@@ -2,31 +2,55 @@
 
 import React, { useState } from "react"
 import Link from "next/link"
-import { ArrowLeft, Building2, User, Tag } from "lucide-react"
+import { ArrowLeft, Building2, User } from "lucide-react"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Switch } from "@/components/ui/switch"
 import { Checkbox } from "@/components/ui/checkbox"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { useThemeStore } from "@/store/useThemeStore"
 
-// Available categories
-const DEPARTMENT_CATEGORIES = [
-  "Projects",
-  "Grievances",
-  "Polls",
-  "My Voice",
-  "Events",
-  "Announcements",
-  "Development",
-  "Infrastructure",
-  "Health",
-  "Education",
-  "Agriculture",
-  "Social Welfare",
+// Available departments
+const GOVERNMENT_DEPARTMENTS = [
+  "Administration Department",
+  "Finance Department",
+  "Home Department",
+  "Education Department",
+  "Health Department",
+  "Agriculture Department",
+  "Fisheries Department",
+  "Animal Husbandry Department",
+  "Forest Department",
+  "Rural Development Department",
+  "Urban Development Department",
+  "Housing Department",
+  "Panchayati Raj Department",
+  "Water Resources Department",
+  "Public Works Department",
+  "Transport Department",
+  "Energy Department",
+  "Women & Child Development Department",
+  "Social Welfare Department",
+  "Tribal Welfare Department",
+  "Labour Department",
+  "Sports & Youth Department",
+  "Industries Department",
+  "MSME Department",
+  "Handloom & Handicrafts Department",
+  "Tourism Department",
+  "Food & Civil Supplies Department",
+  "Revenue & Disaster Management Department",
+  "Culture Department",
+  "Information Technology Department",
 ]
 
 export default function AddDepartment() {
@@ -38,7 +62,6 @@ export default function AddDepartment() {
     headOfDepartment: "",
     contactEmail: "",
     contactPhone: "",
-    categories: [] as string[],
     active: true,
   })
 
@@ -49,26 +72,12 @@ export default function AddDepartment() {
     setForm((prev) => ({ ...prev, [id]: value }))
   }
 
-  const handleCategoryToggle = (category: string) => {
-    setForm((prev) => ({
-      ...prev,
-      categories: prev.categories.includes(category)
-        ? prev.categories.filter((c) => c !== category)
-        : [...prev.categories, category],
-    }))
-  }
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
     // Validation
     if (!form.name || !form.code) {
       alert("Please fill all required fields")
-      return
-    }
-
-    if (form.categories.length === 0) {
-      alert("Please select at least one work category")
       return
     }
 
@@ -179,18 +188,34 @@ export default function AddDepartment() {
                   >
                     Department Name *
                   </Label>
-                  <Input
-                    id="name"
+                  <Select
                     value={form.name}
-                    onChange={handleChange}
-                    placeholder="e.g., Public Works Department"
-                    required
-                    style={{
-                      backgroundColor: theme.input.bg,
-                      borderColor: theme.input.border,
-                      color: theme.input.text,
-                    }}
-                  />
+                    onValueChange={(value) => setForm({ ...form, name: value })}
+                  >
+                    <SelectTrigger
+                      className="h-10 w-full"
+                      style={{
+                        backgroundColor: theme.input.bg,
+                        borderColor: theme.input.placeholder,
+                        color: theme.input.text,
+                      }}
+                    >
+                      <SelectValue placeholder="Select department" />
+                    </SelectTrigger>
+                    <SelectContent
+                      style={{
+                        backgroundColor: theme.cardBackground,
+                        borderColor: theme.cardBorder,
+                        color: theme.textPrimary,
+                      }}
+                    >
+                      {GOVERNMENT_DEPARTMENTS.map((dept) => (
+                        <SelectItem key={dept} value={dept}>
+                          {dept}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div className="space-y-2">
@@ -323,56 +348,6 @@ export default function AddDepartment() {
               </div>
             </div>
 
-            {/* WORK CATEGORIES */}
-            <div 
-              className="space-y-4 pt-6 border-t"
-              style={{ borderColor: theme.border }}
-            >
-              <h3 
-                className="text-sm font-semibold flex items-center gap-2"
-                style={{ color: theme.textSecondary }}
-              >
-                <Tag className="h-4 w-4" />
-                Work Categories *
-              </h3>
-              <p 
-                className="text-xs"
-                style={{ color: theme.textTertiary }}
-              >
-                Select the types of work this department handles. MLAs can assign work based on these categories.
-              </p>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 p-4 rounded-md border"
-                style={{ 
-                  borderColor: theme.border,
-                  backgroundColor: theme.backgroundSecondary 
-                }}
-              >
-                {DEPARTMENT_CATEGORIES.map((category) => (
-                  <div key={category} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={`category-${category}`}
-                      checked={form.categories.includes(category)}
-                      onCheckedChange={() => handleCategoryToggle(category)}
-                    />
-                    <Label
-                      htmlFor={`category-${category}`}
-                      className="text-sm font-normal cursor-pointer"
-                      style={{ color: theme.textPrimary }}
-                    >
-                      {category}
-                    </Label>
-                  </div>
-                ))}
-              </div>
-              
-              {form.categories.length > 0 && (
-                <p className="text-xs" style={{ color: theme.textSecondary }}>
-                  Selected: {form.categories.join(", ")}
-                </p>
-              )}
-            </div>
-
             {/* STATUS */}
             <div 
               className="space-y-4 pt-6 border-t"
@@ -385,27 +360,36 @@ export default function AddDepartment() {
                 Department Status
               </h3>
               
-              <div className="flex items-center space-x-3">
-                <Switch
+              <div className="flex items-center space-x-3 p-4 rounded-md border"
+                style={{ 
+                  borderColor: theme.border,
+                  backgroundColor: theme.backgroundSecondary 
+                }}
+              >
+                <Checkbox
                   id="active"
                   checked={form.active}
                   onCheckedChange={(checked) =>
-                    setForm((prev) => ({ ...prev, active: checked }))
+                    setForm((prev) => ({ ...prev, active: checked as boolean }))
                   }
                 />
-                <Label 
-                  htmlFor="active"
-                  style={{ color: theme.textPrimary }}
-                  className="cursor-pointer"
-                >
-                  Active Department
-                </Label>
-                <p 
-                  className="text-xs ml-2"
-                  style={{ color: theme.textTertiary }}
-                >
-                  {form.active ? "Department is active and available for work assignment" : "Department is inactive"}
-                </p>
+                <div className="flex-1">
+                  <Label 
+                    htmlFor="active"
+                    style={{ color: theme.textPrimary }}
+                    className="cursor-pointer font-medium"
+                  >
+                    Active Department
+                  </Label>
+                  <p 
+                    className="text-xs mt-1"
+                    style={{ color: theme.textTertiary }}
+                  >
+                    {form.active 
+                      ? "Department is active and available for work assignment" 
+                      : "Department is inactive and not available"}
+                  </p>
+                </div>
               </div>
             </div>
 

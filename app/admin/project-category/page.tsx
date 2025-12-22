@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { useThemeStore } from "@/store/useThemeStore"
-import { ManageProjectsTable } from "@/components/manage-projects/table/manage-projects-table"
+import { ManageProjectsTable } from "@/components/admin-dashboard/manage-projects/table/manage-projects-table"
 import { Label } from "@/components/ui/label"
 import { useRouter } from "next/navigation"
 

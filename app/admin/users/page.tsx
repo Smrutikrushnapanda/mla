@@ -1,7 +1,7 @@
 // admin-users/page.tsx
 "use client"
 
-import { UsersDataTable } from "@/components/admin-user/tables/users-table"
+import { UsersDataTable } from "@/components/admin-dashboard/admin-user/tables/users-table"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"

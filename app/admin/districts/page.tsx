@@ -24,8 +24,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { useThemeStore } from "@/store/useThemeStore";
-import { DistrictTable } from "../../../components/district/tables/district-table";
-import { District } from "../../..//components/district/tables/columns";
+import { DistrictTable } from "../../../components/admin-dashboard/district/tables/district-table";
+import { District } from "../../../components/admin-dashboard/district/tables/columns";
 
 const mockDistricts: District[] = [
   {
