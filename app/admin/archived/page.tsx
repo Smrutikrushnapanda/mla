@@ -1,7 +1,7 @@
 // app/(roles)/admin-user/archived-users/page.tsx
 "use client"
 
-import { DataTable } from "../../../components/admin-user/tables/data-table"
+import { DataTable } from "../../../components/admin-dashboard/admin-user/tables/data-table"
 import { ColumnDef } from "@tanstack/react-table"
 import { 
   ArrowUpDown,

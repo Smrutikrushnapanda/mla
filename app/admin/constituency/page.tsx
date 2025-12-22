@@ -24,8 +24,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { useThemeStore } from "@/store/useThemeStore";
-import { ConstituencyTable } from "../../../components/constituency/tables/constituency-table";
-import { Constituency } from "../../../components/constituency/tables/columns";
+import { ConstituencyTable } from "@/components/admin-dashboard/constituency/tables/constituency-table";
+import { Constituency } from "../../../components/admin-dashboard/constituency/tables/columns";
 
 const mockConstituencies: Constituency[] = [
   {

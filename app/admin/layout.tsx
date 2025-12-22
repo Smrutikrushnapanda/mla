@@ -1,9 +1,9 @@
 "use client"
 // AdminLayout.tsx
 import { SidebarProvider } from "@/components/ui/sidebar"
-import { AppSidebar } from "../../components/admin-dashboard/sidebar"
-import Header from "../../components/admin-dashboard/header"
-import { useThemeStore } from "../../store/useThemeStore" // Adjust path as needed
+import { AppSidebar } from "@/components/admin-dashboard/layout/sidebar"
+import Header from "@/components/admin-dashboard/layout/header"
+import { useThemeStore } from "@/store/useThemeStore" // Adjust path as needed
 import { useEffect } from "react"
 
 export default function AdminLayout({

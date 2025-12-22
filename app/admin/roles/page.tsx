@@ -20,8 +20,8 @@ import {
   DialogFooter
 } from "@/components/ui/dialog";
 import { useThemeStore } from "@/store/useThemeStore";
-import { RoleTable } from "../../../components/roles/roles-table";
-import { Role } from "@/components/roles/columns";
+import { RoleTable } from "../../../components/admin-dashboard/roles/table/roles-table";
+import { Role } from "@/components/admin-dashboard/roles/table/columns";
 import Link from "next/link";
 
 const mockRoles: Role[] = [
