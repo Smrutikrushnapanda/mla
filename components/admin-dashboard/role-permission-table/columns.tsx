@@ -24,7 +24,7 @@ import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
 import { useThemeStore } from "@/store/useThemeStore"
 import { useState } from "react"
-import { Role, ALL_PERMISSIONS } from "../../app/admin/RolesPermission/page"
+import { Role, ALL_PERMISSIONS } from "../../../app/admin/RolesPermission/page"
 import { Shield, Users } from "lucide-react"
 
 const MODULES = [

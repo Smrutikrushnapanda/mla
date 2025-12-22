@@ -5,7 +5,7 @@ import { useState } from "react"
 import { DataTable } from "./data-table"
 import { createColumns } from "./columns"
 import { useThemeStore } from "@/store/useThemeStore"
-import { Role, ALL_PERMISSIONS } from "../../app/admin/RolesPermission/page"
+import { Role, ALL_PERMISSIONS } from "../../../app/admin/RolesPermission/page"
 import {
   Dialog,
   DialogContent,
