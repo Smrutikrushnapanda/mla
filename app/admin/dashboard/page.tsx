@@ -2,7 +2,7 @@
 
 import { ActivityAreaChart } from "@/components/admin-dashboard/charts/activity-area-chart"
 import { GrievancesBarChart } from "@/components/admin-dashboard/charts/grievances-bar-chart"
-import { UsersTable } from "@/components/admin-dashboard/tables/users-table"
+import { UsersTable } from "@/components/admin-dashboard/tables/user-table"
 import {
   Card,
   CardContent,

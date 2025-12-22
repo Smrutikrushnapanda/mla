@@ -56,7 +56,7 @@ export const lightTheme = {
   
   // Inputs
   input: {
-    bg: "#ffffff",           // Changed from #f8fafc to white for better contrast
+    bg: "#f8fafc",           // Changed from #f8fafc to white for better contrast
     border: "#e2e8f0",       // Changed from #cbd5e1 to match border color
     focusBorder: "#3b82f6",
     text: "#0f172a",
