@@ -29,7 +29,7 @@ import {
   CheckCircle2,
   AlertCircle,
 } from "lucide-react"
-import { RolesDataTable } from "@/components/role-permission-table/rolepermission-table"
+import { RolesDataTable } from "@/components/admin-dashboard/role-permission-table/rolepermission-table"
 
 interface Permission {
   id: string
