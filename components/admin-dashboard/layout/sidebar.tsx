@@ -94,7 +94,7 @@ export function AppSidebar() {
       submenu: [
         {
           id: "location-master",
-          label: "Location Master",
+          label: "Location",
           href: "/admin/districts",
           icon: Map,
           submenu: [
@@ -284,6 +284,7 @@ export function AppSidebar() {
         [data-menu-id="dashboard"] {
           padding-left: 20px !important;
         }
+          
 
         [data-sidebar]:not([data-state="collapsed"])
           [data-menu-id="dashboard"]
