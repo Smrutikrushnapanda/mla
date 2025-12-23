@@ -79,13 +79,13 @@ export function AppSidebar() {
 
     {
       id: "district",
-      label: "District-wise Constituency",
+      label: "Grievance Management",
       icon: Map,
       submenu: [
         { 
-          id: "districts", 
-          label: "Districts", 
-          href: "/admin/districts", 
+          id: "grievance", 
+          label: "Grievance", 
+          href: "/citizen/grievances", 
           icon: MapPin 
         },
         {
@@ -343,12 +343,12 @@ export function AppSidebar() {
             className="flex h-10 w-10 items-center justify-center rounded-lg backdrop-blur shadow-lg"
             style={{ backgroundColor: 'rgba(255, 255, 255, 0.2)' }}
           >
-            <span className="text-lg font-bold text-white">SA</span>
+            <span className="text-lg font-bold text-white">CA</span>
           </div>
           <div className="flex flex-col">
             <span className="text-base font-bold text-white">MLA Connect</span>
             <span className="text-xs" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
-              Super Admin Panel
+              Citizen Admin Panel
             </span>
           </div>
         </div>
