@@ -49,7 +49,7 @@ export default function Header() {
             className="text-lg md:text-xl font-semibold"
             style={{ color: theme.textPrimary }}
           >
-            Admin Dashboard
+            MLA Dashboard
           </h1>
         </div>
       )}

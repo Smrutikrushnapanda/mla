@@ -1,11 +1,11 @@
 import React from 'react'
 
-function layout() {
+function MobileSidebar() {
   return (
     <div>
-      Citizen
+      
     </div>
   )
 }
 
-export default layout
+export default MobileSidebar
