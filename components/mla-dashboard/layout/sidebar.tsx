@@ -99,13 +99,13 @@ export function MLASidebar() {
         {
           id: "manage-users",
           label: "Manage Users",
-          href: "/mla/users/manage",
+          href: "/mla/user-manage",
           icon: UserCheck,
         },
         {
           id: "archived-users",
           label: "Archived Users",
-          href: "/mla/users/archived",
+          href: "/mla/archive-user",
           icon: Archive,
         },
       ],
