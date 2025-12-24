@@ -8,7 +8,8 @@ export const lightTheme = {
   backgroundTertiary: "#f1f5f9",
   backgroundGradient: "linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%)",
   danger: "#f43f5e",
-  
+  success:"#4ade80",
+
   // Cards & Surfaces
   cardBackground: "#ffffff",
   cardBorder: "#e2e8f0",
@@ -74,6 +75,8 @@ export const darkTheme = {
   backgroundTertiary: "#334155",
   backgroundGradient: "linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #1e3a8a 100%)",
   danger: "#f43f5e",
+  success: "#255F38",
+
   // Cards & Surfaces
   cardBackground: "#1e293b",
   cardBorder: "#334155",
