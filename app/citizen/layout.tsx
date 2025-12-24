@@ -1,5 +1,5 @@
 "use client"
-// AdminLayout.tsx
+
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/user-dashboard/layout/sidebar"
 import Header from "../../components/user-dashboard/layout/header"
@@ -13,40 +13,39 @@ export default function AdminLayout({
 }) {
   const { theme, hydrated } = useThemeStore()
 
-  // Wait for hydration to prevent flash of wrong theme
   useEffect(() => {
     if (hydrated) {
       document.documentElement.style.setProperty('--background', theme.background)
       document.documentElement.style.setProperty('--foreground', theme.foreground)
-      // Add other CSS variables as needed
     }
   }, [theme, hydrated])
 
-  // Optionally show loading state while hydrating
   if (!hydrated) {
-    return null // or a loading spinner
+    return null 
   }
 
   return (
     <SidebarProvider>
-      <div 
-        className="flex min-h-screen w-full"
-        style={{ 
-          backgroundColor: theme.background,
-          color: theme.foreground 
-        }}
-      >
-        <AppSidebar />
-        <div className="flex flex-1 flex-col">
-          <Header />
-          <main 
-            className="flex-1 p-6"
-            style={{ backgroundColor: theme.muted || theme.background }}
-          >
-            {children}
-          </main>
+        <div 
+          className="flex min-h-screen w-full overflow-x-hidden"
+          style={{ 
+            backgroundColor: theme.background,
+            color: theme.foreground 
+          }}
+        >
+          <AppSidebar />
+    
+          <div className="flex flex-1 flex-col overflow-x-hidden">
+            <Header />
+    
+            <main
+              className="flex-1 p-6 overflow-x-hidden"
+              style={{ backgroundColor: theme.muted || theme.background }}
+            >
+              {children}
+            </main>
+          </div>
         </div>
-      </div>
-    </SidebarProvider>
+      </SidebarProvider>
   )
 }

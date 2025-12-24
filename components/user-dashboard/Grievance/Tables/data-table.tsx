@@ -1,7 +1,7 @@
 // data-table.tsx
-"use client"
+"use client";
 
-import { useState, useMemo } from "react"
+import { useState, useMemo } from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -12,9 +12,16 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Search } from "lucide-react"
-import { Button } from "@/components/ui/button"
+} from "@tanstack/react-table";
+import {
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+  Search,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -22,13 +29,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { useThemeStore } from "@/store/useThemeStore"
+} from "@/components/ui/dropdown-menu";
+import { useThemeStore } from "@/store/useThemeStore";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
-  showSerialNumber?: boolean // New optional prop
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  showSerialNumber?: boolean; // New optional prop
 }
 
 export function DataTable<TData, TValue>({
@@ -36,36 +43,36 @@ export function DataTable<TData, TValue>({
   data,
   showSerialNumber = true, // Default to true
 }: DataTableProps<TData, TValue>) {
-  const { theme } = useThemeStore()
-  const [sorting, setSorting] = useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = useState({})
-  const [globalFilter, setGlobalFilter] = useState("")
+  const { theme } = useThemeStore();
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState({});
+  const [globalFilter, setGlobalFilter] = useState("");
 
   // Add serial number column if showSerialNumber is true
   const enhancedColumns = useMemo(() => {
-    if (!showSerialNumber) return columns
-    
+    if (!showSerialNumber) return columns;
+
     const serialNumberColumn: ColumnDef<TData> = {
       id: "serial",
       header: "#",
       cell: ({ row, table }) => {
-        const pageIndex = table.getState().pagination.pageIndex
-        const pageSize = table.getState().pagination.pageSize
+        const pageIndex = table.getState().pagination.pageIndex;
+        const pageSize = table.getState().pagination.pageSize;
         return (
-          <div 
+          <div
             className="text-sm font-medium"
             style={{ color: theme.textPrimary }}
           >
             {pageIndex * pageSize + row.index + 1}
           </div>
-        )
+        );
       },
       size: 60, // Fixed width for serial number column
-    }
-    
-    return [serialNumberColumn, ...columns]
-  }, [columns, showSerialNumber, theme.textPrimary])
+    };
+
+    return [serialNumberColumn, ...columns];
+  }, [columns, showSerialNumber, theme.textPrimary]);
 
   const table = useReactTable({
     data,
@@ -89,14 +96,50 @@ export function DataTable<TData, TValue>({
         pageSize: 5,
       },
     },
-  })
+  });
 
   return (
     <div className="space-y-4">
+      <style jsx global>{`
+  /* ===== TABLE SCROLLBAR (RESTORED & CUSTOMIZED) ===== */
+
+  /* Chrome / Edge / Safari */
+  .table-scroll::-webkit-scrollbar {
+    height: 16px;              /* thicker scrollbar */
+  }
+
+  .table-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .table-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 0;          /* ❌ no rounded edges */
+  }
+
+  .table-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
+  }
+
+  /* ❌ REMOVE LEFT/RIGHT SCROLL BUTTONS */
+  .table-scroll::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  /* Firefox */
+  .table-scroll {
+    scrollbar-width: thicker;
+    scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+  }
+`}</style>
+
+
       {/* Search Bar and Column Visibility */}
       <div className="flex items-center justify-between">
         <div className="relative max-w-sm">
-          <Search 
+          <Search
             className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4"
             style={{ color: theme.textTertiary }}
           />
@@ -113,10 +156,10 @@ export function DataTable<TData, TValue>({
             }}
           />
         </div>
-        
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button 
+            <Button
               variant="outline"
               style={{
                 borderColor: theme.border,
@@ -128,7 +171,7 @@ export function DataTable<TData, TValue>({
               <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent 
+          <DropdownMenuContent
             align="end"
             className="border shadow-lg"
             style={{
@@ -156,78 +199,85 @@ export function DataTable<TData, TValue>({
                   >
                     {column.id}
                   </DropdownMenuCheckboxItem>
-                )
+                );
               })}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
 
       {/* Table */}
-      <div 
-        className="overflow-x-auto rounded-md border"
+      <div
+        className="table-scroll overflow-x-auto rounded-md border"
         style={{ borderColor: theme.border }}
       >
         <table className="w-full">
-          <thead 
+          <thead
             className="border-b"
-            style={{ 
+            style={{
               backgroundColor: theme.backgroundSecondary,
-              borderColor: theme.border 
+              borderColor: theme.border,
             }}
           >
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <th 
-                    key={header.id} 
+                  <th
+                    key={header.id}
                     className="px-6 py-3 text-left text-sm font-medium"
                     style={{ color: theme.textSecondary }}
                   >
                     {header.isPlaceholder
                       ? null
-                      : flexRender(header.column.columnDef.header, header.getContext())}
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                   </th>
                 ))}
               </tr>
             ))}
           </thead>
-          <tbody 
+          <tbody
             className="divide-y"
-            style={{ 
+            style={{
               backgroundColor: theme.background,
-              borderColor: theme.border 
+              borderColor: theme.border,
             }}
           >
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <tr 
-                  key={row.id} 
+                <tr
+                  key={row.id}
                   className="transition-colors"
                   style={{
                     backgroundColor: theme.background,
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = theme.backgroundSecondary
+                    e.currentTarget.style.backgroundColor =
+                      theme.backgroundSecondary;
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = theme.background
+                    e.currentTarget.style.backgroundColor = theme.background;
                   }}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <td 
-                      key={cell.id} 
+                    <td
+                      key={cell.id}
                       className="px-6 py-4 text-sm"
                       style={{ color: theme.textPrimary }}
                     >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </td>
                   ))}
                 </tr>
               ))
             ) : (
               <tr>
-                <td 
-                  colSpan={enhancedColumns.length} 
+                <td
+                  colSpan={enhancedColumns.length}
                   className="px-6 py-12 text-center text-sm"
                   style={{ color: theme.textTertiary }}
                 >
@@ -241,18 +291,20 @@ export function DataTable<TData, TValue>({
 
       {/* Pagination */}
       <div className="flex items-center justify-between">
-        <div 
-          className="text-sm"
-          style={{ color: theme.textSecondary }}
-        >
-          Showing {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1} to{" "}
+        <div className="text-sm" style={{ color: theme.textSecondary }}>
+          Showing{" "}
+          {table.getState().pagination.pageIndex *
+            table.getState().pagination.pageSize +
+            1}{" "}
+          to{" "}
           {Math.min(
-            (table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize,
+            (table.getState().pagination.pageIndex + 1) *
+              table.getState().pagination.pageSize,
             table.getFilteredRowModel().rows.length
           )}{" "}
           of {table.getFilteredRowModel().rows.length} entries
         </div>
-        
+
         <div className="flex items-center gap-2">
           <button
             onClick={() => table.setPageIndex(0)}
@@ -278,14 +330,15 @@ export function DataTable<TData, TValue>({
           >
             <ChevronLeft className="h-4 w-4" />
           </button>
-          
-          <span 
+
+          <span
             className="text-sm font-medium px-2"
             style={{ color: theme.textPrimary }}
           >
-            Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+            Page {table.getState().pagination.pageIndex + 1} of{" "}
+            {table.getPageCount()}
           </span>
-          
+
           <button
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
@@ -313,5 +366,5 @@ export function DataTable<TData, TValue>({
         </div>
       </div>
     </div>
-  )
+  );
 }

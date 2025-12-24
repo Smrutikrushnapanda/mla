@@ -94,7 +94,7 @@ export function AppSidebar() {
       submenu: [
         {
           id: "location-master",
-          label: "Location Master",
+          label: "Location",
           href: "/admin/districts",
           icon: Map,
           submenu: [
@@ -170,42 +170,42 @@ export function AppSidebar() {
       ],
     },
     {
-  id: "reports",
-  label: "Reports",
-  icon: FileBarChart,
-  submenu: [
-    {
-      id: "user-reports",
-      label: "User Reports",
-      href: "/admin/users",
-      icon: UserCheck,
+      id: "reports",
+      label: "Reports",
+      icon: FileBarChart,
+      submenu: [
+        {
+          id: "user-reports",
+          label: "User Reports",
+          href: "/admin/user-report",
+          icon: UserCheck,
+        },
+        {
+          id: "project-reports",
+          label: "Project Reports",
+          href: "/admin/projects-report",
+          icon: Briefcase,
+        },
+        {
+          id: "grievance-reports",
+          label: "Grievance Reports",
+          href: "/admin/grievances-report",
+          icon: FileText,
+        },
+        {
+          id: "budget-reports",
+          label: "Budget Reports",
+          href: "/admin/budget-report",
+          icon: DollarSign,
+        },
+        {
+          id: "log-reports",
+          label: "Log Reports",
+          href: "/admin/logs-report",
+          icon: Activity,
+        },
+      ],
     },
-    {
-      id: "project-reports",
-      label: "Project Reports",
-      href: "/admin/projects",
-      icon: Briefcase,
-    },
-    {
-      id: "grievance-reports",
-      label: "Grievance Reports",
-      href: "/admin/grievances",
-      icon: FileText,
-    },
-    {
-      id: "budget-reports",
-      label: "Budget Reports",
-      href: "/admin/budget",
-      icon: DollarSign,
-    },
-    {
-      id: "log-reports",
-      label: "Log Reports",
-      href: "/admin/budget/logs",
-      icon: Activity,
-    },
-  ],
-},
 
     {
       id: "configuration",
@@ -279,6 +279,22 @@ export function AppSidebar() {
         }
         [data-sidebar] [data-sidebar-menu-button]:hover {
           background: transparent !important;
+        }
+        /* Dashboard specific padding */
+        [data-menu-id="dashboard"] {
+          padding-left: 20px !important;
+        }
+          
+
+        [data-sidebar]:not([data-state="collapsed"])
+          [data-menu-id="dashboard"]
+          svg {
+          width: 20px !important;
+          height: 20px !important;
+        }
+        [data-sidebar][data-state="collapsed"] [data-menu-id="dashboard"] svg {
+          width: 10px !important;
+          height: 10px !important;
         }
         [data-sidebar] [data-sidebar-menu-sub-button] {
           background: transparent !important;
@@ -383,6 +399,7 @@ export function AppSidebar() {
                       >
                         <Link
                           href={item.href!}
+                          data-menu-id="dashboard"
                           className={`flex items-center w-full rounded-lg relative overflow-hidden ${
                             isCollapsed
                               ? "justify-center px-2 py-2.5"
@@ -458,13 +475,17 @@ export function AppSidebar() {
                               : isHovered
                               ? theme.sidebarHover
                               : "transparent",
-                            color: submenuActive ? "#ffffff" : theme.textPrimary,
+                            color: submenuActive
+                              ? "#ffffff"
+                              : theme.textPrimary,
                           }}
                         >
                           <item.icon
                             size={18}
                             className="flex-shrink-0"
-                            color={submenuActive ? "#ffffff" : theme.textSecondary}
+                            color={
+                              submenuActive ? "#ffffff" : theme.textSecondary
+                            }
                           />
                           {item.badge && (
                             <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-semibold text-white">
@@ -510,7 +531,9 @@ export function AppSidebar() {
                                 : isHovered
                                 ? theme.sidebarHover
                                 : "transparent",
-                              color: submenuActive ? "#ffffff" : theme.textPrimary,
+                              color: submenuActive
+                                ? "#ffffff"
+                                : theme.textPrimary,
                             }}
                           >
                             {submenuActive && (
@@ -522,7 +545,9 @@ export function AppSidebar() {
                             <item.icon
                               size={20}
                               className="flex-shrink-0"
-                              color={submenuActive ? "#ffffff" : theme.textSecondary}
+                              color={
+                                submenuActive ? "#ffffff" : theme.textSecondary
+                              }
                             />
                             <span className="flex-1 font-semibold">
                               {item.label}
@@ -535,9 +560,13 @@ export function AppSidebar() {
                             <ChevronDown
                               size={16}
                               className="flex-shrink-0 transition-transform duration-200"
-                              color={submenuActive ? "#ffffff" : theme.textSecondary}
+                              color={
+                                submenuActive ? "#ffffff" : theme.textSecondary
+                              }
                               style={{
-                                transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+                                transform: isOpen
+                                  ? "rotate(180deg)"
+                                  : "rotate(0deg)",
                               }}
                             />
                           </div>
@@ -551,7 +580,8 @@ export function AppSidebar() {
                             const SubIcon = subItem.icon;
                             const hasNestedSubmenu =
                               subItem.submenu && subItem.submenu.length > 0;
-                            const isSubOpen = hasNestedSubmenu && openSubMenu === subItem.id;
+                            const isSubOpen =
+                              hasNestedSubmenu && openSubMenu === subItem.id;
 
                             if (hasNestedSubmenu) {
                               return (
@@ -568,8 +598,12 @@ export function AppSidebar() {
                                       >
                                         <div
                                           className="flex items-center gap-3 w-full px-3 py-2 rounded-lg relative overflow-hidden cursor-pointer"
-                                          onMouseEnter={() => setHoveredItem(subItem.id)}
-                                          onMouseLeave={() => setHoveredItem(null)}
+                                          onMouseEnter={() =>
+                                            setHoveredItem(subItem.id)
+                                          }
+                                          onMouseLeave={() =>
+                                            setHoveredItem(null)
+                                          }
                                           style={{
                                             backgroundColor: isSubActive
                                               ? theme.highlightSecondary
@@ -595,7 +629,9 @@ export function AppSidebar() {
                                               size={16}
                                               className="flex-shrink-0"
                                               color={
-                                                isSubActive ? "#ffffff" : theme.textTertiary
+                                                isSubActive
+                                                  ? "#ffffff"
+                                                  : theme.textTertiary
                                               }
                                             />
                                           )}
@@ -606,7 +642,9 @@ export function AppSidebar() {
                                             size={14}
                                             className="flex-shrink-0 transition-transform duration-200"
                                             color={
-                                              isSubActive ? "#ffffff" : theme.textTertiary
+                                              isSubActive
+                                                ? "#ffffff"
+                                                : theme.textTertiary
                                             }
                                             style={{
                                               transform: isSubOpen
@@ -620,12 +658,16 @@ export function AppSidebar() {
                                     <CollapsibleContent>
                                       <SidebarMenuSub className="ml-4 mt-1 mb-1">
                                         {subItem.submenu?.map((nestedItem) => {
-                                          const isNestedActive = pathname === nestedItem.href;
-                                          const isNestedHovered = hoveredItem === nestedItem.id;
+                                          const isNestedActive =
+                                            pathname === nestedItem.href;
+                                          const isNestedHovered =
+                                            hoveredItem === nestedItem.id;
                                           const NestedIcon = nestedItem.icon;
 
                                           return (
-                                            <SidebarMenuSubItem key={nestedItem.id}>
+                                            <SidebarMenuSubItem
+                                              key={nestedItem.id}
+                                            >
                                               <SidebarMenuSubButton
                                                 asChild
                                                 isActive={isNestedActive}
@@ -635,15 +677,20 @@ export function AppSidebar() {
                                                   href={nestedItem.href}
                                                   className="flex items-center gap-2 w-full px-3 py-1.5 rounded-lg relative overflow-hidden"
                                                   onMouseEnter={() =>
-                                                    setHoveredItem(nestedItem.id)
+                                                    setHoveredItem(
+                                                      nestedItem.id
+                                                    )
                                                   }
-                                                  onMouseLeave={() => setHoveredItem(null)}
+                                                  onMouseLeave={() =>
+                                                    setHoveredItem(null)
+                                                  }
                                                   style={{
-                                                    backgroundColor: isNestedActive
-                                                      ? theme.highlightSecondary
-                                                      : isNestedHovered
-                                                      ? theme.sidebarSubmenuHover
-                                                      : "transparent",
+                                                    backgroundColor:
+                                                      isNestedActive
+                                                        ? theme.highlightSecondary
+                                                        : isNestedHovered
+                                                        ? theme.sidebarSubmenuHover
+                                                        : "transparent",
                                                     color: isNestedActive
                                                       ? "#ffffff"
                                                       : theme.textTertiary,
@@ -653,7 +700,8 @@ export function AppSidebar() {
                                                     <div
                                                       className="absolute left-0 top-0 bottom-0 w-0.5 rounded-r-full"
                                                       style={{
-                                                        backgroundColor: "#ffffff",
+                                                        backgroundColor:
+                                                          "#ffffff",
                                                         opacity: 0.6,
                                                       }}
                                                     />
@@ -694,7 +742,9 @@ export function AppSidebar() {
                                   <Link
                                     href={subItem.href}
                                     className="flex items-center gap-3 w-full px-3 py-2 rounded-lg relative overflow-hidden"
-                                    onMouseEnter={() => setHoveredItem(subItem.id)}
+                                    onMouseEnter={() =>
+                                      setHoveredItem(subItem.id)
+                                    }
                                     onMouseLeave={() => setHoveredItem(null)}
                                     style={{
                                       backgroundColor: isSubActive
@@ -702,7 +752,9 @@ export function AppSidebar() {
                                         : isSubHovered
                                         ? theme.sidebarSubmenuHover
                                         : "transparent",
-                                      color: isSubActive ? "#ffffff" : theme.textSecondary,
+                                      color: isSubActive
+                                        ? "#ffffff"
+                                        : theme.textSecondary,
                                     }}
                                   >
                                     {isSubActive && (
@@ -718,7 +770,11 @@ export function AppSidebar() {
                                       <SubIcon
                                         size={16}
                                         className="flex-shrink-0"
-                                        color={isSubActive ? "#ffffff" : theme.textTertiary}
+                                        color={
+                                          isSubActive
+                                            ? "#ffffff"
+                                            : theme.textTertiary
+                                        }
                                       />
                                     )}
                                     <span className="font-medium text-sm">

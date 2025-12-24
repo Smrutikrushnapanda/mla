@@ -1,5 +1,5 @@
 "use client"
-import { Users, Settings, LogOut, Search, Bell, ChevronDown, Moon, Sun } from "lucide-react"
+import { Users, Settings, LogOut, Search, Bell, ChevronDown, Moon, Sun, X } from "lucide-react"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import {
   DropdownMenu,
@@ -24,6 +24,11 @@ export default function Header() {
 
   const unreadCount = notifications.filter(n => n.unread).length
 
+  const handleCloseSearch = () => {
+    setIsSearchOpen(false)
+    setSearchQuery("")
+  }
+
   return (
     <header 
       className="sticky top-0 z-50 shadow flex h-16 items-center gap-4 border-b backdrop-blur px-4 md:px-6"
@@ -37,42 +42,58 @@ export default function Header() {
         <SidebarTrigger className="-ml-2" />
       </div>
       
-      {/* Title */}
-      <div className="flex flex-1 items-center gap-4">
-        <h1 
-          className="text-lg md:text-xl font-semibold"
-          style={{ color: theme.textPrimary }}
-        >
-          Admin Dashboard
-        </h1>
-      </div>
+      {/* Title - Hide when search is open on mobile */}
+      {!isSearchOpen && (
+        <div className="flex flex-1 items-center gap-4">
+          <h1 
+            className="text-lg md:text-xl font-semibold"
+            style={{ color: theme.textPrimary }}
+          >
+            Admin Dashboard
+          </h1>
+        </div>
+      )}
 
       {/* Search Bar - Expandable on mobile */}
       {isSearchOpen ? (
         <div 
-          className="absolute left-0 right-0 top-0 flex h-16 items-center gap-2 px-4 sm:relative sm:w-64"
+          className="absolute left-0 right-0 top-0 flex h-16 items-center gap-2 px-4 sm:relative sm:left-auto sm:right-auto sm:flex-1"
           style={{ background: theme.background }}
         >
-          <Search className="h-4 w-4" style={{ color: theme.textSecondary }} />
-          <input
-            type="text"
-            placeholder="Search..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="flex-1 bg-transparent text-sm outline-none"
-            style={{ color: theme.textPrimary }}
-            autoFocus
-          />
-          <button
-            onClick={() => {
-              setIsSearchOpen(false)
-              setSearchQuery("")
-            }}
-            className="text-sm sm:hidden"
-            style={{ color: theme.textSecondary }}
-          >
-            Cancel
-          </button>
+          <div className="flex items-center gap-2 flex-1 max-w-2xl mx-auto">
+            <Search className="h-4 w-4" style={{ color: theme.textSecondary }} />
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="flex-1 bg-transparent text-sm outline-none rounded-lg px-3 py-2"
+              style={{ 
+                color: theme.textPrimary,
+                borderWidth: '1px',
+                borderColor: theme.border,
+                width: '100%'
+              }}
+              autoFocus
+              onKeyDown={(e) => {
+                if (e.key === 'Escape') {
+                  handleCloseSearch()
+                }
+              }}
+            />
+            <button
+              onClick={handleCloseSearch}
+              className="flex h-9 w-9 items-center justify-center rounded-lg transition-all hover:shadow-sm active:scale-95"
+              style={{ 
+                borderWidth: '1px',
+                borderColor: theme.border,
+                background: theme.background 
+              }}
+              aria-label="Close search"
+            >
+              <X className="h-4 w-4" style={{ color: theme.textSecondary }} />
+            </button>
+          </div>
         </div>
       ) : (
         <>
@@ -94,22 +115,21 @@ export default function Header() {
 
             {/* Theme Toggle */}
             <button
-  onClick={toggleTheme}
-  className="hidden sm:flex h-9 w-9 items-center justify-center rounded-lg transition-all hover:shadow-sm active:scale-95"
-  style={{ 
-    borderWidth: "1px",
-    borderColor: theme.border, // Use theme border color
-    background: theme.backgroundSecondary, // Use theme background
-  }}
-  aria-label="Toggle theme"
->
-  {mode === "dark" ? (
-    <Sun className="h-4 w-4" style={{ color: theme.highlight }} />
-  ) : (
-    <Moon className="h-4 w-4" style={{ color: theme.highlight }} />
-  )}
-</button>
-
+              onClick={toggleTheme}
+              className="hidden sm:flex h-9 w-9 items-center justify-center rounded-lg transition-all hover:shadow-sm active:scale-95"
+              style={{ 
+                borderWidth: "1px",
+                borderColor: theme.border,
+                background: theme.backgroundSecondary,
+              }}
+              aria-label="Toggle theme"
+            >
+              {mode === "dark" ? (
+                <Sun className="h-4 w-4" style={{ color: theme.highlight }} />
+              ) : (
+                <Moon className="h-4 w-4" style={{ color: theme.highlight }} />
+              )}
+            </button>
 
             {/* Notifications Dropdown */}
             <DropdownMenu>

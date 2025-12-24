@@ -69,7 +69,7 @@ export default function ManageProjectsPage() {
           </p>
         </div>
         <Button
-          onClick={() => router.push('/admin/AddProjects')}
+          onClick={() => router.push('/citizen/AddGrievances')}
           className="flex items-center gap-2 hover:opacity-90 transition-opacity"
           style={{
             background: theme.buttonPrimary.bg,

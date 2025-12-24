@@ -2,7 +2,7 @@
 
 import { ActivityAreaChart } from "@/components/admin-dashboard/charts/activity-area-chart"
 import { GrievancesBarChart } from "@/components/admin-dashboard/charts/grievances-bar-chart"
-import { UsersTable } from "@/components/admin-dashboard/tables/users-table"
+import { ManageProjectsTable } from "@/components/user-dashboard/Grievance/Tables/manage-projects-table"
 import {
   Card,
   CardContent,
@@ -246,7 +246,7 @@ export default function CitizenDashboardPage() {
       </div>
 
       <div>
-        <UsersTable />
+        <ManageProjectsTable />
       </div>
     </div>
   )

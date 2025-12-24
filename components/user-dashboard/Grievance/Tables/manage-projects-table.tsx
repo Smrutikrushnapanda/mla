@@ -14,9 +14,10 @@ const mockData: Grievance[] = [
     categoryName: "Road & Transport",
     blockName: "North Block",
     priority: "High",
-    status: "Open",
+    status: "Pending",
     assignedTo: "MLA Office",
     createdAt: "2025-01-10T10:30:00",
+    actionDate: undefined, // no action yet
   },
   {
     grievanceNumber: "GRV-2025-0002",
@@ -25,9 +26,10 @@ const mockData: Grievance[] = [
     categoryName: "Water Supply",
     blockName: "East Block",
     priority: "Medium",
-    status: "In Progress",
+    status: "On Hold",
     assignedTo: "Field Staff",
     createdAt: "2025-01-12T14:15:00",
+    actionDate: "2025-01-15T11:00:00",
   },
   {
     grievanceNumber: "GRV-2025-0003",
@@ -39,6 +41,19 @@ const mockData: Grievance[] = [
     status: "Resolved",
     assignedTo: "MLA Office",
     createdAt: "2025-01-08T09:00:00",
+    actionDate: "2025-01-11T16:45:00",
+  },
+  {
+    grievanceNumber: "GRV-2025-0004",
+    userName: "Akash Singh",
+    mobileNumber: "9988776455",
+    categoryName: "Electricity",
+    blockName: "North Block",
+    priority: "Medium",
+    status: "Forwarded",
+    assignedTo: "MLA Office",
+    createdAt: "2025-01-08T09:00:00",
+    actionDate: "2025-01-09T13:20:00",
   },
 ]
 
@@ -46,30 +61,41 @@ const mockData: Grievance[] = [
 export function ManageProjectsTable() {
   const { theme } = useThemeStore()
 
-  // ✅ INTERNAL FILTER STATE
   const [statusFilter] = useState("all")
   const [categoryFilter] = useState("all")
   const [areaSort] = useState<"asc" | "desc" | "none">("none")
 
-  const filteredData = useMemo(() => {
-    let data = [...mockData]
+const filteredData = useMemo(() => {
+  let data = [...mockData]
 
-    if (statusFilter !== "all") {
-      data = data.filter(project => project.status === statusFilter)
-    }
+  // ✅ STATUS FILTER (works as-is)
+  if (statusFilter !== "all") {
+    data = data.filter(
+      grievance => grievance.status === statusFilter
+    )
+  }
 
-    if (categoryFilter !== "all") {
-      data = data.filter(project => project.category === categoryFilter)
-    }
+  // ✅ CATEGORY FILTER (FIXED)
+  if (categoryFilter !== "all") {
+    data = data.filter(
+      grievance => grievance.categoryName === categoryFilter
+    )
+  }
 
-    if (areaSort === "asc") {
-      data.sort((a, b) => a.area.localeCompare(b.area))
-    } else if (areaSort === "desc") {
-      data.sort((a, b) => b.area.localeCompare(a.area))
-    }
+  // ✅ SORT BY CONSTITUENCY / BLOCK (FIXED)
+  if (areaSort === "asc") {
+    data.sort((a, b) =>
+      a.blockName.localeCompare(b.blockName)
+    )
+  } else if (areaSort === "desc") {
+    data.sort((a, b) =>
+      b.blockName.localeCompare(a.blockName)
+    )
+  }
 
-    return data
-  }, [statusFilter, categoryFilter, areaSort])
+  return data
+}, [statusFilter, categoryFilter, areaSort])
+
 
   return (
     <div

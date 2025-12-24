@@ -27,26 +27,29 @@ export default function AdminLayout({
     return null // or a loading spinner
   }
 
-  return (
-    <SidebarProvider>
-      <div 
-        className="flex min-h-screen w-full"
-        style={{ 
-          backgroundColor: theme.background,
-          color: theme.foreground 
-        }}
-      >
-        <AppSidebar />
-        <div className="flex flex-1 flex-col">
-          <Header />
-          <main 
-            className="flex-1 p-6"
-            style={{ backgroundColor: theme.muted || theme.background }}
-          >
-            {children}
-          </main>
-        </div>
+ return (
+  <SidebarProvider>
+    <div 
+      className="flex min-h-screen w-full overflow-x-hidden"
+      style={{ 
+        backgroundColor: theme.background,
+        color: theme.foreground 
+      }}
+    >
+      <AppSidebar />
+
+      <div className="flex flex-1 flex-col overflow-x-hidden">
+        <Header />
+
+        <main
+          className="flex-1 p-6 overflow-x-hidden"
+          style={{ backgroundColor: theme.muted || theme.background }}
+        >
+          {children}
+        </main>
       </div>
-    </SidebarProvider>
-  )
+    </div>
+  </SidebarProvider>
+)
+
 }
