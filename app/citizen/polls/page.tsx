@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { useThemeStore } from "@/store/useThemeStore";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button"
 
 type Poll = {
   id: number;
@@ -236,9 +237,9 @@ export default function PollsPage() {
             Create and manage community polls to gather opinions
           </p>
         </div>
-        <button
+        <Button
           onClick={() => setShowAddPoll(true)}
-          className="flex items-center gap-2 px-6 py-3 rounded-lg hover:opacity-90 transition-opacity"
+          className="flex items-center gap-2 hover:opacity-90 transition-opacity"
           style={{
             background: theme.buttonPrimary?.bg || theme.primary,
             color: theme.buttonPrimary?.text || "white",
@@ -246,7 +247,7 @@ export default function PollsPage() {
         >
           <Plus className="h-4 w-4" />
           Create Poll
-        </button>
+        </Button>
       </div>
 
       {/* Statistics Cards */}
