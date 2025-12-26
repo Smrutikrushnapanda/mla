@@ -1,4 +1,4 @@
-// components/mla-dashboard/grievance-category/table/data-table.tsx
+// components/mla-dashboard/manage-polls/publish-actions/table/data-table.tsx
 "use client"
 
 import * as React from "react"
@@ -65,10 +65,10 @@ export function DataTable<TData, TValue>({
       {/* Filters */}
       <div className="flex items-center gap-4 flex-wrap">
         <Input
-          placeholder="Search by category name..."
-          value={(table.getColumn("categoryName")?.getFilterValue() as string) ?? ""}
+          placeholder="Search by poll title..."
+          value={(table.getColumn("pollTitle")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("categoryName")?.setFilterValue(event.target.value)
+            table.getColumn("pollTitle")?.setFilterValue(event.target.value)
           }
           className="max-w-xs"
           style={{
@@ -79,68 +79,6 @@ export function DataTable<TData, TValue>({
         />
 
         <Select
-          value={(table.getColumn("department")?.getFilterValue() as string) ?? "all"}
-          onValueChange={(value) =>
-            table.getColumn("department")?.setFilterValue(value === "all" ? "" : value)
-          }
-        >
-          <SelectTrigger 
-            className="w-[220px]"
-            style={{
-              backgroundColor: theme.input.bg,
-              borderColor: theme.border,
-              color: theme.textPrimary,
-            }}
-          >
-            <SelectValue placeholder="Filter by department" />
-          </SelectTrigger>
-          <SelectContent
-            style={{
-              backgroundColor: theme.backgroundSecondary,
-              borderColor: theme.border,
-            }}
-          >
-            <SelectItem value="all">All Departments</SelectItem>
-            <SelectItem value="Public Works">Public Works</SelectItem>
-            <SelectItem value="Water Resources">Water Resources</SelectItem>
-            <SelectItem value="Health & Family Welfare">Health & Family Welfare</SelectItem>
-            <SelectItem value="Education">Education</SelectItem>
-            <SelectItem value="Electricity">Electricity</SelectItem>
-            <SelectItem value="Sanitation">Sanitation</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <Select
-          value={(table.getColumn("priority")?.getFilterValue() as string) ?? "all"}
-          onValueChange={(value) =>
-            table.getColumn("priority")?.setFilterValue(value === "all" ? "" : value)
-          }
-        >
-          <SelectTrigger 
-            className="w-[180px]"
-            style={{
-              backgroundColor: theme.input.bg,
-              borderColor: theme.border,
-              color: theme.textPrimary,
-            }}
-          >
-            <SelectValue placeholder="Filter by priority" />
-          </SelectTrigger>
-          <SelectContent
-            style={{
-              backgroundColor: theme.backgroundSecondary,
-              borderColor: theme.border,
-            }}
-          >
-            <SelectItem value="all">All Priorities</SelectItem>
-            <SelectItem value="Critical">Critical</SelectItem>
-            <SelectItem value="High">High</SelectItem>
-            <SelectItem value="Medium">Medium</SelectItem>
-            <SelectItem value="Low">Low</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <Select
           value={(table.getColumn("status")?.getFilterValue() as string) ?? "all"}
           onValueChange={(value) =>
             table.getColumn("status")?.setFilterValue(value === "all" ? "" : value)
@@ -149,7 +87,7 @@ export function DataTable<TData, TValue>({
           <SelectTrigger 
             className="w-[180px]"
             style={{
-              backgroundColor: theme.input.bg,
+              backgroundColor: theme.backgroundSecondary,
               borderColor: theme.border,
               color: theme.textPrimary,
             }}
@@ -163,8 +101,9 @@ export function DataTable<TData, TValue>({
             }}
           >
             <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="Active">Active</SelectItem>
-            <SelectItem value="Inactive">Inactive</SelectItem>
+            <SelectItem value="Implemented">Implemented</SelectItem>
+            <SelectItem value="In Progress">In Progress</SelectItem>
+            <SelectItem value="Planned">Planned</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -219,7 +158,7 @@ export function DataTable<TData, TValue>({
                   className="h-24 text-center"
                   style={{ color: theme.textSecondary }}
                 >
-                  No grievance categories found.
+                  No published actions found.
                 </TableCell>
               </TableRow>
             )}
@@ -233,7 +172,7 @@ export function DataTable<TData, TValue>({
           className="text-sm"
           style={{ color: theme.textSecondary }}
         >
-          Showing {table.getFilteredRowModel().rows.length} of {data.length} categories
+          Showing {table.getFilteredRowModel().rows.length} of {data.length} actions
         </div>
         <div className="flex items-center space-x-2">
           <Button

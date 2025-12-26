@@ -124,13 +124,8 @@ export default function AddProjectPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center gap-4">
-        <Link href="/mla/project-management">
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-        </Link>
+      {/* Header with Back Button on Right */}
+      <div className="flex items-center justify-between">
         <div>
           <h1 
             className="text-3xl font-bold"
@@ -145,6 +140,19 @@ export default function AddProjectPage() {
             Create a new project for Korei Constituency
           </p>
         </div>
+        
+        <Link href="/mla/project-management">
+          <Button
+            className="flex items-center gap-2"
+            style={{
+              background: theme.buttonPrimary.bg,
+              color: theme.buttonPrimary.text,
+            }}
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back
+          </Button>
+        </Link>
       </div>
 
       {/* Form */}
@@ -642,18 +650,26 @@ export default function AddProjectPage() {
 
         {/* Action Buttons */}
         <div className="flex justify-end gap-3">
-          <Link href="/mla/project-category">
-            <Button type="button" variant="outline" style={{
-              background: theme.danger,
-              color: theme.textPrimary,
-            }}>
+          <Link href="/mla/project-management">
+            <Button 
+              type="button" 
+              variant="outline" 
+              style={{
+                background: theme.danger,
+                color: theme.textPrimary,
+              }}
+            >
               Cancel
             </Button>
           </Link>
-          <Button type="submit" disabled={isSubmitting}style={{
+          <Button 
+            type="submit" 
+            disabled={isSubmitting}
+            style={{
               background: theme.buttonPrimary.bg,
               color: theme.buttonPrimary.text,
-            }}>
+            }}
+          >
             {isSubmitting ? "Adding Project..." : "Add Project"}
           </Button>
         </div>
