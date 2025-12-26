@@ -77,9 +77,10 @@ interface MenuItem {
   submenu?: SubMenuItem[];
 }
 
+
 export function MLASidebar() {
   const pathname = usePathname();
-  const { theme, isDarkMode } = useThemeStore();
+  const { theme, mode } = useThemeStore();
   const { state } = useSidebar();
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
@@ -118,25 +119,25 @@ export function MLASidebar() {
         {
           id: "project-category",
           label: "Project Category",
-          href: "/mla/category/project",
+          href: "/mla/project-category",
           icon: Building2,
         },
         {
           id: "grievance-category",
           label: "Grievance Category",
-          href: "/mla/category/grievance",
+          href: "/mla/grievance-category",
           icon: FileText,
         },
         {
           id: "poll-category",
           label: "Poll Category",
-          href: "/mla/category/poll",
+          href: "/mla/poll",
           icon: BarChart3,
         },
         {
           id: "myvoice-category",
           label: "My Voice Category",
-          href: "/mla/category/myvoice",
+          href: "/mla/myvoice",
           icon: MessageSquare,
         },
       ],
@@ -149,13 +150,13 @@ export function MLASidebar() {
         {
           id: "manage-projects",
           label: "Manage Projects",
-          href: "/mla/projects/manage",
+          href: "/mla/manage",
           icon: ClipboardList,
         },
         {
           id: "budget-utilization",
           label: "Budget Utilization",
-          href: "/mla/projects/budget",
+          href: "/mla/budget",
           icon: DollarSign,
         },
       ],
@@ -168,7 +169,7 @@ export function MLASidebar() {
         {
           id: "all-grievances",
           label: "All Grievances",
-          href: "/mla/grievances/all",
+          href: "/mla/all",
           icon: ClipboardList,
         }
       ],
@@ -181,19 +182,19 @@ export function MLASidebar() {
         {
           id: "post-new-poll",
           label: "Post New Poll",
-          href: "/mla/polls/new",
+          href: "/mla/new",
           icon: Plus,
         },
         {
           id: "ongoing-polls",
           label: "On-going Polls",
-          href: "/mla/polls/ongoing",
+          href: "/mla/ongoing",
           icon: Activity,
         },
         {
           id: "publish-action",
           label: "Publish Action",
-          href: "/mla/polls/publish-action",
+          href: "/mla/publish-action",
           icon: CheckCircle2,
         },
       ],
@@ -206,13 +207,13 @@ export function MLASidebar() {
         {
           id: "all-questions",
           label: "All Questions",
-          href: "/mla/public-voice/questions",
+          href: "/mla/questions",
           icon: HelpCircle,
         },
         {
           id: "archived-sessions",
           label: "Archived Sessions",
-          href: "/mla/public-voice/archived",
+          href: "/mla/archived",
           icon: Archive,
         },
       ],
@@ -225,19 +226,19 @@ export function MLASidebar() {
         {
           id: "manage-events",
           label: "Manage Events",
-          href: "/mla/events/manage",
+          href: "/mla/manage",
           icon: CalendarDays,
         },
         {
           id: "attendance-matrix",
           label: "Attendance Matrix",
-          href: "/mla/events/attendance",
+          href: "/mla/attendance",
           icon: UserCheck,
         },
         {
           id: "post-event-media",
           label: "Post-Event Media",
-          href: "/mla/events/media",
+          href: "/mla/media",
           icon: Image,
         },
       ],
@@ -250,13 +251,13 @@ export function MLASidebar() {
         {
           id: "slot-management",
           label: "Slot Management",
-          href: "/mla/appointments/slots",
+          href: "/mla/slots",
           icon: Clock,
         },
         {
           id: "manage-appointments",
           label: "Manage Appointments",
-          href: "/mla/appointments/manage",
+          href: "/mla/manage",
           icon: CalendarCheck,
         },
       ],
@@ -269,25 +270,25 @@ export function MLASidebar() {
         {
           id: "twitter",
           label: "Twitter",
-          href: "/mla/social-media/twitter",
+          href: "/mla/twitter",
           icon: Twitter,
         },
         {
           id: "facebook",
           label: "Facebook",
-          href: "/mla/social-media/facebook",
+          href: "/mla/facebook",
           icon: Facebook,
         },
         {
           id: "instagram",
           label: "Instagram",
-          href: "/mla/social-media/instagram",
+          href: "/mla/instagram",
           icon: Instagram,
         },
         {
           id: "engagement-tracking",
           label: "Engagement Tracking",
-          href: "/mla/social-media/engagement",
+          href: "/mla/engagement",
           icon: TrendingUp,
         },
       ],
@@ -330,9 +331,9 @@ export function MLASidebar() {
 
         /* Tooltip styling */
         [data-sidebar] [role="tooltip"] {
-          background-color: ${isDarkMode ? "#1f2937" : "#ffffff"} !important;
-          color: ${isDarkMode ? "#ffffff" : "#000000"} !important;
-          border: 1px solid ${isDarkMode ? "#374151" : "#e5e7eb"} !important;
+          background-color: ${mode === "dark" ? "#1f2937" : "#ffffff"} !important;
+          color: ${mode === "dark" ? "#ffffff" : "#000000"} !important;
+          border: 1px solid ${mode === "dark" ? "#374151" : "#e5e7eb"} !important;
         }
 
         /* Scrollbar */
@@ -343,7 +344,7 @@ export function MLASidebar() {
           background: transparent;
         }
         [data-sidebar] ::-webkit-scrollbar-thumb {
-          background: ${isDarkMode
+          background: ${mode === "dark"
             ? "rgba(255, 255, 255, 0.1)"
             : "rgba(0, 0, 0, 0.1)"};
           border-radius: 2px;
