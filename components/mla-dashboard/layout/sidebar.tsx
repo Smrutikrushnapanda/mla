@@ -92,26 +92,40 @@ export function MLASidebar() {
       icon: Home,
       href: "/mla/dashboard",
     },
-    {
-      id: "user-management",
-      label: "User Management",
-      icon: Users,
+        {
+      id: "project",
+      label: "Project",
+      icon: Building2,
       submenu: [
         {
-          id: "manage-users",
-          label: "Manage Users",
-          href: "/mla/user-manage",
-          icon: UserCheck,
+          id: "manage-projects",
+          label: "Manage Projects",
+          href: "/mla/project-management",
+          icon: ClipboardList,
         },
         {
-          id: "archived-users",
-          label: "Archived Users",
-          href: "/mla/archive-user",
-          icon: Archive,
+          id: "budget-utilization",
+          label: "Budget Utilization",
+          href: "/mla/budget-utilization",
+          icon: DollarSign,
         },
       ],
     },
-    {
+       
+        {
+      id: "grievance",
+      label: "Grievance",
+      icon: FileText,
+      submenu: [
+        {
+          id: "all-grievances",
+          label: "All Grievances",
+          href: "/mla/grievance-management",
+          icon: ClipboardList,
+        }
+      ],
+    },
+     {
       id: "manage-category",
       label: "Manage Category",
       icon: FolderTree,
@@ -134,46 +148,34 @@ export function MLASidebar() {
           href: "/mla/poll-category",
           icon: BarChart3,
         },
-        {
-          id: "myvoice-category",
-          label: "My Voice Category",
-          href: "/mla/myvoice-category",
-          icon: MessageSquare,
-        },
+        // {
+        //   id: "myvoice-category",
+        //   label: "My Voice Category",
+        //   href: "/mla/myvoice-category",
+        //   icon: MessageSquare,
+        // },
       ],
     },
     {
-      id: "project",
-      label: "Project",
-      icon: Building2,
+      id: "user-management",
+      label: "User Management",
+      icon: Users,
       submenu: [
         {
-          id: "manage-projects",
-          label: "Manage Projects",
-          href: "/mla/project-management",
-          icon: ClipboardList,
+          id: "manage-users",
+          label: "Manage Users",
+          href: "/mla/user-manage",
+          icon: UserCheck,
         },
         {
-          id: "budget-utilization",
-          label: "Budget Utilization",
-          href: "/mla/budget-utilization",
-          icon: DollarSign,
+          id: "archived-users",
+          label: "Archived Users",
+          href: "/mla/archive-user",
+          icon: Archive,
         },
       ],
     },
-    {
-      id: "grievance",
-      label: "Grievance",
-      icon: FileText,
-      submenu: [
-        {
-          id: "all-grievances",
-          label: "All Grievances",
-          href: "/mla/grievance-management",
-          icon: ClipboardList,
-        }
-      ],
-    },
+    
     {
       id: "manage-polls",
       label: "Manage Polls",
@@ -193,25 +195,25 @@ export function MLASidebar() {
         // },
       ],
     },
-    {
-      id: "public-voice",
-      label: "Public Voice",
-      icon: MessageSquare,
-      submenu: [
-        {
-          id: "all-questions",
-          label: "All Questions",
-          href: "/mla/all-questions",
-          icon: HelpCircle,
-        },
-        {
-          id: "archived-sessions",
-          label: "Archived Sessions",
-          href: "/mla/archived-sessions",
-          icon: Archive,
-        },
-      ],
-    },
+    // {
+    //   id: "public-voice",
+    //   label: "Public Voice",
+    //   icon: MessageSquare,
+    //   submenu: [
+    //     {
+    //       id: "all-questions",
+    //       label: "All Questions",
+    //       href: "/mla/all-questions",
+    //       icon: HelpCircle,
+    //     },
+    //     {
+    //       id: "archived-sessions",
+    //       label: "Archived Sessions",
+    //       href: "/mla/archived-sessions",
+    //       icon: Archive,
+    //     },
+    //   ],
+    // },
     {
       id: "events-meetings",
       label: "Events & Meetings",
@@ -220,7 +222,7 @@ export function MLASidebar() {
         {
           id: "manage-events",
           label: "Manage Events",
-          href: "/mla/manage",
+          href: "/mla/manage-event",
           icon: CalendarDays,
         },
         {

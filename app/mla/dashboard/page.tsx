@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Users, FileText, CheckCircle2, Clock, TrendingUp, AlertCircle, Target, MessageSquare, Award, BarChart } from "lucide-react"
+import { Users, FileText, CheckCircle2, Clock, TrendingUp, AlertCircle, Target, MessageSquare, Award, BarChart, IndianRupee, TrendingDown } from "lucide-react"
 import { useThemeStore } from "@/store/useThemeStore"
 
 export default function MLADashboardPage() {
@@ -133,8 +133,7 @@ export default function MLADashboardPage() {
           </CardContent>
         </Card>
 
-
-        {/* Card 5 */}
+        {/* Card 4 - Total Budget Allocated (Replacing Active Projects) */}
         <Card 
           className="shadow-lg border-l-4 hover:shadow-xl transition-shadow duration-300"
           style={{ 
@@ -152,25 +151,27 @@ export default function MLADashboardPage() {
               className="text-sm font-medium"
               style={{ color: theme.textSecondary }}
             >
-              Active Projects
+              Total Budget Allocated
             </CardTitle>
-            <Target className="h-5 w-5 text-cyan-500" />
+            <IndianRupee className="h-5 w-5 text-cyan-500" />
           </CardHeader>
           <CardContent>
             <div 
               className="text-3xl font-bold"
               style={{ color: theme.textPrimary }}
             >
-              32
+              ₹12.85 Cr
             </div>
             <p 
               className="text-xs mt-1"
               style={{ color: theme.textTertiary }}
             >
-              Total Budget: ₹12.5 Cr
+              Across 32 projects
             </p>
           </CardContent>
         </Card>
+
+        {/* Card 5 - Total Expenditure (Replacing Monthly Engagement) */}
         <Card 
           className="shadow-lg border-l-4 hover:shadow-xl transition-shadow duration-300"
           style={{ 
@@ -188,27 +189,27 @@ export default function MLADashboardPage() {
               className="text-sm font-medium"
               style={{ color: theme.textSecondary }}
             >
-              Monthly Engagement
+              Total Expenditure
             </CardTitle>
-            <MessageSquare className="h-5 w-5 text-purple-500" />
+            <TrendingUp className="h-5 w-5 text-purple-500" />
           </CardHeader>
           <CardContent>
             <div 
-              className="text-2xl font-bold"
+              className="text-3xl font-bold"
               style={{ color: theme.textPrimary }}
             >
-              1,842
+              ₹8.42 Cr
             </div>
             <p 
               className="text-xs mt-1"
               style={{ color: theme.textTertiary }}
             >
-              Meetings & Interactions
+              Balance: <span className="font-medium" style={{ color: theme.textSecondary }}>₹4.43 Cr</span>
             </p>
           </CardContent>
         </Card>
 
-        {/* Additional Card 2 */}
+        {/* Card 6 - Staff Members */}
         <Card 
           className="shadow-lg border-l-4 hover:shadow-xl transition-shadow duration-300"
           style={{ 
