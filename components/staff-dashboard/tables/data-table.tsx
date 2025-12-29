@@ -1,4 +1,4 @@
-// components/mla-dashboard/grievance-management/table/data-table.tsx
+// components/mla-dashboard/project-management/table/data-table.tsx
 "use client"
 
 import * as React from "react"
@@ -65,24 +65,10 @@ export function DataTable<TData, TValue>({
       {/* Filters */}
       <div className="flex items-center gap-4 flex-wrap">
         <Input
-          placeholder="Search by citizen name..."
-          value={(table.getColumn("citizenName")?.getFilterValue() as string) ?? ""}
+          placeholder="Search by project name..."
+          value={(table.getColumn("projectName")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("citizenName")?.setFilterValue(event.target.value)
-          }
-          className="max-w-xs"
-          style={{
-            backgroundColor: theme.backgroundSecondary,
-            borderColor: theme.border,
-            color: theme.textPrimary,
-          }}
-        />
-
-        <Input
-          placeholder="Search by ID..."
-          value={(table.getColumn("id")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("id")?.setFilterValue(event.target.value)
+            table.getColumn("projectName")?.setFilterValue(event.target.value)
           }
           className="max-w-xs"
           style={{
@@ -99,7 +85,7 @@ export function DataTable<TData, TValue>({
           }
         >
           <SelectTrigger 
-            className="w-[200px]"
+            className="w-[220px]"
             style={{
               backgroundColor: theme.backgroundSecondary,
               borderColor: theme.border,
@@ -115,14 +101,13 @@ export function DataTable<TData, TValue>({
             }}
           >
             <SelectItem value="all">All Categories</SelectItem>
-            <SelectItem value="Water Supply">Water Supply</SelectItem>
-            <SelectItem value="Road Repair">Road Repair</SelectItem>
-            <SelectItem value="Electricity">Electricity</SelectItem>
-            <SelectItem value="Sanitation">Sanitation</SelectItem>
-            <SelectItem value="Street Light">Street Light</SelectItem>
-            <SelectItem value="Health">Health</SelectItem>
-            <SelectItem value="Education">Education</SelectItem>
-            <SelectItem value="Pension">Pension</SelectItem>
+            <SelectItem value="Road Infrastructure">Road Infrastructure</SelectItem>
+            <SelectItem value="Water Supply & Sanitation">Water Supply & Sanitation</SelectItem>
+            <SelectItem value="Primary Health Centers">Primary Health Centers</SelectItem>
+            <SelectItem value="School Infrastructure">School Infrastructure</SelectItem>
+            <SelectItem value="Street Lighting">Street Lighting</SelectItem>
+            <SelectItem value="Irrigation Projects">Irrigation Projects</SelectItem>
+            <SelectItem value="Agricultural Support">Agricultural Support</SelectItem>
           </SelectContent>
         </Select>
 
@@ -149,10 +134,9 @@ export function DataTable<TData, TValue>({
             }}
           >
             <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="Pending">Pending</SelectItem>
-            <SelectItem value="Forwarded">Forwarded</SelectItem>
+            <SelectItem value="Planned">Planned</SelectItem>
             <SelectItem value="In Progress">In Progress</SelectItem>
-            <SelectItem value="Resolved">Resolved</SelectItem>
+            <SelectItem value="Completed">Completed</SelectItem>
             <SelectItem value="On Hold">On Hold</SelectItem>
           </SelectContent>
         </Select>
@@ -242,7 +226,7 @@ export function DataTable<TData, TValue>({
                   className="h-24 text-center"
                   style={{ color: theme.textSecondary }}
                 >
-                  No grievances found.
+                  No projects found.
                 </TableCell>
               </TableRow>
             )}
@@ -256,7 +240,7 @@ export function DataTable<TData, TValue>({
           className="text-sm"
           style={{ color: theme.textSecondary }}
         >
-          Showing {table.getFilteredRowModel().rows.length} of {data.length} grievances
+          Showing {table.getFilteredRowModel().rows.length} of {data.length} projects
         </div>
         <div className="flex items-center space-x-2">
           <Button
@@ -264,8 +248,11 @@ export function DataTable<TData, TValue>({
             size="sm"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
-            style={{ color: theme.textPrimary }}
-
+            style={{
+              backgroundColor: theme.cardBackground,
+              borderColor: theme.border,
+              color: theme.textPrimary,
+            }}
           >
             Previous
           </Button>
@@ -279,8 +266,11 @@ export function DataTable<TData, TValue>({
             size="sm"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
-            style={{ color: theme.textPrimary }}
-
+            style={{
+              backgroundColor: theme.cardBackground,
+              borderColor: theme.border,
+              color: theme.textPrimary,
+            }}
           >
             Next
           </Button>

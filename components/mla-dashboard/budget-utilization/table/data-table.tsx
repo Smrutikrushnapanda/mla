@@ -214,18 +214,25 @@ export function DataTable<TData, TValue>({
             size="sm"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
-            style={{ color: theme.textPrimary }}
 
+            style={{
+              backgroundColor: theme.cardBackground,
+              borderColor: theme.border,
+              color: theme.textPrimary,
+            }}
           >
             Previous
           </Button>
+          <div className="flex items-center gap-1">
+            <span className="text-sm" style={{ color: theme.textSecondary }}>
+              Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+            </span>
+          </div>
           <Button
             variant="outline"
             size="sm"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
-            style={{ color: theme.textPrimary }}
-
           >
             Next
           </Button>

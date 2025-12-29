@@ -184,6 +184,11 @@ export function DataTable<TData, TValue>({
           >
             Previous
           </Button>
+          <div className="flex items-center gap-1">
+            <span className="text-sm" style={{ color: theme.textSecondary }}>
+              Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+            </span>
+          </div>
           <Button
             variant="outline"
             size="sm"

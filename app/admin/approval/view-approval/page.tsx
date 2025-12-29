@@ -82,56 +82,41 @@ export default function ProjectDetailPage() {
 
   return (
     <div className="min-h-screen w-full" style={{ backgroundColor: theme.background }}>
-      {/* Hero Header */}
-      <div 
-        className={`relative bg-gradient-to-br ${categoryColors[project.category] || "from-blue-500 to-purple-600"} text-white overflow-hidden`}
-      >
-        <div className="absolute inset-0 bg-black/10"></div>
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzYgMzRjMC0yLjIxLTEuNzktNC00LTRzLTQgMS43OS00IDQgMS43OSA0IDQgNCA0LTEuNzkgNC00em0wLTEwYzAtMi4yMS0xLjc5LTQtNC00cy00IDEuNzktNCA0IDEuNzkgNCA0IDQgNC0xLjc5IDQtNHptMC0xMGMwLTIuMjEtMS43OS00LTQtNHMtNCAxLjc5LTQgNCAxLjc5IDQgNCA0IDQtMS43OSA0LTR6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-20"></div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+      {/* Header */}
+      <div className="border-b" style={{ backgroundColor: theme.cardBackground, borderColor: theme.cardBorder }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <Button 
             variant="ghost" 
             onClick={() => router.back()}
-            className="mb-6 text-white hover:bg-white/20 transition-all"
+            className="mb-4"
+            style={{ color: theme.textPrimary }}
           >
-            <ArrowLeft className="mr-2 h-5 w-5" />
+            <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Approvals
           </Button>
 
-          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
             <div className="flex-1">
-              <Badge className="mb-4 text-xs sm:text-sm px-3 py-1 bg-white/20 backdrop-blur-sm border-white/30">
+              <Badge className="mb-3" style={{ backgroundColor: statusColor.bg, color: "#ffffff" }}>
                 {project.projectId}
               </Badge>
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 leading-tight">
+              <h1 className="text-2xl md:text-3xl font-bold mb-2" style={{ color: theme.textPrimary }}>
                 {project.name}
               </h1>
-              <p className="text-base sm:text-lg text-white/90 max-w-3xl leading-relaxed">
+              <p className="text-sm md:text-base mb-3" style={{ color: theme.textSecondary }}>
                 {project.description}
               </p>
-            </div>
-
-            <div className="flex flex-col gap-3">
-              <Card className="bg-white/10 backdrop-blur-md border-white/20">
-                <CardContent className="p-4">
-                  <div className="flex items-center gap-3 mb-2">
-                    <StatusIcon className="h-6 w-6" />
-                    <span className="text-sm font-medium">Status</span>
-                  </div>
-                  <p className="text-xl font-bold">{project.status}</p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-white/10 backdrop-blur-md border-white/20">
-                <CardContent className="p-4">
-                  <div className="flex items-center gap-3 mb-2">
-                    <Shield className="h-6 w-6" />
-                    <span className="text-sm font-medium">Priority</span>
-                  </div>
-                  <p className="text-xl font-bold">{project.priority}</p>
-                </CardContent>
-              </Card>
+              <div className="flex flex-wrap gap-2">
+                <Badge style={{ backgroundColor: statusColor.bg, color: "#ffffff" }}>
+                  {project.status}
+                </Badge>
+                <Badge style={{ backgroundColor: priorityColor.bg, color: "#ffffff" }}>
+                  {project.priority}
+                </Badge>
+                <Badge variant="outline" style={{ borderColor: theme.cardBorder, color: theme.textPrimary }}>
+                  {project.category}
+                </Badge>
+              </div>
             </div>
           </div>
         </div>
@@ -139,374 +124,122 @@ export default function ProjectDetailPage() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Key Metrics Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <Card 
-            className="border-l-4 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-            style={{ 
-              backgroundColor: theme.cardBackground,
-              borderLeftColor: "#3b82f6"
-            }}
-          >
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-3">
-                <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center">
-                  <IndianRupee className="h-6 w-6 text-blue-600" />
-                </div>
+        {/* Key Metrics */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+          <Card style={{ backgroundColor: theme.cardBackground, borderColor: theme.cardBorder }}>
+            <CardContent className="p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <IndianRupee className="h-4 w-4 text-blue-600" />
+                <p className="text-xs font-medium" style={{ color: theme.textSecondary }}>Budget</p>
               </div>
-              <p className="text-sm font-medium mb-1" style={{ color: theme.textSecondary }}>
-                Requested Budget
-              </p>
-              <p className="text-2xl font-bold" style={{ color: theme.textPrimary }}>
+              <p className="text-lg font-bold" style={{ color: theme.textPrimary }}>
                 {formatCurrency(project.requestedBudget)}
               </p>
             </CardContent>
           </Card>
 
-          <Card 
-            className="border-l-4 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-            style={{ 
-              backgroundColor: theme.cardBackground,
-              borderLeftColor: "#10b981"
-            }}
-          >
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-3">
-                <div className="h-12 w-12 rounded-full bg-emerald-100 flex items-center justify-center">
-                  <Users className="h-6 w-6 text-emerald-600" />
-                </div>
+          <Card style={{ backgroundColor: theme.cardBackground, borderColor: theme.cardBorder }}>
+            <CardContent className="p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <Users className="h-4 w-4 text-emerald-600" />
+                <p className="text-xs font-medium" style={{ color: theme.textSecondary }}>Beneficiaries</p>
               </div>
-              <p className="text-sm font-medium mb-1" style={{ color: theme.textSecondary }}>
-                Beneficiaries
-              </p>
-              <p className="text-2xl font-bold" style={{ color: theme.textPrimary }}>
+              <p className="text-lg font-bold" style={{ color: theme.textPrimary }}>
                 {project.estimatedBeneficiaries?.toLocaleString('en-IN')}
               </p>
             </CardContent>
           </Card>
 
-          <Card 
-            className="border-l-4 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-            style={{ 
-              backgroundColor: theme.cardBackground,
-              borderLeftColor: "#f59e0b"
-            }}
-          >
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-3">
-                <div className="h-12 w-12 rounded-full bg-amber-100 flex items-center justify-center">
-                  <Clock className="h-6 w-6 text-amber-600" />
-                </div>
+          <Card style={{ backgroundColor: theme.cardBackground, borderColor: theme.cardBorder }}>
+            <CardContent className="p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <Clock className="h-4 w-4 text-amber-600" />
+                <p className="text-xs font-medium" style={{ color: theme.textSecondary }}>Duration</p>
               </div>
-              <p className="text-sm font-medium mb-1" style={{ color: theme.textSecondary }}>
-                Duration
-              </p>
-              <p className="text-2xl font-bold" style={{ color: theme.textPrimary }}>
+              <p className="text-lg font-bold" style={{ color: theme.textPrimary }}>
                 {project.expectedDuration}
               </p>
             </CardContent>
           </Card>
 
-          <Card 
-            className="border-l-4 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-            style={{ 
-              backgroundColor: theme.cardBackground,
-              borderLeftColor: "#8b5cf6"
-            }}
-          >
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-3">
-                <div className="h-12 w-12 rounded-full bg-violet-100 flex items-center justify-center">
-                  <Target className="h-6 w-6 text-violet-600" />
-                </div>
+          <Card style={{ backgroundColor: theme.cardBackground, borderColor: theme.cardBorder }}>
+            <CardContent className="p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <User className="h-4 w-4 text-purple-600" />
+                <p className="text-xs font-medium" style={{ color: theme.textSecondary }}>Submitted By</p>
               </div>
-              <p className="text-sm font-medium mb-1" style={{ color: theme.textSecondary }}>
-                Category
-              </p>
-              <p className="text-xl font-bold" style={{ color: theme.textPrimary }}>
-                {project.category}
+              <p className="text-sm font-semibold truncate" style={{ color: theme.textPrimary }}>
+                {project.submittedBy}
               </p>
             </CardContent>
           </Card>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column - Main Details */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Project Information */}
-            <Card 
-              className="border hover:shadow-lg transition-shadow"
-              style={{ 
-                backgroundColor: theme.cardBackground,
-                borderColor: theme.cardBorder
-              }}
-            >
-              <CardContent className="p-6">
-                <h2 className="text-xl font-bold mb-6 flex items-center gap-2" style={{ color: theme.textPrimary }}>
-                  <FileText className="h-5 w-5" />
-                  Project Information
-                </h2>
+        <div className="space-y-6">
+          {/* Project Information */}
+          <Card style={{ backgroundColor: theme.cardBackground, borderColor: theme.cardBorder }}>
+            <CardContent className="p-6">
+              <h2 className="text-lg font-bold mb-4" style={{ color: theme.textPrimary }}>
+                Project Details
+              </h2>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <div>
-                      <div className="flex items-center gap-2 mb-2">
-                        <Building2 className="h-4 w-4" style={{ color: theme.textSecondary }} />
-                        <p className="text-sm font-medium" style={{ color: theme.textSecondary }}>
-                          Department
-                        </p>
-                      </div>
-                      <p className="text-base font-semibold pl-6" style={{ color: theme.textPrimary }}>
-                        {project.department}
-                      </p>
-                    </div>
-
-                    <div>
-                      <div className="flex items-center gap-2 mb-2">
-                        <MapPin className="h-4 w-4" style={{ color: theme.textSecondary }} />
-                        <p className="text-sm font-medium" style={{ color: theme.textSecondary }}>
-                          Location
-                        </p>
-                      </div>
-                      <p className="text-base font-semibold pl-6" style={{ color: theme.textPrimary }}>
-                        {project.location}
-                      </p>
-                    </div>
-
-                    <div>
-                      <div className="flex items-center gap-2 mb-2">
-                        <MapPin className="h-4 w-4" style={{ color: theme.textSecondary }} />
-                        <p className="text-sm font-medium" style={{ color: theme.textSecondary }}>
-                          Constituency
-                        </p>
-                      </div>
-                      <p className="text-base font-semibold pl-6" style={{ color: theme.textPrimary }}>
-                        {project.constituency}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="space-y-4">
-                    <div>
-                      <div className="flex items-center gap-2 mb-2">
-                        <TrendingUp className="h-4 w-4" style={{ color: theme.textSecondary }} />
-                        <p className="text-sm font-medium" style={{ color: theme.textSecondary }}>
-                          Funding Source
-                        </p>
-                      </div>
-                      <p className="text-base font-semibold pl-6" style={{ color: theme.textPrimary }}>
-                        {project.fundingSource}
-                      </p>
-                    </div>
-
-                    <div>
-                      <div className="flex items-center gap-2 mb-2">
-                        <Briefcase className="h-4 w-4" style={{ color: theme.textSecondary }} />
-                        <p className="text-sm font-medium" style={{ color: theme.textSecondary }}>
-                          Proposed Contractor
-                        </p>
-                      </div>
-                      <p className="text-base font-semibold pl-6" style={{ color: theme.textPrimary }}>
-                        {project.proposedContractor}
-                      </p>
-                    </div>
-
-                    <div>
-                      <div className="flex items-center gap-2 mb-2">
-                        <Calendar className="h-4 w-4" style={{ color: theme.textSecondary }} />
-                        <p className="text-sm font-medium" style={{ color: theme.textSecondary }}>
-                          Submitted Date
-                        </p>
-                      </div>
-                      <p className="text-base font-semibold pl-6" style={{ color: theme.textPrimary }}>
-                        {formatDate(project.submittedDate)}
-                      </p>
-                    </div>
-                  </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <p className="text-xs font-medium mb-1" style={{ color: theme.textSecondary }}>Department</p>
+                  <p className="text-sm font-semibold" style={{ color: theme.textPrimary }}>{project.department}</p>
                 </div>
-              </CardContent>
-            </Card>
-
-            {/* Justification */}
-            <Card 
-              className="border hover:shadow-lg transition-shadow"
-              style={{ 
-                backgroundColor: theme.cardBackground,
-                borderColor: theme.cardBorder
-              }}
-            >
-              <CardContent className="p-6">
-                <h2 className="text-xl font-bold mb-4 flex items-center gap-2" style={{ color: theme.textPrimary }}>
-                  <AlertCircle className="h-5 w-5" />
-                  Project Justification
-                </h2>
-                <div 
-                  className="p-4 rounded-lg border-l-4"
-                  style={{ 
-                    backgroundColor: theme.backgroundSecondary,
-                    borderLeftColor: "#3b82f6"
-                  }}
-                >
-                  <p className="text-base leading-relaxed" style={{ color: theme.textPrimary }}>
-                    {project.justification}
-                  </p>
+                <div>
+                  <p className="text-xs font-medium mb-1" style={{ color: theme.textSecondary }}>Location</p>
+                  <p className="text-sm font-semibold" style={{ color: theme.textPrimary }}>{project.location}</p>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Right Column - Sidebar */}
-          <div className="space-y-6">
-            {/* Status Card */}
-            <Card 
-              className="border-2 hover:shadow-xl transition-all"
-              style={{ 
-                backgroundColor: theme.cardBackground,
-                borderColor: statusColor.bg
-              }}
-            >
-              <CardContent className="p-6">
-                <div 
-                  className="h-16 w-16 rounded-full mx-auto mb-4 flex items-center justify-center"
-                  style={{ backgroundColor: statusColor.light }}
-                >
-                  <StatusIcon className="h-8 w-8" style={{ color: statusColor.bg }} />
+                <div>
+                  <p className="text-xs font-medium mb-1" style={{ color: theme.textSecondary }}>Constituency</p>
+                  <p className="text-sm font-semibold" style={{ color: theme.textPrimary }}>{project.constituency}</p>
                 </div>
-                <h3 className="text-center text-lg font-bold mb-2" style={{ color: theme.textPrimary }}>
-                  Current Status
-                </h3>
-                <Badge 
-                  className="w-full justify-center py-2 text-sm font-semibold"
-                  style={{ 
-                    backgroundColor: statusColor.bg,
-                    color: "#ffffff"
-                  }}
-                >
-                  {project.status}
-                </Badge>
-              </CardContent>
-            </Card>
-
-            {/* Priority Card */}
-            <Card 
-              className={`border-2 hover:shadow-xl transition-all bg-gradient-to-br ${priorityColor.gradient} text-white`}
-            >
-              <CardContent className="p-6">
-                <div className="h-16 w-16 rounded-full mx-auto mb-4 flex items-center justify-center bg-white/20 backdrop-blur-sm">
-                  <Shield className="h-8 w-8" />
+                <div>
+                  <p className="text-xs font-medium mb-1" style={{ color: theme.textSecondary }}>Funding Source</p>
+                  <p className="text-sm font-semibold" style={{ color: theme.textPrimary }}>{project.fundingSource}</p>
                 </div>
-                <h3 className="text-center text-lg font-bold mb-2">
-                  Priority Level
-                </h3>
-                <p className="text-center text-2xl font-bold">
-                  {project.priority}
-                </p>
-                <Progress value={75} className="mt-4 h-2 bg-white/30" />
-              </CardContent>
-            </Card>
-
-            {/* Submission Details */}
-            <Card 
-              className="border hover:shadow-lg transition-shadow"
-              style={{ 
-                backgroundColor: theme.cardBackground,
-                borderColor: theme.cardBorder
-              }}
-            >
-              <CardContent className="p-6">
-                <h3 className="text-lg font-bold mb-4 flex items-center gap-2" style={{ color: theme.textPrimary }}>
-                  <User className="h-5 w-5" />
-                  Submission Details
-                </h3>
-                <Separator className="mb-4" style={{ backgroundColor: theme.border }} />
-                
-                <div className="space-y-4">
-                  <div>
-                    <p className="text-xs font-medium mb-1" style={{ color: theme.textSecondary }}>
-                      Submitted By
-                    </p>
-                    <p className="text-sm font-semibold" style={{ color: theme.textPrimary }}>
-                      {project.submittedBy}
-                    </p>
-                  </div>
-
-                  <div>
-                    <p className="text-xs font-medium mb-1" style={{ color: theme.textSecondary }}>
-                      Submission Date
-                    </p>
-                    <p className="text-sm font-semibold" style={{ color: theme.textPrimary }}>
-                      {formatDate(project.submittedDate)}
-                    </p>
-                  </div>
+                <div>
+                  <p className="text-xs font-medium mb-1" style={{ color: theme.textSecondary }}>Contractor</p>
+                  <p className="text-sm font-semibold" style={{ color: theme.textPrimary }}>{project.proposedContractor}</p>
                 </div>
-              </CardContent>
-            </Card>
-
-            {/* Impact Metrics */}
-            <Card 
-              className="border hover:shadow-lg transition-shadow bg-gradient-to-br from-purple-50 to-pink-50"
-              style={{ 
-                borderColor: theme.cardBorder
-              }}
-            >
-              <CardContent className="p-6">
-                <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-purple-900">
-                  <TrendingUp className="h-5 w-5" />
-                  Impact Metrics
-                </h3>
-                
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-purple-700">Beneficiaries</span>
-                    <span className="text-lg font-bold text-purple-900">
-                      {project.estimatedBeneficiaries?.toLocaleString('en-IN')}
-                    </span>
-                  </div>
-                  <Progress 
-                    value={Math.min((project.estimatedBeneficiaries || 0) / 1000, 100)} 
-                    className="h-2"
-                  />
-
-                  <div className="flex items-center justify-between mt-4">
-                    <span className="text-sm font-medium text-purple-700">Budget Efficiency</span>
-                    <span className="text-lg font-bold text-purple-900">
-                      ₹{Math.round((project.requestedBudget / (project.estimatedBeneficiaries || 1)))}/person
-                    </span>
-                  </div>
+                <div>
+                  <p className="text-xs font-medium mb-1" style={{ color: theme.textSecondary }}>Submitted Date</p>
+                  <p className="text-sm font-semibold" style={{ color: theme.textPrimary }}>{formatDate(project.submittedDate)}</p>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Justification */}
+          <Card style={{ backgroundColor: theme.cardBackground, borderColor: theme.cardBorder }}>
+            <CardContent className="p-6">
+              <h2 className="text-lg font-bold mb-3" style={{ color: theme.textPrimary }}>
+                Project Justification
+              </h2>
+              <p className="text-sm leading-relaxed" style={{ color: theme.textSecondary }}>
+                {project.justification}
+              </p>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Action Buttons */}
-        <Card 
-          className="mt-8 border-2"
-          style={{ 
-            backgroundColor: theme.cardBackground,
-            borderColor: theme.cardBorder
-          }}
-        >
-          <CardContent className="p-6">
-            <h3 className="text-lg font-bold mb-4" style={{ color: theme.textPrimary }}>
-              Review Actions
-            </h3>
-            <div className="flex flex-wrap gap-3">
-              <Button className="bg-green-600 hover:bg-green-700 text-white flex-1 sm:flex-none">
-                <CheckCircle2 className="mr-2 h-4 w-4" />
-                Approve Project
-              </Button>
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white flex-1 sm:flex-none">
-                <FileText className="mr-2 h-4 w-4" />
-                Request Revision
-              </Button>
-              <Button className="bg-red-600 hover:bg-red-700 text-white flex-1 sm:flex-none">
-                <XCircle className="mr-2 h-4 w-4" />
-                Reject Project
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+        <div className="flex flex-wrap gap-3">
+          <Button className="bg-green-600 hover:bg-green-700 text-white">
+            <CheckCircle2 className="mr-2 h-4 w-4" />
+            Approve
+          </Button>
+          <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+            <FileText className="mr-2 h-4 w-4" />
+            Request Revision
+          </Button>
+          <Button className="bg-red-600 hover:bg-red-700 text-white">
+            <XCircle className="mr-2 h-4 w-4" />
+            Reject
+          </Button>
+        </div>
       </div>
     </div>
   );

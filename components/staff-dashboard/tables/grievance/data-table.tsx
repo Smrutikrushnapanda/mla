@@ -264,8 +264,11 @@ export function DataTable<TData, TValue>({
             size="sm"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
-            style={{ color: theme.textPrimary }}
-
+            style={{
+              backgroundColor: theme.cardBackground,
+              borderColor: theme.border,
+              color: theme.textPrimary,
+            }}
           >
             Previous
           </Button>
@@ -279,8 +282,11 @@ export function DataTable<TData, TValue>({
             size="sm"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
-            style={{ color: theme.textPrimary }}
-
+            style={{
+              backgroundColor: theme.cardBackground,
+              borderColor: theme.border,
+              color: theme.textPrimary,
+            }}
           >
             Next
           </Button>

@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Users, FileText, UserCheck, TrendingUp, Activity, Clock } from "lucide-react"
+import { Users, FileText, UserCheck, TrendingUp, Activity, Clock, Check, CircleCheck } from "lucide-react"
 import { useThemeStore } from "@/store/useThemeStore"
 
 export default function CitizenDashboardPage() {
@@ -36,7 +36,7 @@ export default function CitizenDashboardPage() {
               className="text-sm font-medium"
               style={{ color: theme.textSecondary }}
             >
-              Total Users
+              Total Grievance
             </CardTitle>
             <Users className="h-5 w-5 text-blue-500" />
           </CardHeader>
@@ -51,7 +51,7 @@ export default function CitizenDashboardPage() {
               className="text-xs mt-1"
               style={{ color: theme.textTertiary }}
             >
-              <span className="text-green-600 font-medium">+12%</span> from last month
+              <span className="text-green-600 font-medium">+10%</span> this month
             </p>
           </CardContent>
         </Card>
@@ -73,7 +73,7 @@ export default function CitizenDashboardPage() {
               className="text-sm font-medium"
               style={{ color: theme.textSecondary }}
             >
-              Total Grievances
+              Pending Grievances
             </CardTitle>
             <FileText className="h-5 w-5 text-purple-500" />
           </CardHeader>
@@ -82,57 +82,16 @@ export default function CitizenDashboardPage() {
               className="text-3xl font-bold"
               style={{ color: theme.textPrimary }}
             >
-              320
+              150
             </div>
             <p
               className="text-xs mt-1"
               style={{ color: theme.textTertiary }}
             >
-              <span className="text-orange-600 font-medium">45</span> pending resolution
+              <span className="text-red-600 font-medium">-5%</span> pending this month
             </p>
           </CardContent>
         </Card>
-
-        <Card
-          className="shadow-lg border-l-4"
-          style={{
-            backgroundColor: theme.cardBackground,
-            borderTop: `1px solid ${theme.cardBorder}`,
-            borderRight: `1px solid ${theme.cardBorder}`,
-            borderBottom: `1px solid ${theme.cardBorder}`,
-            borderLeftColor: '#991b1b',
-            borderLeftWidth: '4px',
-            borderLeftStyle: 'solid'
-          }}
-        >
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle
-              className="text-sm font-medium"
-              style={{ color: theme.textSecondary }}
-            >
-              Active Staff
-            </CardTitle>
-            <UserCheck className="h-5 w-5 text-red-800" />
-          </CardHeader>
-          <CardContent>
-            <div
-              className="text-3xl font-bold"
-              style={{ color: theme.textPrimary }}
-            >
-              48
-            </div>
-            <p
-              className="text-xs mt-1"
-              style={{ color: theme.textTertiary }}
-            >
-              <span className="text-red-800 font-medium">38</span> online now
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Additional Stats Row */}
-      <div className="grid gap-4 md:grid-cols-3">
         <Card
           className="shadow-lg border-l-4"
           style={{
@@ -150,95 +109,29 @@ export default function CitizenDashboardPage() {
               className="text-sm font-medium"
               style={{ color: theme.textSecondary }}
             >
-              Resolution Rate
+              Resolved Grievances
             </CardTitle>
-            <TrendingUp className="h-5 w-5 text-green-500" />
+            <CircleCheck className="h-5 w-5 text-green-500" />
           </CardHeader>
           <CardContent>
             <div
-              className="text-2xl font-bold"
+              className="text-3xl font-bold"
               style={{ color: theme.textPrimary }}
             >
-              85.3%
-            </div>
-            <div
-              className="mt-2 h-2 w-full rounded-full overflow-hidden"
-              style={{ backgroundColor: theme.backgroundTertiary }}
-            >
-              <div className="h-full bg-green-500 rounded-full" style={{ width: '85.3%' }} />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card
-          className="shadow-lg border-l-4"
-          style={{
-            backgroundColor: theme.cardBackground,
-            borderTop: `1px solid ${theme.cardBorder}`,
-            borderRight: `1px solid ${theme.cardBorder}`,
-            borderBottom: `1px solid ${theme.cardBorder}`,
-            borderLeftColor: '#3b82f6',
-            borderLeftWidth: '4px',
-            borderLeftStyle: 'solid'
-          }}
-        >
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle
-              className="text-sm font-medium"
-              style={{ color: theme.textSecondary }}
-            >
-              Avg Response Time
-            </CardTitle>
-            <Clock className="h-5 w-5 text-blue-500" />
-          </CardHeader>
-          <CardContent>
-            <div
-              className="text-2xl font-bold"
-              style={{ color: theme.textPrimary }}
-            >
-              2.4 hrs
+              500
             </div>
             <p
               className="text-xs mt-1"
               style={{ color: theme.textTertiary }}
             >
-              <span className="text-green-600 font-medium">-0.5 hrs</span> improvement
+              <span className="text-green-600 font-medium">+30%</span> resolved this month
             </p>
           </CardContent>
         </Card>
 
-        <Card
-          className="shadow-lg border-l-4"
-          style={{
-            backgroundColor: theme.cardBackground,
-            borderTop: `1px solid ${theme.cardBorder}`,
-            borderRight: `1px solid ${theme.cardBorder}`,
-            borderBottom: `1px solid ${theme.cardBorder}`,
-            borderLeftColor: '#6b21a8',
-            borderLeftWidth: '4px',
-            borderLeftStyle: 'solid'
-          }}
-        >
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle
-              className="text-sm font-medium"
-              style={{ color: theme.textSecondary }}
-            >
-              System Status
-            </CardTitle>
-            <Activity className="h-5 w-5 text-purple-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-purple-600">Operational</div>
-            <p
-              className="text-xs mt-1"
-              style={{ color: theme.textTertiary }}
-            >
-              All systems running smoothly
-            </p>
-          </CardContent>
-        </Card>
+
       </div>
+
 
       <div className="grid gap-6 lg:grid-cols-2">
         <GrievancesBarChart />
