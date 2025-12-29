@@ -1,4 +1,4 @@
-// components/mla-dashboard/project-management/table/data-table.tsx
+// components/mla-dashboard/events-meetings/table/data-table.tsx
 "use client"
 
 import * as React from "react"
@@ -42,7 +42,9 @@ export function DataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const { theme } = useThemeStore()
-  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [sorting, setSorting] = React.useState<SortingState>([
+    { id: "date", desc: false } // Default sort by date (earliest first)
+  ])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
 
   const table = useReactTable({
@@ -65,10 +67,10 @@ export function DataTable<TData, TValue>({
       {/* Filters */}
       <div className="flex items-center gap-4 flex-wrap">
         <Input
-          placeholder="Search by project name..."
-          value={(table.getColumn("projectName")?.getFilterValue() as string) ?? ""}
+          placeholder="Search by event title..."
+          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("projectName")?.setFilterValue(event.target.value)
+            table.getColumn("title")?.setFilterValue(event.target.value)
           }
           className="max-w-xs"
           style={{
@@ -79,9 +81,9 @@ export function DataTable<TData, TValue>({
         />
 
         <Select
-          value={(table.getColumn("category")?.getFilterValue() as string) ?? "all"}
+          value={(table.getColumn("type")?.getFilterValue() as string) ?? "all"}
           onValueChange={(value) =>
-            table.getColumn("category")?.setFilterValue(value === "all" ? "" : value)
+            table.getColumn("type")?.setFilterValue(value === "all" ? "" : value)
           }
         >
           <SelectTrigger 
@@ -92,7 +94,7 @@ export function DataTable<TData, TValue>({
               color: theme.textPrimary,
             }}
           >
-            <SelectValue placeholder="Filter by category" />
+            <SelectValue placeholder="Filter by type" />
           </SelectTrigger>
           <SelectContent
             style={{
@@ -100,14 +102,12 @@ export function DataTable<TData, TValue>({
               borderColor: theme.border,
             }}
           >
-            <SelectItem value="all">All Categories</SelectItem>
-            <SelectItem value="Road Infrastructure">Road Infrastructure</SelectItem>
-            <SelectItem value="Water Supply & Sanitation">Water Supply & Sanitation</SelectItem>
-            <SelectItem value="Primary Health Centers">Primary Health Centers</SelectItem>
-            <SelectItem value="School Infrastructure">School Infrastructure</SelectItem>
-            <SelectItem value="Street Lighting">Street Lighting</SelectItem>
-            <SelectItem value="Irrigation Projects">Irrigation Projects</SelectItem>
-            <SelectItem value="Agricultural Support">Agricultural Support</SelectItem>
+            <SelectItem value="all">All Types</SelectItem>
+            <SelectItem value="Meeting">Meeting</SelectItem>
+            <SelectItem value="Public Gathering">Public Gathering</SelectItem>
+            <SelectItem value="Constituency Visit">Constituency Visit</SelectItem>
+            <SelectItem value="Government Event">Government Event</SelectItem>
+            <SelectItem value="Other">Other</SelectItem>
           </SelectContent>
         </Select>
 
@@ -134,44 +134,10 @@ export function DataTable<TData, TValue>({
             }}
           >
             <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="Planned">Planned</SelectItem>
-            <SelectItem value="In Progress">In Progress</SelectItem>
+            <SelectItem value="Scheduled">Scheduled</SelectItem>
+            <SelectItem value="Ongoing">Ongoing</SelectItem>
             <SelectItem value="Completed">Completed</SelectItem>
-            <SelectItem value="On Hold">On Hold</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <Select
-          value={(table.getColumn("location")?.getFilterValue() as string) ?? "all"}
-          onValueChange={(value) =>
-            table.getColumn("location")?.setFilterValue(value === "all" ? "" : value)
-          }
-        >
-          <SelectTrigger 
-            className="w-[180px]"
-            style={{
-              backgroundColor: theme.backgroundSecondary,
-              borderColor: theme.border,
-              color: theme.textPrimary,
-            }}
-          >
-            <SelectValue placeholder="Filter by location" />
-          </SelectTrigger>
-          <SelectContent
-            style={{
-              backgroundColor: theme.backgroundSecondary,
-              borderColor: theme.border,
-            }}
-          >
-            <SelectItem value="all">All Locations</SelectItem>
-            <SelectItem value="Badakotha">Badakotha</SelectItem>
-            <SelectItem value="Korei Market">Korei Market</SelectItem>
-            <SelectItem value="Nuagaon">Nuagaon</SelectItem>
-            <SelectItem value="Hatapada">Hatapada</SelectItem>
-            <SelectItem value="Jharbandh">Jharbandh</SelectItem>
-            <SelectItem value="Bansapal">Bansapal</SelectItem>
-            <SelectItem value="Telkoi">Telkoi</SelectItem>
-            <SelectItem value="Ghasipura">Ghasipura</SelectItem>
+            <SelectItem value="Cancelled">Cancelled</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -226,7 +192,7 @@ export function DataTable<TData, TValue>({
                   className="h-24 text-center"
                   style={{ color: theme.textSecondary }}
                 >
-                  No projects found.
+                  No events found.
                 </TableCell>
               </TableRow>
             )}
@@ -240,7 +206,7 @@ export function DataTable<TData, TValue>({
           className="text-sm"
           style={{ color: theme.textSecondary }}
         >
-          Showing {table.getFilteredRowModel().rows.length} of {data.length} projects
+          Showing {table.getFilteredRowModel().rows.length} of {data.length} events
         </div>
         <div className="flex items-center space-x-2">
           <Button
@@ -249,7 +215,6 @@ export function DataTable<TData, TValue>({
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
             style={{ color: theme.textPrimary }}
-
           >
             Previous
           </Button>
