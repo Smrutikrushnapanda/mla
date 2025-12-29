@@ -1,4 +1,4 @@
-// components/mla-dashboard/grievance-category/table/data-table.tsx
+// components/mla-dashboard/manage-category/poll-category/table/data-table.tsx
 "use client"
 
 import * as React from "react"
@@ -79,68 +79,6 @@ export function DataTable<TData, TValue>({
         />
 
         <Select
-          value={(table.getColumn("department")?.getFilterValue() as string) ?? "all"}
-          onValueChange={(value) =>
-            table.getColumn("department")?.setFilterValue(value === "all" ? "" : value)
-          }
-        >
-          <SelectTrigger 
-            className="w-[220px]"
-            style={{
-              backgroundColor: theme.input.bg,
-              borderColor: theme.border,
-              color: theme.textPrimary,
-            }}
-          >
-            <SelectValue placeholder="Filter by department" />
-          </SelectTrigger>
-          <SelectContent
-            style={{
-              backgroundColor: theme.backgroundSecondary,
-              borderColor: theme.border,
-            }}
-          >
-            <SelectItem value="all">All Departments</SelectItem>
-            <SelectItem value="Public Works">Public Works</SelectItem>
-            <SelectItem value="Water Resources">Water Resources</SelectItem>
-            <SelectItem value="Health & Family Welfare">Health & Family Welfare</SelectItem>
-            <SelectItem value="Education">Education</SelectItem>
-            <SelectItem value="Electricity">Electricity</SelectItem>
-            <SelectItem value="Sanitation">Sanitation</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <Select
-          value={(table.getColumn("priority")?.getFilterValue() as string) ?? "all"}
-          onValueChange={(value) =>
-            table.getColumn("priority")?.setFilterValue(value === "all" ? "" : value)
-          }
-        >
-          <SelectTrigger 
-            className="w-[180px]"
-            style={{
-              backgroundColor: theme.input.bg,
-              borderColor: theme.border,
-              color: theme.textPrimary,
-            }}
-          >
-            <SelectValue placeholder="Filter by priority" />
-          </SelectTrigger>
-          <SelectContent
-            style={{
-              backgroundColor: theme.backgroundSecondary,
-              borderColor: theme.border,
-            }}
-          >
-            <SelectItem value="all">All Priorities</SelectItem>
-            <SelectItem value="Critical">Critical</SelectItem>
-            <SelectItem value="High">High</SelectItem>
-            <SelectItem value="Medium">Medium</SelectItem>
-            <SelectItem value="Low">Low</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <Select
           value={(table.getColumn("status")?.getFilterValue() as string) ?? "all"}
           onValueChange={(value) =>
             table.getColumn("status")?.setFilterValue(value === "all" ? "" : value)
@@ -149,7 +87,7 @@ export function DataTable<TData, TValue>({
           <SelectTrigger 
             className="w-[180px]"
             style={{
-              backgroundColor: theme.input.bg,
+              backgroundColor: theme.backgroundSecondary,
               borderColor: theme.border,
               color: theme.textPrimary,
             }}
@@ -219,7 +157,7 @@ export function DataTable<TData, TValue>({
                   className="h-24 text-center"
                   style={{ color: theme.textSecondary }}
                 >
-                  No grievance categories found.
+                  No poll categories found.
                 </TableCell>
               </TableRow>
             )}

@@ -1,4 +1,4 @@
-// components/mla-dashboard/grievance-category/table/data-table.tsx
+// components/mla-dashboard/manage-category/my-voice-category/table/data-table.tsx
 "use client"
 
 import * as React from "react"
@@ -77,38 +77,6 @@ export function DataTable<TData, TValue>({
             color: theme.textPrimary,
           }}
         />
-
-        <Select
-          value={(table.getColumn("department")?.getFilterValue() as string) ?? "all"}
-          onValueChange={(value) =>
-            table.getColumn("department")?.setFilterValue(value === "all" ? "" : value)
-          }
-        >
-          <SelectTrigger 
-            className="w-[220px]"
-            style={{
-              backgroundColor: theme.input.bg,
-              borderColor: theme.border,
-              color: theme.textPrimary,
-            }}
-          >
-            <SelectValue placeholder="Filter by department" />
-          </SelectTrigger>
-          <SelectContent
-            style={{
-              backgroundColor: theme.backgroundSecondary,
-              borderColor: theme.border,
-            }}
-          >
-            <SelectItem value="all">All Departments</SelectItem>
-            <SelectItem value="Public Works">Public Works</SelectItem>
-            <SelectItem value="Water Resources">Water Resources</SelectItem>
-            <SelectItem value="Health & Family Welfare">Health & Family Welfare</SelectItem>
-            <SelectItem value="Education">Education</SelectItem>
-            <SelectItem value="Electricity">Electricity</SelectItem>
-            <SelectItem value="Sanitation">Sanitation</SelectItem>
-          </SelectContent>
-        </Select>
 
         <Select
           value={(table.getColumn("priority")?.getFilterValue() as string) ?? "all"}
@@ -219,7 +187,7 @@ export function DataTable<TData, TValue>({
                   className="h-24 text-center"
                   style={{ color: theme.textSecondary }}
                 >
-                  No grievance categories found.
+                  No voice categories found.
                 </TableCell>
               </TableRow>
             )}

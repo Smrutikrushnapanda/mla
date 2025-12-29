@@ -131,13 +131,13 @@ export function MLASidebar() {
         {
           id: "poll-category",
           label: "Poll Category",
-          href: "/mla/poll",
+          href: "/mla/poll-category",
           icon: BarChart3,
         },
         {
           id: "myvoice-category",
           label: "My Voice Category",
-          href: "/mla/myvoice",
+          href: "/mla/myvoice-category",
           icon: MessageSquare,
         },
       ],
@@ -150,13 +150,13 @@ export function MLASidebar() {
         {
           id: "manage-projects",
           label: "Manage Projects",
-          href: "/mla/manage",
+          href: "/mla/project-management",
           icon: ClipboardList,
         },
         {
           id: "budget-utilization",
           label: "Budget Utilization",
-          href: "/mla/budget",
+          href: "/mla/budget-utilization",
           icon: DollarSign,
         },
       ],
@@ -169,7 +169,7 @@ export function MLASidebar() {
         {
           id: "all-grievances",
           label: "All Grievances",
-          href: "/mla/all",
+          href: "/mla/grievance-management",
           icon: ClipboardList,
         }
       ],
@@ -180,23 +180,17 @@ export function MLASidebar() {
       icon: BarChart3,
       submenu: [
         {
-          id: "post-new-poll",
-          label: "Post New Poll",
-          href: "/mla/new",
+          id: "polls",
+          label: "Manage Polls",
+          href: "/mla/manage-polls",
           icon: Plus,
         },
-        {
-          id: "ongoing-polls",
-          label: "On-going Polls",
-          href: "/mla/ongoing",
-          icon: Activity,
-        },
-        {
-          id: "publish-action",
-          label: "Publish Action",
-          href: "/mla/publish-action",
-          icon: CheckCircle2,
-        },
+        // {
+        //   id: "publish-action",
+        //   label: "Publish Action",
+        //   href: "/mla/publish-action",
+        //   icon: CheckCircle2,
+        // },
       ],
     },
     {
@@ -207,13 +201,13 @@ export function MLASidebar() {
         {
           id: "all-questions",
           label: "All Questions",
-          href: "/mla/questions",
+          href: "/mla/all-questions",
           icon: HelpCircle,
         },
         {
           id: "archived-sessions",
           label: "Archived Sessions",
-          href: "/mla/archived",
+          href: "/mla/archived-sessions",
           icon: Archive,
         },
       ],
@@ -243,25 +237,25 @@ export function MLASidebar() {
         },
       ],
     },
-    {
-      id: "appointment-booking",
-      label: "Appointment Booking",
-      icon: CalendarClock,
-      submenu: [
-        {
-          id: "slot-management",
-          label: "Slot Management",
-          href: "/mla/slots",
-          icon: Clock,
-        },
-        {
-          id: "manage-appointments",
-          label: "Manage Appointments",
-          href: "/mla/manage",
-          icon: CalendarCheck,
-        },
-      ],
-    },
+    // {
+    //   id: "appointment-booking",
+    //   label: "Appointment Booking",
+    //   icon: CalendarClock,
+    //   submenu: [
+    //     {
+    //       id: "slot-management",
+    //       label: "Slot Management",
+    //       href: "/mla/slots",
+    //       icon: Clock,
+    //     },
+    //     {
+    //       id: "manage-appointments",
+    //       label: "Manage Appointments",
+    //       href: "/mla/manage",
+    //       icon: CalendarCheck,
+    //     },
+    //   ],
+    // },
     {
       id: "social-media",
       label: "Social Media",
