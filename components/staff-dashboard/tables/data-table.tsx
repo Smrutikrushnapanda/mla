@@ -1,4 +1,4 @@
-// components/mla-dashboard/manage-category/poll-category/table/data-table.tsx
+// components/mla-dashboard/project-management/table/data-table.tsx
 "use client"
 
 import * as React from "react"
@@ -65,10 +65,10 @@ export function DataTable<TData, TValue>({
       {/* Filters */}
       <div className="flex items-center gap-4 flex-wrap">
         <Input
-          placeholder="Search by category name..."
-          value={(table.getColumn("categoryName")?.getFilterValue() as string) ?? ""}
+          placeholder="Search by project name..."
+          value={(table.getColumn("projectName")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("categoryName")?.setFilterValue(event.target.value)
+            table.getColumn("projectName")?.setFilterValue(event.target.value)
           }
           className="max-w-xs"
           style={{
@@ -77,6 +77,39 @@ export function DataTable<TData, TValue>({
             color: theme.textPrimary,
           }}
         />
+
+        <Select
+          value={(table.getColumn("category")?.getFilterValue() as string) ?? "all"}
+          onValueChange={(value) =>
+            table.getColumn("category")?.setFilterValue(value === "all" ? "" : value)
+          }
+        >
+          <SelectTrigger 
+            className="w-[220px]"
+            style={{
+              backgroundColor: theme.backgroundSecondary,
+              borderColor: theme.border,
+              color: theme.textPrimary,
+            }}
+          >
+            <SelectValue placeholder="Filter by category" />
+          </SelectTrigger>
+          <SelectContent
+            style={{
+              backgroundColor: theme.backgroundSecondary,
+              borderColor: theme.border,
+            }}
+          >
+            <SelectItem value="all">All Categories</SelectItem>
+            <SelectItem value="Road Infrastructure">Road Infrastructure</SelectItem>
+            <SelectItem value="Water Supply & Sanitation">Water Supply & Sanitation</SelectItem>
+            <SelectItem value="Primary Health Centers">Primary Health Centers</SelectItem>
+            <SelectItem value="School Infrastructure">School Infrastructure</SelectItem>
+            <SelectItem value="Street Lighting">Street Lighting</SelectItem>
+            <SelectItem value="Irrigation Projects">Irrigation Projects</SelectItem>
+            <SelectItem value="Agricultural Support">Agricultural Support</SelectItem>
+          </SelectContent>
+        </Select>
 
         <Select
           value={(table.getColumn("status")?.getFilterValue() as string) ?? "all"}
@@ -101,8 +134,44 @@ export function DataTable<TData, TValue>({
             }}
           >
             <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="Active">Active</SelectItem>
-            <SelectItem value="Inactive">Inactive</SelectItem>
+            <SelectItem value="Planned">Planned</SelectItem>
+            <SelectItem value="In Progress">In Progress</SelectItem>
+            <SelectItem value="Completed">Completed</SelectItem>
+            <SelectItem value="On Hold">On Hold</SelectItem>
+          </SelectContent>
+        </Select>
+
+        <Select
+          value={(table.getColumn("location")?.getFilterValue() as string) ?? "all"}
+          onValueChange={(value) =>
+            table.getColumn("location")?.setFilterValue(value === "all" ? "" : value)
+          }
+        >
+          <SelectTrigger 
+            className="w-[180px]"
+            style={{
+              backgroundColor: theme.backgroundSecondary,
+              borderColor: theme.border,
+              color: theme.textPrimary,
+            }}
+          >
+            <SelectValue placeholder="Filter by location" />
+          </SelectTrigger>
+          <SelectContent
+            style={{
+              backgroundColor: theme.backgroundSecondary,
+              borderColor: theme.border,
+            }}
+          >
+            <SelectItem value="all">All Locations</SelectItem>
+            <SelectItem value="Badakotha">Badakotha</SelectItem>
+            <SelectItem value="Korei Market">Korei Market</SelectItem>
+            <SelectItem value="Nuagaon">Nuagaon</SelectItem>
+            <SelectItem value="Hatapada">Hatapada</SelectItem>
+            <SelectItem value="Jharbandh">Jharbandh</SelectItem>
+            <SelectItem value="Bansapal">Bansapal</SelectItem>
+            <SelectItem value="Telkoi">Telkoi</SelectItem>
+            <SelectItem value="Ghasipura">Ghasipura</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -157,7 +226,7 @@ export function DataTable<TData, TValue>({
                   className="h-24 text-center"
                   style={{ color: theme.textSecondary }}
                 >
-                  No poll categories found.
+                  No projects found.
                 </TableCell>
               </TableRow>
             )}
@@ -171,7 +240,7 @@ export function DataTable<TData, TValue>({
           className="text-sm"
           style={{ color: theme.textSecondary }}
         >
-          Showing {table.getFilteredRowModel().rows.length} of {data.length} categories
+          Showing {table.getFilteredRowModel().rows.length} of {data.length} projects
         </div>
         <div className="flex items-center space-x-2">
           <Button

@@ -79,36 +79,6 @@ export function DataTable<TData, TValue>({
         />
 
         <Select
-          value={(table.getColumn("priority")?.getFilterValue() as string) ?? "all"}
-          onValueChange={(value) =>
-            table.getColumn("priority")?.setFilterValue(value === "all" ? "" : value)
-          }
-        >
-          <SelectTrigger 
-            className="w-[180px]"
-            style={{
-              backgroundColor: theme.input.bg,
-              borderColor: theme.border,
-              color: theme.textPrimary,
-            }}
-          >
-            <SelectValue placeholder="Filter by priority" />
-          </SelectTrigger>
-          <SelectContent
-            style={{
-              backgroundColor: theme.backgroundSecondary,
-              borderColor: theme.border,
-            }}
-          >
-            <SelectItem value="all">All Priorities</SelectItem>
-            <SelectItem value="Critical">Critical</SelectItem>
-            <SelectItem value="High">High</SelectItem>
-            <SelectItem value="Medium">Medium</SelectItem>
-            <SelectItem value="Low">Low</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <Select
           value={(table.getColumn("status")?.getFilterValue() as string) ?? "all"}
           onValueChange={(value) =>
             table.getColumn("status")?.setFilterValue(value === "all" ? "" : value)
@@ -209,14 +179,29 @@ export function DataTable<TData, TValue>({
             size="sm"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
+            style={{
+              backgroundColor: theme.cardBackground,
+              borderColor: theme.border,
+              color: theme.textPrimary,
+            }}
           >
             Previous
           </Button>
+          <div className="flex items-center gap-1">
+            <span className="text-sm" style={{ color: theme.textSecondary }}>
+              Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+            </span>
+          </div>
           <Button
             variant="outline"
             size="sm"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
+            style={{
+              backgroundColor: theme.cardBackground,
+              borderColor: theme.border,
+              color: theme.textPrimary,
+            }}
           >
             Next
           </Button>
