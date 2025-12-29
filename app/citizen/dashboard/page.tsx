@@ -19,9 +19,9 @@ export default function CitizenDashboardPage() {
     <div className="space-y-6">
       {/* Stats Grid */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <Card 
+        <Card
           className="shadow-lg border-l-4"
-          style={{ 
+          style={{
             backgroundColor: theme.cardBackground,
             borderTop: `1px solid ${theme.cardBorder}`,
             borderRight: `1px solid ${theme.cardBorder}`,
@@ -32,7 +32,7 @@ export default function CitizenDashboardPage() {
           }}
         >
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle 
+            <CardTitle
               className="text-sm font-medium"
               style={{ color: theme.textSecondary }}
             >
@@ -41,13 +41,13 @@ export default function CitizenDashboardPage() {
             <Users className="h-5 w-5 text-blue-500" />
           </CardHeader>
           <CardContent>
-            <div 
+            <div
               className="text-3xl font-bold"
               style={{ color: theme.textPrimary }}
             >
               1,250
             </div>
-            <p 
+            <p
               className="text-xs mt-1"
               style={{ color: theme.textTertiary }}
             >
@@ -56,9 +56,9 @@ export default function CitizenDashboardPage() {
           </CardContent>
         </Card>
 
-        <Card 
+        <Card
           className="shadow-lg border-l-4"
-          style={{ 
+          style={{
             backgroundColor: theme.cardBackground,
             borderTop: `1px solid ${theme.cardBorder}`,
             borderRight: `1px solid ${theme.cardBorder}`,
@@ -69,7 +69,7 @@ export default function CitizenDashboardPage() {
           }}
         >
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle 
+            <CardTitle
               className="text-sm font-medium"
               style={{ color: theme.textSecondary }}
             >
@@ -78,13 +78,13 @@ export default function CitizenDashboardPage() {
             <FileText className="h-5 w-5 text-purple-500" />
           </CardHeader>
           <CardContent>
-            <div 
+            <div
               className="text-3xl font-bold"
               style={{ color: theme.textPrimary }}
             >
               320
             </div>
-            <p 
+            <p
               className="text-xs mt-1"
               style={{ color: theme.textTertiary }}
             >
@@ -93,9 +93,9 @@ export default function CitizenDashboardPage() {
           </CardContent>
         </Card>
 
-        <Card 
+        <Card
           className="shadow-lg border-l-4"
-          style={{ 
+          style={{
             backgroundColor: theme.cardBackground,
             borderTop: `1px solid ${theme.cardBorder}`,
             borderRight: `1px solid ${theme.cardBorder}`,
@@ -106,7 +106,7 @@ export default function CitizenDashboardPage() {
           }}
         >
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle 
+            <CardTitle
               className="text-sm font-medium"
               style={{ color: theme.textSecondary }}
             >
@@ -115,13 +115,13 @@ export default function CitizenDashboardPage() {
             <UserCheck className="h-5 w-5 text-red-800" />
           </CardHeader>
           <CardContent>
-            <div 
+            <div
               className="text-3xl font-bold"
               style={{ color: theme.textPrimary }}
             >
               48
             </div>
-            <p 
+            <p
               className="text-xs mt-1"
               style={{ color: theme.textTertiary }}
             >
@@ -133,9 +133,9 @@ export default function CitizenDashboardPage() {
 
       {/* Additional Stats Row */}
       <div className="grid gap-4 md:grid-cols-3">
-        <Card 
+        <Card
           className="shadow-lg border-l-4"
-          style={{ 
+          style={{
             backgroundColor: theme.cardBackground,
             borderTop: `1px solid ${theme.cardBorder}`,
             borderRight: `1px solid ${theme.cardBorder}`,
@@ -146,7 +146,7 @@ export default function CitizenDashboardPage() {
           }}
         >
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle 
+            <CardTitle
               className="text-sm font-medium"
               style={{ color: theme.textSecondary }}
             >
@@ -155,13 +155,13 @@ export default function CitizenDashboardPage() {
             <TrendingUp className="h-5 w-5 text-green-500" />
           </CardHeader>
           <CardContent>
-            <div 
+            <div
               className="text-2xl font-bold"
               style={{ color: theme.textPrimary }}
             >
               85.3%
             </div>
-            <div 
+            <div
               className="mt-2 h-2 w-full rounded-full overflow-hidden"
               style={{ backgroundColor: theme.backgroundTertiary }}
             >
@@ -170,9 +170,9 @@ export default function CitizenDashboardPage() {
           </CardContent>
         </Card>
 
-        <Card 
+        <Card
           className="shadow-lg border-l-4"
-          style={{ 
+          style={{
             backgroundColor: theme.cardBackground,
             borderTop: `1px solid ${theme.cardBorder}`,
             borderRight: `1px solid ${theme.cardBorder}`,
@@ -183,7 +183,7 @@ export default function CitizenDashboardPage() {
           }}
         >
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle 
+            <CardTitle
               className="text-sm font-medium"
               style={{ color: theme.textSecondary }}
             >
@@ -192,13 +192,13 @@ export default function CitizenDashboardPage() {
             <Clock className="h-5 w-5 text-blue-500" />
           </CardHeader>
           <CardContent>
-            <div 
+            <div
               className="text-2xl font-bold"
               style={{ color: theme.textPrimary }}
             >
               2.4 hrs
             </div>
-            <p 
+            <p
               className="text-xs mt-1"
               style={{ color: theme.textTertiary }}
             >
@@ -207,9 +207,9 @@ export default function CitizenDashboardPage() {
           </CardContent>
         </Card>
 
-        <Card 
+        <Card
           className="shadow-lg border-l-4"
-          style={{ 
+          style={{
             backgroundColor: theme.cardBackground,
             borderTop: `1px solid ${theme.cardBorder}`,
             borderRight: `1px solid ${theme.cardBorder}`,
@@ -220,7 +220,7 @@ export default function CitizenDashboardPage() {
           }}
         >
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle 
+            <CardTitle
               className="text-sm font-medium"
               style={{ color: theme.textSecondary }}
             >
@@ -230,7 +230,7 @@ export default function CitizenDashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-purple-600">Operational</div>
-            <p 
+            <p
               className="text-xs mt-1"
               style={{ color: theme.textTertiary }}
             >
@@ -246,7 +246,7 @@ export default function CitizenDashboardPage() {
       </div>
 
       <div>
-        <ManageProjectsTable />
+        <ManageProjectsTable tableName="Grievances" />
       </div>
     </div>
   )

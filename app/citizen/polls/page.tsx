@@ -178,7 +178,7 @@ export default function PollsPage() {
           ];
           newVotes[optionIndex] += 1;
           const newTotalVotes = (poll.totalVotes || 0) + 1;
-          
+
           return {
             ...poll,
             votes: newVotes,
@@ -303,26 +303,24 @@ export default function PollsPage() {
           >
             <button
               onClick={() => setActiveTab("all")}
-              className={`px-6 py-2.5 rounded-md transition-colors ${
-                activeTab === "all" ? "font-semibold" : "hover:opacity-80"
-              }`}
+              className={`px-6 py-2.5 rounded-md transition-colors ${activeTab === "all" ? "font-semibold" : "hover:opacity-80"
+                }`}
               style={{
-                backgroundColor:
-                  activeTab === "all" ? theme.primary : "transparent",
-                color: activeTab === "all" ? "white" : theme.textSecondary,
+                background:
+                  activeTab === "all" ? (theme.buttonPrimary?.bg || theme.primary) : "transparent",
+                color: activeTab === "all" ? (theme.buttonPrimary?.text || "white") : theme.textSecondary,
               }}
             >
               All Polls ({polls.length})
             </button>
             <button
               onClick={() => setActiveTab("mine")}
-              className={`px-6 py-2.5 rounded-md transition-colors ${
-                activeTab === "mine" ? "font-semibold" : "hover:opacity-80"
-              }`}
+              className={`px-6 py-2.5 rounded-md transition-colors ${activeTab === "mine" ? "font-semibold" : "hover:opacity-80"
+                }`}
               style={{
-                backgroundColor:
-                  activeTab === "mine" ? theme.primary : "transparent",
-                color: activeTab === "mine" ? "white" : theme.textSecondary,
+                background:
+                  activeTab === "mine" ? (theme.buttonPrimary?.bg || theme.primary) : "transparent",
+                color: activeTab === "mine" ? (theme.buttonPrimary?.text || "white") : theme.textSecondary,
               }}
             >
               My Polls ({polls.filter((p) => p.createdByMe).length})
@@ -484,7 +482,7 @@ export default function PollsPage() {
                   className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 resize-none"
                   style={{
                     backgroundColor:
-                      theme.inputBackground || theme.cardBackground,
+                      theme.input?.bg || theme.cardBackground,
                     borderColor: theme.border,
                     color: theme.textPrimary,
                   }}
@@ -508,7 +506,7 @@ export default function PollsPage() {
                   className="w-full border rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2"
                   style={{
                     backgroundColor:
-                      theme.inputBackground || theme.cardBackground,
+                      theme.input?.bg || theme.cardBackground,
                     borderColor: theme.border,
                     color: theme.textPrimary,
                   }}
@@ -545,7 +543,7 @@ export default function PollsPage() {
                           className="w-full border rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2"
                           style={{
                             backgroundColor:
-                              theme.inputBackground || theme.cardBackground,
+                              theme.input?.bg || theme.cardBackground,
                             borderColor: theme.border,
                             color: theme.textPrimary,
                           }}
@@ -561,7 +559,7 @@ export default function PollsPage() {
                             setNewPoll({ ...newPoll, options: updated });
                           }}
                           className="p-2 hover:opacity-70 transition-opacity"
-                          style={{ color: theme.error || "#ef4444" }}
+                          style={{ color: theme.danger || "#ef4444" }}
                         >
                           <Trash2 className="h-4 w-4" />
                         </button>
@@ -629,7 +627,7 @@ function PollCard({
   theme,
 }: PollCardProps) {
   const hasVoted = votedPolls.has(poll.id);
-  
+
   // Calculate total votes from the votes array
   const totalVotes = poll.votes?.reduce((sum, vote) => sum + vote, 0) || 0;
 
@@ -708,13 +706,12 @@ function PollCard({
                   onVote(poll.id, index)
                 }
                 disabled={hasVoted || poll.status === "closed"}
-                className={`w-full text-left p-4 rounded-lg transition-all ${
-                  hasVoted
-                    ? "cursor-default"
-                    : poll.status === "active"
+                className={`w-full text-left p-4 rounded-lg transition-all ${hasVoted
+                  ? "cursor-default"
+                  : poll.status === "active"
                     ? "hover:opacity-90"
                     : "cursor-not-allowed"
-                }`}
+                  }`}
                 style={{
                   backgroundColor: hasVoted
                     ? `${theme.primary}10`
@@ -782,7 +779,7 @@ function PollCard({
           </div>
           {poll.status === "active" && !hasVoted ? (
             <button
-              onClick={() => {}}
+              onClick={() => { }}
               className="px-4 py-2 rounded-lg hover:opacity-90 transition-opacity text-sm font-medium"
               style={{
                 background: theme.primary,

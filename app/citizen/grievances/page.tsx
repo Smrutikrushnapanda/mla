@@ -55,17 +55,17 @@ export default function ManageProjectsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 
+          <h1
             className="text-3xl font-bold"
             style={{ color: theme.textPrimary }}
           >
-            Manage Grievances
+            My Grievances
           </h1>
-          <p 
+          <p
             className="text-sm mt-1"
             style={{ color: theme.textTertiary }}
           >
-            Create, track, and manage grievances.
+            Raise new grievances and track their status.
           </p>
         </div>
         <Button
@@ -77,7 +77,7 @@ export default function ManageProjectsPage() {
           }}
         >
           <Plus className="h-4 w-4" />
-          Add Grievance
+          Raise Grievance
         </Button>
       </div>
 
@@ -94,19 +94,19 @@ export default function ManageProjectsPage() {
           >
             <div className="flex items-center justify-between">
               <div className="flex-1">
-                <p 
+                <p
                   className="text-sm font-medium"
                   style={{ color: theme.textSecondary }}
                 >
                   {stat.title}
                 </p>
-                <p 
+                <p
                   className="text-3xl font-bold mt-2"
                   style={{ color: theme.textPrimary }}
                 >
                   {stat.value}
                 </p>
-                <p 
+                <p
                   className="text-xs mt-1"
                   style={{ color: theme.textTertiary }}
                 >
@@ -125,10 +125,10 @@ export default function ManageProjectsPage() {
       </div>
 
       {/* Filters Section */}
-   
+
 
       {/* Projects Table */}
-      <ManageProjectsTable />
+      <ManageProjectsTable tableName="Grievances" />
     </div>
   )
 }

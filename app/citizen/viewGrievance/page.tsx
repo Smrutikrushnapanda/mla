@@ -1,28 +1,20 @@
 "use client"
 
 import { useState } from "react"
-import { ArrowLeft, User, Phone, Mail, MapPin, FileText, ImageIcon, Calendar, Shield, Download, Share2, Printer, AlertCircle, CheckCircle, Clock, MessageSquare, Paperclip, ChevronDown, ChevronUp, Eye, ZoomIn } from "lucide-react"
+import { ArrowLeft, User, Phone, Mail, MapPin, FileText, Calendar, Shield, Download, Share2, Printer, AlertCircle, MessageSquare, ChevronDown, ChevronUp } from "lucide-react"
+import type { LucideIcon } from "lucide-react"
 import { useThemeStore } from "@/store/useThemeStore"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 import { useRouter } from "next/navigation"
-import Image from "next/image"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 
 export default function GrievanceDetailPage() {
   const { theme, mode } = useThemeStore() // Changed from isDarkMode to mode
   const isDarkMode = mode === "dark" // Added this line
   const router = useRouter()
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false)
-  const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState("details")
 
   // FIXED: Tab color function - uses isDarkMode
@@ -133,10 +125,6 @@ We request immediate inspection and resolution of this issue as it's affecting o
     }
   }
 
-  const handleUpdateStatus = (newStatus: string) => {
-    alert(`Status updated to: ${newStatus}`)
-  }
-
   return (
     <div
       className="min-h-screen p-4 md:p-6 space-y-6 print:p-0"
@@ -226,45 +214,6 @@ We request immediate inspection and resolution of this issue as it's affecting o
             <Share2 className="h-4 w-4 mr-2" />
             Share
           </Button>
-          
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="default"
-                size="sm"
-                style={{
-                  backgroundColor: theme.primary,
-                  color: isDarkMode ? "white" : "black",
-                }}
-              >
-                Update Status
-                <ChevronDown className="h-4 w-4 ml-2" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className={isDarkMode ? "bg-gray-900 text-white border-gray-700" : " bg-black text-white"}>
-              <DropdownMenuItem 
-                onClick={() => handleUpdateStatus("In Progress")}
-                className={isDarkMode ? "hover:bg-gray-800 focus:bg-gray-800" : ""}
-              >
-                <Clock className="h-4 w-4 mr-2" />
-                Mark as In Progress
-              </DropdownMenuItem>
-              <DropdownMenuItem 
-                onClick={() => handleUpdateStatus("Resolved")}
-                className={isDarkMode ? "hover:bg-gray-800 focus:bg-gray-800" : ""}
-              >
-                <CheckCircle className="h-4 w-4 mr-2" />
-                Mark as Resolved
-              </DropdownMenuItem>
-              <DropdownMenuItem 
-                onClick={() => handleUpdateStatus("Pending")}
-                className={isDarkMode ? "hover:bg-gray-800 focus:bg-gray-800" : ""}
-              >
-                <AlertCircle className="h-4 w-4 mr-2" />
-                Mark as Pending
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
         </div>
       </div>
 
@@ -279,7 +228,15 @@ We request immediate inspection and resolution of this issue as it's affecting o
               {grievance.progress}%
             </span>
           </div>
-          <Progress value={grievance.progress} className="h-2" style={{ backgroundColor: `${theme.border}40` }} />
+          <div className="relative h-2 w-full overflow-hidden rounded-full" style={{ backgroundColor: `${theme.border}40` }}>
+            <div
+              className="h-full rounded-full transition-all"
+              style={{
+                width: `${grievance.progress}%`,
+                backgroundColor: theme.primary || theme.buttonPrimary?.bg || "#2563eb"
+              }}
+            />
+          </div>
           <div className="flex justify-between mt-2">
             <span className="text-xs" style={{ color: theme.textTertiary }}>Created: {grievance.createdAt}</span>
             <span className="text-xs" style={{ color: theme.textTertiary }}>Deadline: {grievance.resolutionDeadline}</span>
@@ -328,46 +285,6 @@ We request immediate inspection and resolution of this issue as it's affecting o
                 <>
                   <div className="absolute bottom-0 left-0 right-0 h-0.5" style={{ backgroundColor: getTabColor("timeline") }} />
                   <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-0.5 rounded-full" style={{ backgroundColor: getTabColor("timeline") }} />
-                </>
-              )}
-            </button>
-            <button
-              onClick={() => setActiveTab("attachments")}
-              className={`px-4 py-3 text-sm font-medium transition-all duration-200 relative flex items-center gap-2 ${
-                activeTab === "attachments" 
-                  ? "font-semibold" 
-                  : "hover:opacity-80"
-              }`}
-              style={{
-                color: getTabColor("attachments"), // Uses getTabColor function
-              }}
-            >
-              <Paperclip className="h-4 w-4" />
-              Attachments
-              {activeTab === "attachments" && (
-                <>
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5" style={{ backgroundColor: getTabColor("attachments") }} />
-                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-0.5 rounded-full" style={{ backgroundColor: getTabColor("attachments") }} />
-                </>
-              )}
-            </button>
-            <button
-              onClick={() => setActiveTab("related")}
-              className={`px-4 py-3 text-sm font-medium transition-all duration-200 relative flex items-center gap-2 ${
-                activeTab === "related" 
-                  ? "font-semibold" 
-                  : "hover:opacity-80"
-              }`}
-              style={{
-                color: getTabColor("related"), // Uses getTabColor function
-              }}
-            >
-              <AlertCircle className="h-4 w-4" />
-              Related Cases
-              {activeTab === "related" && (
-                <>
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5" style={{ backgroundColor: getTabColor("related") }} />
-                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-0.5 rounded-full" style={{ backgroundColor: getTabColor("related") }} />
                 </>
               )}
             </button>
@@ -437,43 +354,35 @@ We request immediate inspection and resolution of this issue as it's affecting o
                         {grievance.grievanceDetails.description}
                       </p>
                     </div>
-                  </CardContent>
-                </Card>
 
-                {/* IMAGES PREVIEW */}
-                <Card style={{ background: theme.cardBackground, borderColor: theme.border }}>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2" style={{ color: theme.textPrimary }}>
-                      <ImageIcon className="h-5 w-5" />
-                      Uploaded Images ({grievance.grievanceDetails.attachments.images.length})
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {grievance.grievanceDetails.attachments.images.map((img, i) => (
-                        <div
-                          key={i}
-                          className="relative group cursor-pointer rounded-lg overflow-hidden border"
-                          style={{ borderColor: theme.border }}
-                          onClick={() => setSelectedImage(img)}
-                        >
-                          <div className="aspect-video relative">
-                            <Image
-                              src={img}
-                              alt={`Grievance evidence ${i + 1}`}
-                              fill
-                              className="object-cover group-hover:scale-105 transition-transform duration-200"
-                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            />
-                            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-200" />
-                          </div>
-                          <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <Button size="icon" variant="secondary" className="h-8 w-8">
-                              <Eye className="h-4 w-4" />
-                            </Button>
+                    <Separator style={{ backgroundColor: theme.border }} />
+
+                    {/* ADMINISTRATIVE INFO MOVED HERE */}
+                    <div>
+                      <div className="mb-3">
+                        <Label>Administrative Information</Label>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <Info icon={Calendar} label="Created On" value={grievance.createdAt} />
+                        <Info icon={Calendar} label="Updated On" value={grievance.updatedAt} />
+                        <Info icon={Calendar} label="Action Date" value={grievance.actionDate} />
+                        <Info icon={User} label="Assigned To" value={grievance.admin.assignedTo} />
+                        <Info icon={Shield} label="Department" value={grievance.admin.department} />
+                        <Info icon={Phone} label="Officer Contact" value={grievance.admin.officerContact} />
+                      </div>
+                      <div className="mt-4 pt-4 border-t" style={{ borderColor: theme.border }}>
+                        <div className="flex items-start gap-2">
+                          <MessageSquare className="h-4 w-4 mt-0.5" style={{ color: theme.textTertiary }} />
+                          <div>
+                            <p className="text-xs font-medium mb-1" style={{ color: theme.textSecondary }}>
+                              Remarks
+                            </p>
+                            <p style={{ color: theme.textPrimary }} className="text-sm">
+                              {grievance.admin.remarks}
+                            </p>
                           </div>
                         </div>
-                      ))}
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -502,36 +411,6 @@ We request immediate inspection and resolution of this issue as it's affecting o
                   </CardContent>
                 </Card>
 
-                {/* ADMIN INFO */}
-                <Card style={{ background: theme.cardBackground, borderColor: theme.border }}>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2" style={{ color: theme.textPrimary }}>
-                      <Shield className="h-5 w-5" />
-                      Administrative Info
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-3 text-sm">
-                    <Info icon={Calendar} label="Created On" value={grievance.createdAt} />
-                    <Info icon={Calendar} label="Updated On" value={grievance.updatedAt} />
-                    <Info icon={Calendar} label="Action Date" value={grievance.actionDate} />
-                    <Info icon={User} label="Assigned To" value={grievance.admin.assignedTo} />
-                    <Info icon={Shield} label="Department" value={grievance.admin.department} />
-                    <Info icon={Phone} label="Officer Contact" value={grievance.admin.officerContact} />
-                    <div className="pt-2 border-t" style={{ borderColor: theme.border }}>
-                      <div className="flex items-start gap-2">
-                        <MessageSquare className="h-4 w-4 mt-0.5" style={{ color: theme.textTertiary }} />
-                        <div>
-                          <p className="text-xs" style={{ color: theme.textSecondary }}>
-                            Remarks
-                          </p>
-                          <p style={{ color: theme.textPrimary }} className="text-sm">
-                            {grievance.admin.remarks}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
               </div>
             </div>
           </div>
@@ -546,9 +425,9 @@ We request immediate inspection and resolution of this issue as it's affecting o
                   {grievance.timeline.map((item, index) => (
                     <div key={index} className="flex gap-4 pb-6 last:pb-0">
                       <div className="flex flex-col items-center">
-                        <div className={`w-3 h-3 rounded-full ${item.status === "completed" ? "bg-green-500" : item.status === "in-progress" ? "bg-blue-500 animate-pulse" : "bg-gray-300 dark:bg-gray-600"}`} />
+                        <div className={`w-6 h-6 rounded-full ${item.status === "completed" ? "bg-green-500" : item.status === "in-progress" ? "bg-blue-500 animate-pulse" : "bg-gray-300 dark:bg-gray-600"}`} />
                         {index < grievance.timeline.length - 1 && (
-                          <div className="w-0.5 h-full bg-gray-200 dark:bg-gray-700 mt-3" />
+                          <div className="w-1 h-full bg-gray-200 dark:bg-gray-700 mt-3" />
                         )}
                       </div>
                       <div className="flex-1">
@@ -572,138 +451,7 @@ We request immediate inspection and resolution of this issue as it's affecting o
           </div>
         )}
 
-        {/* ATTACHMENTS TAB */}
-        {activeTab === "attachments" && (
-          <div className="space-y-6 mt-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card style={{ background: theme.cardBackground, borderColor: theme.border }}>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2" style={{ color: theme.textPrimary }}>
-                    <ImageIcon className="h-5 w-5" />
-                    Images ({grievance.grievanceDetails.attachments.images.length})
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-2 gap-4">
-                    {grievance.grievanceDetails.attachments.images.map((img, i) => (
-                      <div key={i} className="relative aspect-square rounded-lg overflow-hidden border group cursor-pointer" style={{ borderColor: theme.border }}>
-                        <Image
-                          src={img}
-                          alt={`Evidence ${i + 1}`}
-                          fill
-                          className="object-cover"
-                          sizes="(max-width: 768px) 50vw, 25vw"
-                        />
-                        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-200 flex items-center justify-center">
-                          <ZoomIn className="h-8 w-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card style={{ background: theme.cardBackground, borderColor: theme.border }}>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2" style={{ color: theme.textPrimary }}>
-                    <FileText className="h-5 w-5" />
-                    Documents ({grievance.grievanceDetails.attachments.documents.length})
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  {grievance.grievanceDetails.attachments.documents.map((doc, i) => (
-                    <div key={i} className="flex items-center justify-between p-3 rounded-lg border" style={{ 
-                      borderColor: theme.border, 
-                      backgroundColor: isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.02)' 
-                    }}>
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 rounded" style={{ backgroundColor: `${theme.primary}20` }}>
-                          <FileText className="h-5 w-5" style={{ color: theme.primary }} />
-                        </div>
-                        <div>
-                          <p style={{ color: theme.textPrimary }} className="font-medium">
-                            {doc}
-                          </p>
-                          <p className="text-xs" style={{ color: theme.textTertiary }}>
-                            PDF Document • 1.2 MB
-                          </p>
-                        </div>
-                      </div>
-                      <Button variant="ghost" size="sm" style={{ color: isDarkMode ? "#ffffff" : "#000000" }}>
-                        <Download className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  ))}
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        )}
-
-        {/* RELATED CASES TAB */}
-        {activeTab === "related" && (
-          <div className="space-y-6 mt-6">
-            <Card style={{ background: theme.cardBackground, borderColor: theme.border }}>
-              <CardHeader>
-                <CardTitle style={{ color: theme.textPrimary }}>Similar Grievances</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {grievance.similarGrievances.map((item) => (
-                    <div key={item.id} className="flex items-center justify-between p-3 rounded-lg border" style={{ 
-                      borderColor: theme.border,
-                      backgroundColor: isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.02)' 
-                    }}>
-                      <div>
-                        <p style={{ color: theme.textPrimary }} className="font-medium">
-                          {item.title}
-                        </p>
-                        <p className="text-sm" style={{ color: theme.textSecondary }}>
-                          {item.id}
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <Badge className={statusColors[item.status]}>{item.status}</Badge>
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          onClick={() => router.push(`/grievances/${item.id}`)}
-                          style={{ color: isDarkMode ? "#ffffff" : "#000000" }}
-                        >
-                          View
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        )}
       </div>
-
-      {/* IMAGE MODAL */}
-      {selectedImage && (
-        <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4" onClick={() => setSelectedImage(null)}>
-          <div className="relative max-w-4xl max-h-[90vh]">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="absolute -top-10 right-0 text-white hover:bg-white/20"
-              onClick={() => setSelectedImage(null)}
-            >
-              <ArrowLeft className="h-6 w-6" />
-            </Button>
-            <Image
-              src={selectedImage}
-              alt="Enlarged view"
-              width={1200}
-              height={800}
-              className="rounded-lg object-contain max-h-[80vh]"
-            />
-          </div>
-        </div>
-      )}
 
       {/* PRINT VIEW */}
       <div className="hidden print:block">
@@ -718,7 +466,7 @@ function Info({
   label,
   value,
 }: {
-  icon: any
+  icon: LucideIcon
   label: string
   value: string
 }) {
@@ -726,7 +474,7 @@ function Info({
   
   return (
     <div className="flex items-start gap-2">
-      <Icon className="h-4 w-4 mt-0.5 flex-shrink-0" style={{ color: theme.textTertiary }} />
+      <Icon className="h-4 w-4 mt-0.5 shrink-0" style={{ color: theme.textTertiary }} />
       <div className="min-w-0">
         <p className="text-xs font-medium" style={{ color: theme.textSecondary }}>
           {label}
@@ -757,7 +505,28 @@ function Value({ children }: { children: React.ReactNode }) {
   )
 }
 
-function PrintView({ grievance }: { grievance: any }) {
+type GrievanceData = {
+  grievanceNumber: string
+  status: string
+  grievanceDetails: {
+    title: string
+    category: string
+    description: string
+  }
+  citizen: {
+    name: string
+    mobile: string
+    address: string
+  }
+  timeline: Array<{
+    date: string
+    action: string
+    status: string
+    actor: string
+  }>
+}
+
+function PrintView({ grievance }: { grievance: GrievanceData }) {
   return (
     <div className="p-8 space-y-6">
       <div className="text-center border-b pb-4">
@@ -791,7 +560,7 @@ function PrintView({ grievance }: { grievance: any }) {
 
       <div>
         <h2 className="font-bold text-lg mb-3">Timeline</h2>
-        {grievance.timeline.map((item: any, index: number) => (
+        {grievance.timeline.map((item: { date: string; action: string; status: string; actor: string }, index: number) => (
           <div key={index} className="flex gap-4 mb-2">
             <span className="text-sm min-w-24">{item.date}</span>
             <span>{item.action}</span>

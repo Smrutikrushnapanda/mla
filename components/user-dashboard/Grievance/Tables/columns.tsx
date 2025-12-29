@@ -134,10 +134,10 @@ export const columns: ColumnDef<Grievance>[] = [
             <Eye className="mr-2 h-4 w-4" /> View
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Edit className="mr-2 h-4 w-4" /> Edit
+            <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>
           <DropdownMenuItem className="text-red-500">
-            <Trash className="mr-2 h-4 w-4" /> Delete
+            <Trash className="mr-2 h-4 w-4" /> Withdraw
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
