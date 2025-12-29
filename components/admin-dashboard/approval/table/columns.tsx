@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, MoreHorizontal, Eye, CheckCircle2, XCircle, Clock, FileText } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useRouter } from "next/navigation"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -171,11 +172,16 @@ export const createColumns = (
     },
     cell: ({ row }) => {
       const { theme } = useThemeStore()
+      const router = useRouter()
       const category = row.original.category
+      const projectId = row.original.id
       
       return (
-        <div className="max-w-xs">
-          <p className="font-medium" style={{ color: theme.textPrimary }}>
+        <div 
+          className="max-w-xs cursor-pointer hover:opacity-80 transition-opacity"
+          onClick={() => router.push(`/admin/approval/${projectId}`)}
+        >
+          <p className="font-medium underline decoration-dotted" style={{ color: theme.textPrimary }}>
             {row.getValue("name")}
           </p>
           <p className="text-xs mt-1" style={{ color: theme.textSecondary }}>

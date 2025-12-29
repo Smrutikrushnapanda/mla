@@ -9,6 +9,7 @@ import MyQuestionsTab from "./Components/MyQuestionsTab"
 import ArchivedQuestionsTab from "./Components/ArchivedQuestionsTab"
 import AskQuestionModal from "./Components/AskQuestionModal"
 import { VoiceQuestion } from "./types"
+import { Button } from "@/components/ui/button"
 
 export default function MyVoicePage() {
   const { theme } = useThemeStore()
@@ -245,9 +246,9 @@ export default function MyVoicePage() {
             Connect directly with your MLA - Ask questions via text, audio, or video
           </p>
         </div>
-        <button
+        <Button
           onClick={() => setShowAskModal(true)}
-          className="flex items-center gap-2 px-4 md:px-6 py-3 rounded-lg hover:opacity-90 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+          className="flex items-center gap-2 hover:opacity-90 transition-opacity"
           style={{
             background: theme.buttonPrimary?.bg || theme.primary || (darkMode ? '#3b82f6' : '#2563eb'),
             color: theme.buttonPrimary?.text || "white"
@@ -256,7 +257,7 @@ export default function MyVoicePage() {
           <Plus className="h-4 w-4" />
           <span className="hidden sm:inline">Ask a Question</span>
           <span className="sm:hidden">Ask</span>
-        </button>
+        </Button>
       </div>
 
       {/* Stats */}

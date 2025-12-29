@@ -58,43 +58,43 @@ const mockData: Grievance[] = [
 ]
 
 
-export function ManageProjectsTable() {
+export function ManageProjectsTable({ tableName }: { tableName: string }) {
   const { theme } = useThemeStore()
 
   const [statusFilter] = useState("all")
   const [categoryFilter] = useState("all")
   const [areaSort] = useState<"asc" | "desc" | "none">("none")
 
-const filteredData = useMemo(() => {
-  let data = [...mockData]
+  const filteredData = useMemo(() => {
+    let data = [...mockData]
 
-  // ✅ STATUS FILTER (works as-is)
-  if (statusFilter !== "all") {
-    data = data.filter(
-      grievance => grievance.status === statusFilter
-    )
-  }
+    // ✅ STATUS FILTER (works as-is)
+    if (statusFilter !== "all") {
+      data = data.filter(
+        grievance => grievance.status === statusFilter
+      )
+    }
 
-  // ✅ CATEGORY FILTER (FIXED)
-  if (categoryFilter !== "all") {
-    data = data.filter(
-      grievance => grievance.categoryName === categoryFilter
-    )
-  }
+    // ✅ CATEGORY FILTER (FIXED)
+    if (categoryFilter !== "all") {
+      data = data.filter(
+        grievance => grievance.categoryName === categoryFilter
+      )
+    }
 
-  // ✅ SORT BY CONSTITUENCY / BLOCK (FIXED)
-  if (areaSort === "asc") {
-    data.sort((a, b) =>
-      a.blockName.localeCompare(b.blockName)
-    )
-  } else if (areaSort === "desc") {
-    data.sort((a, b) =>
-      b.blockName.localeCompare(a.blockName)
-    )
-  }
+    // ✅ SORT BY CONSTITUENCY / BLOCK (FIXED)
+    if (areaSort === "asc") {
+      data.sort((a, b) =>
+        a.blockName.localeCompare(b.blockName)
+      )
+    } else if (areaSort === "desc") {
+      data.sort((a, b) =>
+        b.blockName.localeCompare(a.blockName)
+      )
+    }
 
-  return data
-}, [statusFilter, categoryFilter, areaSort])
+    return data
+  }, [statusFilter, categoryFilter, areaSort])
 
 
   return (
@@ -110,15 +110,8 @@ const filteredData = useMemo(() => {
           className="text-xl font-bold"
           style={{ color: theme.textPrimary }}
         >
-          All Projects
+          All {tableName}
         </h2>
-        <p
-          className="text-sm mt-1"
-          style={{ color: theme.textTertiary }}
-        >
-          {filteredData.length}{" "}
-          {filteredData.length === 1 ? "project" : "projects"} found
-        </p>
       </div>
 
       <div className="p-6">

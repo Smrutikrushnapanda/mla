@@ -59,12 +59,12 @@ export function AppSidebar() {
       icon: BarChart3,
       href: "/citizen/polls",
     },
-    {
-      id: "myvoice",
-      label: "My Voice",
-      icon: MessageSquare,
-      href: "/citizen/myvoice",
-    },
+    // {
+    //   id: "myvoice",
+    //   label: "My Voice",
+    //   icon: MessageSquare,
+    //   href: "/citizen/myvoice",
+    // },
     {
       id: "social",
       label: "Social Media",
@@ -99,10 +99,10 @@ export function AppSidebar() {
           </div>
           <div className="flex flex-col">
             <span className="text-base font-bold text-white">
-              Citizen Connect
+              MLA Connect
             </span>
             <span className="text-xs text-white/80">
-              Citizen Admin Panel
+              Citizen Panel
             </span>
           </div>
         </div>
@@ -148,11 +148,10 @@ export function AppSidebar() {
                   >
                     <Link
                       href={item.href}
-                      className={`flex items-center w-full rounded-lg relative overflow-hidden ${
-                        isCollapsed
-                          ? "justify-center px-2 py-2.5"
-                          : "gap-3 px-3 py-2.5"
-                      }`}
+                      className={`flex items-center w-full rounded-lg relative overflow-hidden ${isCollapsed
+                        ? "justify-center px-2 py-2.5"
+                        : "gap-3 px-3 py-2.5"
+                        }`}
                       style={{
                         backgroundColor: isActive
                           ? theme.highlight

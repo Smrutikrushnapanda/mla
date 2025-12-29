@@ -3,16 +3,9 @@
 import { useState, useEffect } from "react";
 import { Briefcase, CheckCircle2, Clock, AlertTriangle, TrendingUp, Filter, Plus } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
@@ -21,8 +14,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
 import { useThemeStore } from "@/store/useThemeStore";
 import { ProjectTable } from "@/components/admin-dashboard/project/table/project-table";
 import { Project } from "@/components/admin-dashboard/project/table/columns";
@@ -203,10 +194,9 @@ const mockProjects: Project[] = [
 
 export default function ProjectPage() {
   const { theme } = useThemeStore();
+  const router = useRouter();
   const [projects] = useState<Project[]>(mockProjects);
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(mockProjects);
-  const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   
   // Filters
   const [statusFilter, setStatusFilter] = useState<string>("all");
@@ -278,18 +268,8 @@ export default function ProjectPage() {
   };
 
   const openViewDialog = (project: Project) => {
-    setSelectedProject(project);
-    setIsViewDialogOpen(true);
+    router.push(`/admin/project/view/${project.id}`);
   };
-
-  const formatDate = (date: Date) => {
-    const options: Intl.DateTimeFormatOptions = { 
-      day: '2-digit', 
-      month: 'short', 
-      year: 'numeric' 
-    }
-    return new Date(date).toLocaleDateString('en-GB', options)
-  }
 
   const formatCurrency = (amount: number) => {
     if (amount >= 10000000) return `₹${(amount / 10000000).toFixed(2)} Cr`
@@ -361,7 +341,7 @@ export default function ProjectPage() {
                       {stat.label}
                     </p>
                     <div
-                      className="h-8 w-8 md:h-10 md:w-10 rounded-full flex items-center justify-center flex-shrink-0"
+                      className="h-8 w-8 md:h-10 md:w-10 rounded-full flex items-center justify-center shrink-0"
                       style={{
                         backgroundColor: `${stat.color}20`,
                       }}
@@ -370,7 +350,7 @@ export default function ProjectPage() {
                     </div>
                   </div>
                   <p
-                    className="text-lg md:text-2xl lg:text-3xl font-bold transition-colors break-words"
+                    className="text-lg md:text-2xl lg:text-3xl font-bold transition-colors wrap-break-word"
                     style={{ color: theme.textPrimary }}
                   >
                     {stat.value}
@@ -517,266 +497,6 @@ export default function ProjectPage() {
           onUpdateStatus={handleUpdateStatus}
         />
 
-        {/* VIEW PROJECT DIALOG */}
-        <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
-          <DialogContent
-            className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto border"
-            style={{
-              backgroundColor: theme.cardBackground,
-              borderColor: theme.cardBorder,
-            }}
-          >
-            <DialogHeader>
-              <DialogTitle style={{ color: theme.textPrimary }}>
-                Project Details
-              </DialogTitle>
-              <DialogDescription style={{ color: theme.textSecondary }}>
-                Complete information about this project
-              </DialogDescription>
-            </DialogHeader>
-
-            {selectedProject && (
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label className="text-sm font-medium" style={{ color: theme.textSecondary }}>
-                      Project ID
-                    </Label>
-                    <p className="mt-1">
-                      <Badge
-                        variant="outline"
-                        className="font-mono"
-                        style={{
-                          borderColor: theme.cardBorder,
-                          color: theme.textPrimary,
-                        }}
-                      >
-                        {selectedProject.projectId}
-                      </Badge>
-                    </p>
-                  </div>
-                  <div>
-                    <Label className="text-sm font-medium" style={{ color: theme.textSecondary }}>
-                      Status
-                    </Label>
-                    <p className="mt-1">
-                      <Badge
-                        style={{
-                          backgroundColor: 
-                            selectedProject.status === "Completed" ? "#10b981" :
-                            selectedProject.status === "In Progress" ? "#f59e0b" :
-                            selectedProject.status === "Approved" ? "#3b82f6" :
-                            selectedProject.status === "On Hold" ? "#ef4444" :
-                            selectedProject.status === "Cancelled" ? "#dc2626" :
-                            "#6b7280",
-                          color: "#ffffff",
-                        }}
-                      >
-                        {selectedProject.status}
-                      </Badge>
-                    </p>
-                  </div>
-                </div>
-
-                <div>
-                  <Label className="text-sm font-medium" style={{ color: theme.textSecondary }}>
-                    Project Name
-                  </Label>
-                  <p className="mt-1 font-semibold text-lg" style={{ color: theme.textPrimary }}>
-                    {selectedProject.name}
-                  </p>
-                </div>
-
-                <div>
-                  <Label className="text-sm font-medium" style={{ color: theme.textSecondary }}>
-                    Description
-                  </Label>
-                  <p className="mt-1" style={{ color: theme.textPrimary }}>
-                    {selectedProject.description}
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label className="text-sm font-medium" style={{ color: theme.textSecondary }}>
-                      Category
-                    </Label>
-                    <p className="mt-1 font-medium" style={{ color: theme.textPrimary }}>
-                      {selectedProject.category}
-                    </p>
-                  </div>
-                  <div>
-                    <Label className="text-sm font-medium" style={{ color: theme.textSecondary }}>
-                      Department
-                    </Label>
-                    <p className="mt-1 font-medium" style={{ color: theme.textPrimary }}>
-                      {selectedProject.department}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label className="text-sm font-medium" style={{ color: theme.textSecondary }}>
-                      Budget
-                    </Label>
-                    <p className="mt-1 font-bold text-lg" style={{ color: theme.textPrimary }}>
-                      {formatCurrency(selectedProject.budget)}
-                    </p>
-                  </div>
-                  <div>
-                    <Label className="text-sm font-medium" style={{ color: theme.textSecondary }}>
-                      Funding Source
-                    </Label>
-                    <p className="mt-1 font-medium" style={{ color: theme.textPrimary }}>
-                      {selectedProject.fundingSource}
-                    </p>
-                  </div>
-                </div>
-
-                <div>
-                  <Label className="text-sm font-medium mb-2 block" style={{ color: theme.textSecondary }}>
-                    Progress
-                  </Label>
-                  <div className="flex items-center gap-3">
-                    <Progress value={selectedProject.progress} className="flex-1" />
-                    <span className="text-lg font-bold" style={{ color: theme.textPrimary }}>
-                      {selectedProject.progress}%
-                    </span>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label className="text-sm font-medium" style={{ color: theme.textSecondary }}>
-                      Priority
-                    </Label>
-                    <p className="mt-1">
-                      <Badge
-                        style={{
-                          backgroundColor: 
-                            selectedProject.priority === "Critical" ? "#dc2626" :
-                            selectedProject.priority === "High" ? "#ef4444" :
-                            selectedProject.priority === "Medium" ? "#f59e0b" :
-                            "#10b981",
-                          color: "#ffffff",
-                        }}
-                      >
-                        {selectedProject.priority}
-                      </Badge>
-                    </p>
-                  </div>
-                  <div>
-                    <Label className="text-sm font-medium" style={{ color: theme.textSecondary }}>
-                      Beneficiaries
-                    </Label>
-                    <p className="mt-1 font-semibold" style={{ color: theme.textPrimary }}>
-                      {selectedProject.beneficiaries?.toLocaleString('en-IN')} people
-                    </p>
-                  </div>
-                </div>
-
-                <div>
-                  <Label className="text-sm font-medium" style={{ color: theme.textSecondary }}>
-                    Location
-                  </Label>
-                  <p className="mt-1 font-medium" style={{ color: theme.textPrimary }}>
-                    {selectedProject.location}
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label className="text-sm font-medium" style={{ color: theme.textSecondary }}>
-                      Start Date
-                    </Label>
-                    <p className="mt-1 font-medium" style={{ color: theme.textPrimary }}>
-                      {formatDate(selectedProject.startDate)}
-                    </p>
-                  </div>
-                  <div>
-                    <Label className="text-sm font-medium" style={{ color: theme.textSecondary }}>
-                      Expected End Date
-                    </Label>
-                    <p className="mt-1 font-medium" style={{ color: theme.textPrimary }}>
-                      {formatDate(selectedProject.expectedEndDate)}
-                    </p>
-                  </div>
-                </div>
-
-                {selectedProject.actualEndDate && (
-                  <div>
-                    <Label className="text-sm font-medium" style={{ color: theme.textSecondary }}>
-                      Actual Completion Date
-                    </Label>
-                    <p className="mt-1 font-medium" style={{ color: theme.textPrimary }}>
-                      {formatDate(selectedProject.actualEndDate)}
-                    </p>
-                  </div>
-                )}
-
-                <div className="p-4 rounded-md border" style={{ borderColor: theme.border, backgroundColor: theme.backgroundSecondary }}>
-                  <h4 className="font-semibold mb-3" style={{ color: theme.textPrimary }}>
-                    Implementation Details
-                  </h4>
-                  <div className="grid gap-3">
-                    {selectedProject.contractor && (
-                      <div>
-                        <Label className="text-xs" style={{ color: theme.textSecondary }}>
-                          Contractor
-                        </Label>
-                        <p className="mt-1 font-medium" style={{ color: theme.textPrimary }}>
-                          {selectedProject.contractor}
-                        </p>
-                      </div>
-                    )}
-                    {selectedProject.inchargeOfficer && (
-                      <div>
-                        <Label className="text-xs" style={{ color: theme.textSecondary }}>
-                          Incharge Officer
-                        </Label>
-                        <p className="mt-1 font-medium" style={{ color: theme.textPrimary }}>
-                          {selectedProject.inchargeOfficer}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {selectedProject.remarks && (
-                  <div>
-                    <Label className="text-sm font-medium" style={{ color: theme.textSecondary }}>
-                      Remarks / Status Update
-                    </Label>
-                    <p className="mt-1 p-3 rounded-md" style={{ 
-                      backgroundColor: theme.backgroundSecondary,
-                      color: theme.textPrimary 
-                    }}>
-                      {selectedProject.remarks}
-                    </p>
-                  </div>
-                )}
-              </div>
-            )}
-
-            <DialogFooter>
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setIsViewDialogOpen(false);
-                  setSelectedProject(null);
-                }}
-                style={{
-                  borderColor: theme.buttonOutline.border,
-                  color: theme.buttonOutline.text,
-                  backgroundColor: "transparent",
-                }}
-              >
-                Close
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
       </div>
     </div>
   );
