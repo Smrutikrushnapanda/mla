@@ -1,4 +1,3 @@
-// app/(roles)/admin-user/manage-projects/tables/manage-projects-table.tsx
 "use client"
 
 import { useMemo, useState } from "react"
@@ -17,7 +16,7 @@ const mockData: Grievance[] = [
     status: "Pending",
     assignedTo: "MLA Office",
     createdAt: "2025-01-10T10:30:00",
-    actionDate: undefined, // no action yet
+    actionDate: undefined,
   },
   {
     grievanceNumber: "GRV-2025-0002",
@@ -57,7 +56,6 @@ const mockData: Grievance[] = [
   },
 ]
 
-
 export function ManageProjectsTable({ tableName }: { tableName: string }) {
   const { theme } = useThemeStore()
 
@@ -68,21 +66,18 @@ export function ManageProjectsTable({ tableName }: { tableName: string }) {
   const filteredData = useMemo(() => {
     let data = [...mockData]
 
-    // ✅ STATUS FILTER (works as-is)
     if (statusFilter !== "all") {
       data = data.filter(
         grievance => grievance.status === statusFilter
       )
     }
 
-    // ✅ CATEGORY FILTER (FIXED)
     if (categoryFilter !== "all") {
       data = data.filter(
         grievance => grievance.categoryName === categoryFilter
       )
     }
 
-    // ✅ SORT BY CONSTITUENCY / BLOCK (FIXED)
     if (areaSort === "asc") {
       data.sort((a, b) =>
         a.blockName.localeCompare(b.blockName)
@@ -95,7 +90,6 @@ export function ManageProjectsTable({ tableName }: { tableName: string }) {
 
     return data
   }, [statusFilter, categoryFilter, areaSort])
-
 
   return (
     <div

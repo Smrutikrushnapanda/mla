@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 
-/* ✅ DEFINE TYPE HERE */
 export type Grievance = {
   grievanceNumber: string;
   userName: string;
@@ -50,17 +49,42 @@ export const columns: ColumnDef<Grievance>[] = [
     header: "Block",
   },
   {
+    accessorKey: "priority",
+    header: "Priority",
+    cell: ({ row }) => {
+      const priority = row.getValue("priority") as "Low" | "Medium" | "High";
+      let color = "bg-gray-500";
+      if (priority === "High") color = "bg-red-500";
+      if (priority === "Medium") color = "bg-yellow-500";
+      if (priority === "Low") color = "bg-green-500";
+      return (
+        <Badge className={`${color} text-white`}>
+          {priority}
+        </Badge>
+      );
+    },
+  },
+  {
     accessorKey: "status",
     header: "Status",
-    cell: ({ row }) => (
-      <Badge variant="secondary">{row.getValue("status")}</Badge>
-    ),
+    cell: ({ row }) => {
+      const status = row.getValue("status") as "Pending" | "On Hold" | "Resolved" | "Forwarded";
+      let color = "bg-gray-500";
+      if (status === "Pending") color = "bg-orange-500";
+      if (status === "On Hold") color = "bg-yellow-500";
+      if (status === "Resolved") color = "bg-green-500";
+      if (status === "Forwarded") color = "bg-blue-500";
+      return (
+        <Badge className={`${color} text-white`}>
+          {status}
+        </Badge>
+      );
+    },
   },
   {
     accessorKey: "assignedTo",
     header: "Assigned To",
   },
-
   {
     accessorKey: "createdAt",
     header: ({ column }) => (
@@ -98,15 +122,12 @@ export const columns: ColumnDef<Grievance>[] = [
     ),
     cell: ({ row }) => {
       const value = row.getValue("actionDate") as string | undefined;
-
       if (!value) {
         return (
           <span className="text-muted-foreground whitespace-nowrap">—</span>
         );
       }
-
       const date = new Date(value);
-
       return (
         <span className="whitespace-nowrap">
           {date.toLocaleDateString("en-IN", {
@@ -129,7 +150,7 @@ export const columns: ColumnDef<Grievance>[] = [
             ...
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="bg-[#1e293b] text-white ">
+        <DropdownMenuContent align="end" className="bg-[#1e293b] text-white">
           <DropdownMenuItem>
             <Eye className="mr-2 h-4 w-4" /> View
           </DropdownMenuItem>
