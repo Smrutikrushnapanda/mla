@@ -133,12 +133,12 @@ export function MLAStaffSidebar() {
           href: "/staff/poll-category",
           icon: BarChart3,
         },
-        {
-          id: "myvoice-category",
-          label: "My Voice Category",
-          href: "/staff/myvoice-category",
-          icon: MessageSquare,
-        },
+        // {
+        //   id: "myvoice-category",
+        //   label: "My Voice Category",
+        //   href: "/staff/myvoice-category",
+        //   icon: MessageSquare,
+        // },
       ],
     },
 
@@ -195,25 +195,25 @@ export function MLAStaffSidebar() {
         // },
       ],
     },
-    {
-      id: "public-voice",
-      label: "Public Voice",
-      icon: MessageSquare,
-      submenu: [
-        {
-          id: "all-questions",
-          label: "All Questions",
-          href: "/staff/all-questions",
-          icon: HelpCircle,
-        },
-        {
-          id: "archived-sessions",
-          label: "Archived Sessions",
-          href: "/staff/archived-sessions",
-          icon: Archive,
-        },
-      ],
-    },
+    // {
+    //   id: "public-voice",
+    //   label: "Public Voice",
+    //   icon: MessageSquare,
+    //   submenu: [
+    //     {
+    //       id: "all-questions",
+    //       label: "All Questions",
+    //       href: "/staff/all-questions",
+    //       icon: HelpCircle,
+    //     },
+    //     {
+    //       id: "archived-sessions",
+    //       label: "Archived Sessions",
+    //       href: "/staff/archived-sessions",
+    //       icon: Archive,
+    //     },
+    //   ],
+    // },
     {
       id: "events-meetings",
       label: "Events & Meetings",
@@ -222,21 +222,21 @@ export function MLAStaffSidebar() {
         {
           id: "manage-events",
           label: "Manage Events",
-          href: "/staff/manage",
+          href: "/staff/manage-event",
           icon: CalendarDays,
         },
-        {
-          id: "attendance-matrix",
-          label: "Attendance Matrix",
-          href: "/staff/attendance",
-          icon: UserCheck,
-        },
-        {
-          id: "post-event-media",
-          label: "Post-Event Media",
-          href: "/staff/media",
-          icon: Image,
-        },
+        // {
+        //   id: "attendance-matrix",
+        //   label: "Attendance Matrix",
+        //   href: "/staff/attendance",
+        //   icon: UserCheck,
+        // },
+        // {
+        //   id: "post-event-media",
+        //   label: "Post-Event Media",
+        //   href: "/staff/media",
+        //   icon: Image,
+        // },
       ],
     },
     // {

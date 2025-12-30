@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,8 @@ import {
   Building2,
   Clock,
   CheckCircle2,
+  IndianRupee,
+  Plus,
 } from "lucide-react";
 import { ProjectsTable } from "@/components/staff-dashboard/tables/project-table";
 import { Project } from "@/components/staff-dashboard/tables/columns";
@@ -109,13 +112,27 @@ export default function ProjectManagementPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl md:text-3xl font-bold" style={{ color: theme.textPrimary }}>
-          Project Management
-        </h1>
-        <p className="text-sm mt-1" style={{ color: theme.textSecondary }}>
-          Manage and track all constituency projects
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold" style={{ color: theme.textPrimary }}>
+            Project Management
+          </h1>
+          <p className="text-sm mt-1" style={{ color: theme.textSecondary }}>
+            Manage and track all constituency projects
+          </p>
+        </div>
+        <Link href="/staff/Addbudget">
+          <Button
+            className="flex items-center gap-2 hover:opacity-90 transition-opacity whitespace-nowrap"
+            style={{
+              background: theme.buttonPrimary.bg,
+              color: theme.buttonPrimary.text,
+            }}
+          >
+            <Plus className="h-4 w-4" />
+            Budget Utilization
+          </Button>
+        </Link>
       </div>
 
       {/* Stats Cards */}

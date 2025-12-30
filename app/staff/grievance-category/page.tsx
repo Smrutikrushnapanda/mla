@@ -13,8 +13,8 @@ import {
   CheckCircle2,
   AlertCircle,
 } from "lucide-react";
-import { GrievancesTable } from "@/components/staff-dashboard/tables/grievance/grievances-table";
-import { Grievance } from "@/components/staff-dashboard/tables/grievance/columns";
+import { GrievancesTable } from "@/components/staff-dashboard/grievance/grievances-table";
+import { Grievance } from "@/components/staff-dashboard/grievance/columns";
 
 const mockGrievances = [
   {

@@ -1,9 +1,11 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { useThemeStore } from "@/store/useThemeStore";
-import { IndianRupee, TrendingUp, TrendingDown, AlertCircle } from "lucide-react";
+import { IndianRupee, TrendingUp, TrendingDown, AlertCircle, Plus } from "lucide-react";
 import { BudgetUtilizationTable } from "@/components/mla-dashboard/budget-utilization/table/budget-utilization-table";
+import Link from "next/link";
 
 export default function BudgetUtilizationPage() {
   const { theme } = useThemeStore();
@@ -11,13 +13,27 @@ export default function BudgetUtilizationPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl md:text-3xl font-bold" style={{ color: theme.textPrimary }}>
-          Budget Utilization
-        </h1>
-        <p className="text-sm mt-1" style={{ color: theme.textSecondary }}>
-          Monitor budget allocation and expenditure across constituency projects
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold" style={{ color: theme.textPrimary }}>
+            Budget Utilization
+          </h1>
+          <p className="text-sm mt-1" style={{ color: theme.textSecondary }}>
+            Monitor budget allocation and expenditure across constituency projects
+          </p>
+        </div>
+       <Link href="/staff/Addbudget">
+          <Button
+            className="flex items-center gap-2"
+            style={{
+              background: theme.buttonPrimary.bg,
+              color: theme.buttonPrimary.text,
+            }}
+          >
+          <Plus className="mr-2 h-4 w-4" />
+          Add Budget
+        </Button>
+        </Link>
       </div>
 
       {/* Stats Cards */}

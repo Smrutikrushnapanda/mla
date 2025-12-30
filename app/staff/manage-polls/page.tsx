@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useThemeStore } from "@/store/useThemeStore";
-import { BarChart3, CheckCircle2, Clock, FileText } from "lucide-react";
+import {  BarChart3, CheckCircle2, Clock, FileText, Plus } from "lucide-react";
 import { AllPollsTable } from "@/components/mla-dashboard/manage-polls/all-polls/table/all-polls-table";
 import { PublishActionsTable } from "@/components/mla-dashboard/manage-polls/publish-actions/publish-actions-table";
+import Link from "next/link";
 
 export default function ManagePollsPage() {
   const { theme } = useThemeStore();
@@ -15,13 +17,27 @@ export default function ManagePollsPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl md:text-3xl font-bold" style={{ color: theme.textPrimary }}>
-          Manage Polls
-        </h1>
-        <p className="text-sm mt-1" style={{ color: theme.textSecondary }}>
-          Create, manage and monitor citizen polls
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold" style={{ color: theme.textPrimary }}>
+            Manage Polls
+          </h1>
+          <p className="text-sm mt-1" style={{ color: theme.textSecondary }}>
+            Create, manage and monitor citizen polls
+          </p>
+        </div>
+        <Link href="/staff/Addmanage-polls">
+          <Button
+            className="flex items-center gap-2"
+            style={{
+              background: theme.buttonPrimary.bg,
+              color: theme.buttonPrimary.text,
+            }}
+          >
+            <Plus className="h-4 w-4" />
+            Add Poll
+          </Button>
+        </Link>
       </div>
 
       {/* Stats Cards */}

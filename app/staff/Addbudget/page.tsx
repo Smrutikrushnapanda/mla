@@ -109,7 +109,7 @@ export default function AddBudgetAllocationPage() {
       await new Promise((resolve) => setTimeout(resolve, 1000))
       console.log("Budget Allocation data:", formData)
       toast.success("Budget allocation added successfully!")
-      router.push("/mla/budget-utilization")
+      router.push("/staff/budget-utilization")
     } catch (error) {
       toast.error("Failed to add budget allocation")
     } finally {
@@ -136,7 +136,7 @@ export default function AddBudgetAllocationPage() {
           </p>
         </div>
         
-        <Link href="/mla/budget-utilization">
+        <Link href="/staff/budget-utilization">
           <Button
             className="flex items-center gap-2"
             style={{
