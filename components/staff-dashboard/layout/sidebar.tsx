@@ -77,7 +77,6 @@ interface MenuItem {
   submenu?: SubMenuItem[];
 }
 
-
 export function MLAStaffSidebar() {
   const pathname = usePathname();
   const { theme, mode } = useThemeStore();
@@ -142,6 +141,21 @@ export function MLAStaffSidebar() {
         },
       ],
     },
+
+    {
+      id: "grievance",
+      label: "Grievance",
+      icon: FileText,
+      submenu: [
+        {
+          id: "all-grievances",
+          label: "All Grievances",
+          href: "/staff/grievance-management",
+          icon: ClipboardList,
+        },
+      ],
+    },
+
     {
       id: "project",
       label: "Project",
@@ -161,19 +175,7 @@ export function MLAStaffSidebar() {
         },
       ],
     },
-    {
-      id: "grievance",
-      label: "Grievance",
-      icon: FileText,
-      submenu: [
-        {
-          id: "all-grievances",
-          label: "All Grievances",
-          href: "/staff/grievance-management",
-          icon: ClipboardList,
-        }
-      ],
-    },
+
     {
       id: "manage-polls",
       label: "Manage Polls",
@@ -325,7 +327,9 @@ export function MLAStaffSidebar() {
 
         /* Tooltip styling */
         [data-sidebar] [role="tooltip"] {
-          background-color: ${mode === "dark" ? "#1f2937" : "#ffffff"} !important;
+          background-color: ${mode === "dark"
+            ? "#1f2937"
+            : "#ffffff"} !important;
           color: ${mode === "dark" ? "#ffffff" : "#000000"} !important;
           border: 1px solid ${mode === "dark" ? "#374151" : "#e5e7eb"} !important;
         }
