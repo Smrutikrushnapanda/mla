@@ -5,7 +5,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
 import { useThemeStore } from "@/store/useThemeStore"
-import { EventsTable } from "@/components/mla-dashboard/events/table/event"
+import { EventsTable } from "@/components/staff-dashboard/events/event"
 import {
   Card,
   CardContent,

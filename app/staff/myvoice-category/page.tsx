@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useThemeStore } from "@/store/useThemeStore";
 import { MessageSquare, Users, CheckCircle2, Clock } from "lucide-react";
-import { MyVoiceCategoryTable } from "@/components/mla-dashboard/myvoice-category/table/myvoice-table";
+import { MyVoiceCategoryTable } from "@/components/staff-dashboard/myvoice/myvoice-table";
 
 export default function MyVoiceCategoryPage() {
   const { theme } = useThemeStore();

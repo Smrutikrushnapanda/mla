@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useThemeStore } from "@/store/useThemeStore";
 import {  BarChart3, CheckCircle2, Clock, FileText, Plus } from "lucide-react";
-import { AllPollsTable } from "@/components/mla-dashboard/manage-polls/all-polls/table/all-polls-table";
-import { PublishActionsTable } from "@/components/mla-dashboard/manage-polls/publish-actions/publish-actions-table";
+import { AllPollsTable } from "@/components/staff-dashboard/manage-polls/all-polls/all-polls-table";
+import { PublishActionsTable } from "@/components/staff-dashboard/manage-polls/publish-actions/publish-actions-table";
 import Link from "next/link";
 
 export default function ManagePollsPage() {

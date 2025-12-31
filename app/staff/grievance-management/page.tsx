@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useThemeStore } from "@/store/useThemeStore";
 import { FileText, Clock, CheckCircle2, AlertCircle } from "lucide-react";
-import { GrievancesTable } from "@/components/mla-dashboard/grievance-management/table/grievances-table";
+import { GrievancesTable } from "@/components/staff-dashboard/tables/grievance-management-table";
 
 export default function GrievancesPage() {
   const { theme } = useThemeStore();
