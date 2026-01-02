@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useThemeStore } from "@/store/useThemeStore";
 import { IndianRupee, TrendingUp, TrendingDown, AlertCircle, Plus } from "lucide-react";
-import { BudgetUtilizationTable } from "@/components/mla-dashboard/budget-utilization/table/budget-utilization-table";
+import { BudgetUtilizationTable } from "@/components/staff-dashboard/budget/budget-utilization-table";
 import Link from "next/link";
 
 export default function BudgetUtilizationPage() {

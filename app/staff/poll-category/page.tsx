@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useThemeStore } from "@/store/useThemeStore";
 import { BarChart3, Users, CheckCircle2, Clock } from "lucide-react";
-import { PollCategoryTable } from "@/components/mla-dashboard/poll-category/table/poll-table";
+import { PollCategoryTable } from "@/components/staff-dashboard/poll/poll-table";
 
 export default function PollCategoryPage() {
   const { theme } = useThemeStore();
