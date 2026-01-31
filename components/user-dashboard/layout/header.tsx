@@ -219,20 +219,20 @@ export default function Header() {
                   }}
                 >
                   <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-green-400 via-blue-500 to-purple-600 text-xs font-semibold text-white shadow-md">
-                    JD
+                    SD
                   </div>
                   <div className="hidden md:flex flex-col items-start">
                     <span
                       className="text-sm font-medium leading-none"
                       style={{ color: theme.textPrimary }}
                     >
-                      John Doe
+                      Satya Das
                     </span>
                     <span
                       className="text-xs"
                       style={{ color: theme.textSecondary }}
                     >
-                      Admin
+                      Citizen
                     </span>
                   </div>
                   <ChevronDown

@@ -3,7 +3,7 @@
 
 import React, { useState } from "react"
 import Link from "next/link"
-import { ArrowLeft, UserPlus, Shield, Briefcase } from "lucide-react"
+import { ArrowLeft, UserPlus, Shield, Briefcase, Plus } from "lucide-react"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -34,6 +34,8 @@ export default function AddStaffPage() {
     confirmPassword: "",
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [showNewRoleInput, setShowNewRoleInput] = useState(false)
+  const [newRole, setNewRole] = useState("")
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -323,27 +325,73 @@ export default function AddStaffPage() {
                   <Label style={{ color: theme.textPrimary }}>
                     Role *
                   </Label>
-                  <Select
-                    value={form.role}
-                    onValueChange={(value) => handleSelectChange("role", value)}
-                    required
-                  >
-                    <SelectTrigger 
-                      style={{
-                        backgroundColor: theme.input.bg,
-                        borderColor: theme.border,
-                        color: theme.textPrimary,
-                      }}
+                  <div className="flex gap-2">
+                    <Select
+                      value={form.role}
+                      onValueChange={(value) => handleSelectChange("role", value)}
+                      required
                     >
-                      <SelectValue placeholder="Select role" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="admin">Admin</SelectItem>
-                      <SelectItem value="staff">Staff</SelectItem>
-                      <SelectItem value="field_officer">Field Officer</SelectItem>
-                      <SelectItem value="viewer">Viewer</SelectItem>
-                    </SelectContent>
-                  </Select>
+                      <SelectTrigger 
+                        style={{
+                          backgroundColor: theme.input.bg,
+                          borderColor: theme.border,
+                          color: theme.textPrimary,
+                        }}
+                      >
+                        <SelectValue placeholder="Select role" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="staff">MlA Representative Staff</SelectItem>
+                        <SelectItem value="field_officer">Field Officer</SelectItem>
+                        <SelectItem value="viewer">Viewer</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Button
+                      type="button"
+                      className="flex items-center justify-center px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors"
+                      onClick={() => setShowNewRoleInput(true)}
+                    >
+                      <Plus className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  {showNewRoleInput && (
+                    <div className="flex gap-2 mt-2">
+                      <Input
+                        value={newRole}
+                        onChange={(e) => setNewRole(e.target.value)}
+                        placeholder="Enter new role"
+                        style={{
+                          backgroundColor: theme.backgroundSecondary,
+                          borderColor: theme.border,
+                          color: theme.textPrimary,
+                        }}
+                      />
+                      <Button
+                        type="button"
+                        className="bg-green-600 hover:bg-green-700 text-white px-3"
+                        onClick={() => {
+                          if (newRole.trim()) {
+                            handleSelectChange("role", newRole.trim())
+                            setNewRole("")
+                            setShowNewRoleInput(false)
+                          }
+                        }}
+                      >
+                        Add
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="px-3"
+                        onClick={() => {
+                          setNewRole("")
+                          setShowNewRoleInput(false)
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </div>
 

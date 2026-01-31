@@ -4,6 +4,7 @@
 import { PollCategoryTable } from "@/components/mla-dashboard/poll-category/table/poll-table"
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
+import Link from "next/link"
 import { useThemeStore } from "@/store/useThemeStore"
 
 export default function PollCategoryPage() {
@@ -27,7 +28,7 @@ export default function PollCategoryPage() {
           </p>
         </div>
         
-        {/* <Link href="/mla/AddPoll">
+        <Link href="/mla/Add-poll-category">
           <Button
             className="flex items-center gap-2"
             style={{
@@ -38,7 +39,7 @@ export default function PollCategoryPage() {
             <Plus className="mr-2 h-4 w-4" />
             Add Poll Category
           </Button>
-        </Link> */}
+        </Link>
       </div>
 
       <PollCategoryTable />

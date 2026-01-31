@@ -37,6 +37,7 @@ export default function AddBudgetAllocationPage() {
     fundSource: "MPLADS",
     allocationDate: "",
     category: "",
+    project: "",
     remarks: "",
     status: "Active"
   })
@@ -77,6 +78,10 @@ export default function AddBudgetAllocationPage() {
 
     if (!formData.allocationDate) {
       newErrors.allocationDate = "Allocation date is required"
+    }
+
+    if (!formData.project) {
+      newErrors.project = "Project is required"
     }
 
     setErrors(newErrors)
@@ -291,6 +296,44 @@ export default function AddBudgetAllocationPage() {
                 )}
               </div>
 
+              {/* Project */}
+              <div className="space-y-2">
+                <Label htmlFor="project" style={{ color: theme.textPrimary }}>
+                  Project *
+                </Label>
+                <Select
+                  value={formData.project}
+                  onValueChange={(value) => handleInputChange("project", value)}
+                >
+                  <SelectTrigger
+                    style={{
+                      backgroundColor: theme.input.bg,
+                      borderColor: errors.project ? "#ef4444" : theme.border,
+                      color: theme.textPrimary,
+                    }}
+                  >
+                    <SelectValue placeholder="Select project" />
+                  </SelectTrigger>
+                  <SelectContent
+                    style={{
+                      backgroundColor: theme.input.bg,
+                      borderColor: theme.border,
+                    }}
+                  >
+                    <SelectItem value="Road Development Project">Road Development Project</SelectItem>
+                    <SelectItem value="School Infrastructure">School Infrastructure</SelectItem>
+                    <SelectItem value="Healthcare Center">Healthcare Center</SelectItem>
+                    <SelectItem value="Water Supply System">Water Supply System</SelectItem>
+                    <SelectItem value="Community Hall">Community Hall</SelectItem>
+                    <SelectItem value="Agricultural Support">Agricultural Support</SelectItem>
+                    <SelectItem value="Digital Infrastructure">Digital Infrastructure</SelectItem>
+                  </SelectContent>
+                </Select>
+                {errors.project && (
+                  <p className="text-sm text-red-500">{errors.project}</p>
+                )}
+              </div>
+
               {/* Category */}
               <div className="space-y-2">
                 <Label htmlFor="category" style={{ color: theme.textPrimary }}>
@@ -436,13 +479,13 @@ export default function AddBudgetAllocationPage() {
                   className="text-sm"
                   style={{ color: theme.textSecondary }}
                 >
-                  Fund Source
+                  Selected Project
                 </p>
                 <p 
                   className="text-xl font-bold mt-1"
                   style={{ color: theme.textPrimary }}
                 >
-                  {formData.fundSource || "Not Selected"}
+                  {formData.project || "Not Selected"}
                 </p>
               </div>
             </div>

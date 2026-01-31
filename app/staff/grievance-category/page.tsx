@@ -12,7 +12,9 @@ import {
   Clock,
   CheckCircle2,
   AlertCircle,
+  Plus,
 } from "lucide-react";
+import Link from "next/link";
 import { GrievancesTable } from "@/components/staff-dashboard/grievance/grievances-table";
 import { Grievance } from "@/components/staff-dashboard/grievance/columns";
 
@@ -94,13 +96,28 @@ export default function GrievanceCategoryPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl md:text-3xl font-bold" style={{ color: theme.textPrimary }}>
-          Grievance Management
-        </h1>
-        <p className="text-sm mt-1" style={{ color: theme.textSecondary }}>
-          Manage and track all citizen grievances
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold" style={{ color: theme.textPrimary }}>
+            Grievance Management
+          </h1>
+          <p className="text-sm mt-1" style={{ color: theme.textSecondary }}>
+            Manage and track all citizen grievances
+          </p>
+        </div>
+        
+        <Link href="/staff/Add-grievance-category">
+          <Button
+            className="flex items-center gap-2"
+            style={{
+              background: theme.buttonPrimary.bg,
+              color: theme.buttonPrimary.text,
+            }}
+          >
+            <Plus className="mr-2 h-4 w-4" />
+            Add Category
+          </Button>
+        </Link>
       </div>
 
       {/* Stats Cards */}

@@ -341,16 +341,44 @@ export default function AddGrievancePage() {
               <Label style={{ color: theme.textPrimary }}>
                 Constituency *
               </Label>
-              <Input
-                id="constituency"
-                value={form.constituency}
-                onChange={handleChange}
-                style={{
-                  backgroundColor: theme.input.bg,
-                  borderColor: errors.constituency ? "#ef4444" : theme.input.border,
-                  color: theme.input.text,
-                }}
-              />
+              {/* CONSTITUENCY */}
+<div className="space-y-2">
+
+  <Select
+    value={form.constituency}
+    onValueChange={(value) => {
+      setForm((prev) => ({ ...prev, constituency: value }));
+      setErrors((prev: any) => ({ ...prev, constituency: "" }));
+    }}
+  >
+    <SelectTrigger
+      style={{
+        backgroundColor: theme.input.bg,
+        borderColor: errors.constituency ? "#ef4444" : theme.input.border,
+        color: theme.input.text,
+      }}
+    >
+      <SelectValue placeholder="Select constituency" />
+    </SelectTrigger>
+
+    <SelectContent
+      style={{
+        backgroundColor: theme.backgroundSecondary,
+        borderColor: theme.border,
+      }}
+    >
+      {/* For now only one */}
+      <SelectItem value="Korei">
+        Korei
+      </SelectItem>
+    </SelectContent>
+  </Select>
+
+  {errors.constituency && (
+    <p className="text-sm text-red-500">{errors.constituency}</p>
+  )}
+</div>
+
               {errors.constituency && (
                 <p className="text-sm text-red-500">{errors.constituency}</p>
               )}

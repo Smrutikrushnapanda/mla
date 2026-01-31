@@ -2,100 +2,116 @@
 
 import React, { useState } from "react"
 import Link from "next/link"
-import { ArrowLeft, Building2, User, Tag } from "lucide-react"
+import { ArrowLeft, MapPin } from "lucide-react"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Switch } from "@/components/ui/switch"
-import { Checkbox } from "@/components/ui/checkbox"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useThemeStore } from "@/store/useThemeStore"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
 
-// Available categories
-const DEPARTMENT_CATEGORIES = [
-  "Projects",
-  "Grievances",
-  "Polls",
-  "My Voice",
-  "Events",
-  "Announcements",
-  "Development",
-  "Infrastructure",
-  "Health",
-  "Education",
-  "Agriculture",
-  "Social Welfare",
+const indianStates = [
+  "Andhra Pradesh",
+  "Arunachal Pradesh",
+  "Assam",
+  "Bihar",
+  "Chhattisgarh",
+  "Goa",
+  "Gujarat",
+  "Haryana",
+  "Himachal Pradesh",
+  "Jharkhand",
+  "Karnataka",
+  "Kerala",
+  "Madhya Pradesh",
+  "Maharashtra",
+  "Manipur",
+  "Meghalaya",
+  "Mizoram",
+  "Nagaland",
+  "Odisha",
+  "Punjab",
+  "Rajasthan",
+  "Sikkim",
+  "Tamil Nadu",
+  "Telangana",
+  "Tripura",
+  "Uttar Pradesh",
+  "Uttarakhand",
+  "West Bengal",
 ]
 
-export default function AddDepartment() {
+export default function AddDistrict() {
   const { theme } = useThemeStore()
+  const router = useRouter()
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  
   const [form, setForm] = useState({
     name: "",
-    code: "",
-    description: "",
-    headOfDepartment: "",
-    contactEmail: "",
-    contactPhone: "",
-    categories: [] as string[],
-    active: true,
+    state: "",
   })
 
+  const [errors, setErrors] = useState<Record<string, string>>({})
+
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const { id, value } = e.target
     setForm((prev) => ({ ...prev, [id]: value }))
+    if (errors[id]) {
+      setErrors(prev => ({ ...prev, [id]: "" }))
+    }
   }
 
-  const handleCategoryToggle = (category: string) => {
-    setForm((prev) => ({
-      ...prev,
-      categories: prev.categories.includes(category)
-        ? prev.categories.filter((c) => c !== category)
-        : [...prev.categories, category],
-    }))
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {}
+
+    if (!form.name) {
+      newErrors.name = "District name is required"
+    }
+
+    if (!form.state) {
+      newErrors.state = "State is required"
+    }
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    // Validation
-    if (!form.name || !form.code) {
-      alert("Please fill all required fields")
+    if (!validateForm()) {
+      toast.error("Please fill in all required fields")
       return
     }
 
-    if (form.categories.length === 0) {
-      alert("Please select at least one work category")
-      return
+    setIsSubmitting(true)
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+      console.log("District data:", form)
+      toast.success("District added successfully!")
+      router.push("/admin/districts")
+    } catch (error) {
+      toast.error("Failed to add district")
+    } finally {
+      setIsSubmitting(false)
     }
-
-    // API CALL - Create department in MLA Connect system
-    const payload = {
-      ...form,
-      createdAt: new Date().toISOString(),
-    }
-
-    console.log("Department Payload:", payload)
-    alert("Department created successfully in MLA Connect system")
   }
 
   return (
-    <div 
-      className="min-h-screen p-6"
-      style={{ background: theme.backgroundGradient }}
-    >
+    <div className="space-y-6">
       {/* HEADER */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-        {/* LEFT: ICON + TITLE */}
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div 
             className="p-2 rounded-lg"
             style={{ backgroundColor: "rgba(99, 102, 241, 0.1)" }}
           >
-            <Building2 className="h-6 w-6 text-indigo-600" />
+            <MapPin className="h-6 w-6 text-indigo-600" />
           </div>
 
           <div>
@@ -103,19 +119,18 @@ export default function AddDepartment() {
               className="text-2xl font-bold"
               style={{ color: theme.textPrimary }}
             >
-              Add New Department
+              Add New District
             </h1>
             <p 
               className="text-sm"
               style={{ color: theme.textSecondary }}
             >
-              Create a new department for work assignment and management
+              Create a new district for constituency mapping
             </p>
           </div>
         </div>
 
-        {/* RIGHT: BACK BUTTON */}
-        <Link href="/admin/department">
+        <Link href="/admin/districts">
           <Button 
             className="flex items-center gap-2"
             style={{
@@ -131,317 +146,115 @@ export default function AddDepartment() {
 
       {/* FORM CARD */}
       <Card 
-        className="max-w border shadow-lg"
+        className="shadow-lg"
         style={{
           background: theme.cardBackground,
           borderColor: theme.border,
         }}
       >
-        <CardHeader 
-          className="border-b"
-          style={{
-            backgroundColor: theme.backgroundSecondary,
-            borderColor: theme.border,
-          }}
-        >
+        <CardHeader>
           <CardTitle 
             className="flex items-center gap-2 text-lg"
             style={{ color: theme.textPrimary }}
           >
-            <Building2 className="h-5 w-5 text-indigo-600" />
-            Department Information
+            <MapPin className="h-5 w-5 text-indigo-600" />
+            District Information
           </CardTitle>
-          <p 
-            className="text-sm mt-1"
-            style={{ color: theme.textSecondary }}
-          >
-            Configure department details for the MLA Connect platform
-          </p>
         </CardHeader>
 
         <CardContent className="p-6">
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* BASIC INFORMATION */}
-            <div className="space-y-4">
-              <h3 
-                className="text-sm font-semibold flex items-center gap-2"
-                style={{ color: theme.textSecondary }}
-              >
-                <Building2 className="h-4 w-4" />
-                Basic Information
-              </h3>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <Label 
-                    htmlFor="name"
-                    style={{ color: theme.textPrimary }}
-                  >
-                    Department Name *
-                  </Label>
-                  <Input
-                    id="name"
-                    value={form.name}
-                    onChange={handleChange}
-                    placeholder="e.g., Public Works Department"
-                    required
-                    style={{
-                      backgroundColor: theme.input.bg,
-                      borderColor: theme.input.border,
-                      color: theme.input.text,
-                    }}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label 
-                    htmlFor="code"
-                    style={{ color: theme.textPrimary }}
-                  >
-                    Department Code *
-                  </Label>
-                  <Input
-                    id="code"
-                    value={form.code}
-                    onChange={(e) => setForm({ ...form, code: e.target.value.toUpperCase() })}
-                    placeholder="e.g., PWD"
-                    maxLength={5}
-                    required
-                    style={{
-                      backgroundColor: theme.input.bg,
-                      borderColor: theme.input.border,
-                      color: theme.input.text,
-                    }}
-                  />
-                  <p 
-                    className="text-xs"
-                    style={{ color: theme.textTertiary }}
-                  >
-                    Short code for quick identification (max 5 characters)
-                  </p>
-                </div>
-              </div>
-
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <Label 
-                  htmlFor="description"
+                  htmlFor="name"
                   style={{ color: theme.textPrimary }}
                 >
-                  Description
-                </Label>
-                <Textarea
-                  id="description"
-                  value={form.description}
-                  onChange={handleChange}
-                  placeholder="Brief description of department responsibilities"
-                  rows={3}
-                  className="resize-none"
-                  style={{
-                    backgroundColor: theme.input.bg,
-                    borderColor: theme.input.border,
-                    color: theme.input.text,
-                  }}
-                />
-              </div>
-            </div>
-
-            {/* CONTACT INFORMATION */}
-            <div 
-              className="space-y-4 pt-6 border-t"
-              style={{ borderColor: theme.border }}
-            >
-              <h3 
-                className="text-sm font-semibold flex items-center gap-2"
-                style={{ color: theme.textSecondary }}
-              >
-                <User className="h-4 w-4" />
-                Contact Information
-              </h3>
-              
-              <div className="space-y-2">
-                <Label 
-                  htmlFor="headOfDepartment"
-                  style={{ color: theme.textPrimary }}
-                >
-                  Head of Department
+                  District Name *
                 </Label>
                 <Input
-                  id="headOfDepartment"
-                  value={form.headOfDepartment}
+                  id="name"
+                  value={form.name}
                   onChange={handleChange}
-                  placeholder="e.g., Rajesh Kumar"
+                  placeholder="e.g., Khordha"
                   style={{
                     backgroundColor: theme.input.bg,
-                    borderColor: theme.input.border,
+                    borderColor: errors.name ? "#ef4444" : theme.input.border,
                     color: theme.input.text,
                   }}
                 />
+                {errors.name && (
+                  <p className="text-sm text-red-500">{errors.name}</p>
+                )}
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <Label 
-                    htmlFor="contactEmail"
-                    style={{ color: theme.textPrimary }}
-                  >
-                    Email
-                  </Label>
-                  <Input
-                    id="contactEmail"
-                    type="email"
-                    value={form.contactEmail}
-                    onChange={handleChange}
-                    placeholder="dept@odisha.gov.in"
-                    style={{
-                      backgroundColor: theme.input.bg,
-                      borderColor: theme.input.border,
-                      color: theme.input.text,
-                    }}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label 
-                    htmlFor="contactPhone"
-                    style={{ color: theme.textPrimary }}
-                  >
-                    Phone
-                  </Label>
-                  <Input
-                    id="contactPhone"
-                    type="tel"
-                    value={form.contactPhone}
-                    onChange={handleChange}
-                    placeholder="+91-9876543210"
-                    style={{
-                      backgroundColor: theme.input.bg,
-                      borderColor: theme.input.border,
-                      color: theme.input.text,
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* WORK CATEGORIES */}
-            <div 
-              className="space-y-4 pt-6 border-t"
-              style={{ borderColor: theme.border }}
-            >
-              <h3 
-                className="text-sm font-semibold flex items-center gap-2"
-                style={{ color: theme.textSecondary }}
-              >
-                <Tag className="h-4 w-4" />
-                Work Categories *
-              </h3>
-              <p 
-                className="text-xs"
-                style={{ color: theme.textTertiary }}
-              >
-                Select the types of work this department handles. MLAs can assign work based on these categories.
-              </p>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 p-4 rounded-md border"
-                style={{ 
-                  borderColor: theme.border,
-                  backgroundColor: theme.backgroundSecondary 
-                }}
-              >
-                {DEPARTMENT_CATEGORIES.map((category) => (
-                  <div key={category} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={`category-${category}`}
-                      checked={form.categories.includes(category)}
-                      onCheckedChange={() => handleCategoryToggle(category)}
-                    />
-                    <Label
-                      htmlFor={`category-${category}`}
-                      className="text-sm font-normal cursor-pointer"
-                      style={{ color: theme.textPrimary }}
-                    >
-                      {category}
-                    </Label>
-                  </div>
-                ))}
-              </div>
-              
-              {form.categories.length > 0 && (
-                <p className="text-xs" style={{ color: theme.textSecondary }}>
-                  Selected: {form.categories.join(", ")}
-                </p>
-              )}
-            </div>
-
-            {/* STATUS */}
-            <div 
-              className="space-y-4 pt-6 border-t"
-              style={{ borderColor: theme.border }}
-            >
-              <h3 
-                className="text-sm font-semibold"
-                style={{ color: theme.textSecondary }}
-              >
-                Department Status
-              </h3>
-              
-              <div className="flex items-center space-x-3">
-                <Switch
-                  id="active"
-                  checked={form.active}
-                  onCheckedChange={(checked) =>
-                    setForm((prev) => ({ ...prev, active: checked }))
-                  }
-                />
+              <div className="space-y-2">
                 <Label 
-                  htmlFor="active"
+                  htmlFor="state"
                   style={{ color: theme.textPrimary }}
-                  className="cursor-pointer"
                 >
-                  Active Department
+                  State *
                 </Label>
-                <p 
-                  className="text-xs ml-2"
-                  style={{ color: theme.textTertiary }}
+                <Select
+                  value={form.state}
+                  onValueChange={(value) => {
+                    setForm({ ...form, state: value })
+                    if (errors.state) {
+                      setErrors(prev => ({ ...prev, state: "" }))
+                    }
+                  }}
                 >
-                  {form.active ? "Department is active and available for work assignment" : "Department is inactive"}
-                </p>
-              </div>
-            </div>
-
-            {/* ACTIONS */}
-            <div 
-              className="flex justify-between items-center pt-6 border-t"
-              style={{ borderColor: theme.border }}
-            >
-              <p 
-                className="text-xs"
-                style={{ color: theme.textTertiary }}
-              >
-                * Required fields must be filled
-              </p>
-              <div className="flex gap-3">
-                <Link href="/admin/department">
-                  <Button 
-                    variant="outline"
+                  <SelectTrigger
                     style={{
-                      borderColor: theme.border,
+                      backgroundColor: theme.input.bg,
+                      borderColor: errors.state ? "#ef4444" : theme.input.border,
+                      color: theme.input.text,
+                    }}
+                  >
+                    <SelectValue placeholder="Select state" />
+                  </SelectTrigger>
+                  <SelectContent
+                    style={{
+                      backgroundColor: theme.cardBackground,
+                      borderColor: theme.cardBorder,
                       color: theme.textPrimary,
                     }}
                   >
-                    Cancel
-                  </Button>
-                </Link>
+                    {indianStates.map((state) => (
+                      <SelectItem key={state} value={state}>
+                        {state}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {errors.state && (
+                  <p className="text-sm text-red-500">{errors.state}</p>
+                )}
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3">
+              <Link href="/admin/districts">
                 <Button 
-                  type="submit"
+                  variant="outline"
                   style={{
-                    background: theme.buttonPrimary.bg,
-                    color: theme.buttonPrimary.text,
+                    borderColor: theme.border,
+                    color: theme.textPrimary,
                   }}
                 >
-                  Create Department
+                  Cancel
                 </Button>
-              </div>
+              </Link>
+              <Button 
+                type="submit"
+                disabled={isSubmitting}
+                style={{
+                  background: theme.buttonPrimary.bg,
+                  color: theme.buttonPrimary.text,
+                }}
+              >
+                {isSubmitting ? "Adding District..." : "Add District"}
+              </Button>
             </div>
           </form>
         </CardContent>

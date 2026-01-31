@@ -11,7 +11,9 @@ import {
   Building2,
   Clock,
   CheckCircle2,
+  Plus,
 } from "lucide-react";
+import Link from "next/link";
 import { ProjectsTable } from "@/components/staff-dashboard/tables/project-table";
 import { Project } from "@/components/staff-dashboard/tables/columns";
 
@@ -109,13 +111,28 @@ export default function ProjectManagementPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl md:text-3xl font-bold" style={{ color: theme.textPrimary }}>
-          Project Management
-        </h1>
-        <p className="text-sm mt-1" style={{ color: theme.textSecondary }}>
-          Manage and track all constituency projects
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold" style={{ color: theme.textPrimary }}>
+            Project Management
+          </h1>
+          <p className="text-sm mt-1" style={{ color: theme.textSecondary }}>
+            Manage and track all constituency projects
+          </p>
+        </div>
+        
+        <Link href="/staff/Add-project-category">
+          <Button
+            className="flex items-center gap-2"
+            style={{
+              background: theme.buttonPrimary.bg,
+              color: theme.buttonPrimary.text,
+            }}
+          >
+            <Plus className="mr-2 h-4 w-4" />
+            Add Category
+          </Button>
+        </Link>
       </div>
 
       {/* Stats Cards */}

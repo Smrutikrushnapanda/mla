@@ -27,7 +27,7 @@ export default function ProjectCategoryPage() {
           </p>
         </div>
 
-        <Link href="/mla/AddProject">
+        <Link href="/mla/Add-project-category">
           <Button
             className="flex items-center gap-2"
             style={{

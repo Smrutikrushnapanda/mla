@@ -249,18 +249,34 @@ export default function DistrictsPage() {
           </p>
         </div>
 
-        <Link href="/admin/AddDistrict">
-          <Button
-            className="gap-2 transition-all duration-200 hover:scale-105 border-0"
-            style={{
-              background: theme.buttonPrimary.bg,
-              color: theme.buttonPrimary.text,
-            }}
-          >
-            <Plus className="h-4 w-4" />
-            Add District
-          </Button>
-        </Link>
+        <div className="flex gap-3">
+          <Link href="/admin/AddState">
+            <Button
+              className="gap-2 transition-all duration-200 hover:scale-105 border-0"
+              variant="outline"
+              style={{
+                borderColor: theme.buttonPrimary.bg,
+                color: theme.buttonPrimary.bg,
+                backgroundColor: "transparent",
+              }}
+            >
+              <Plus className="h-4 w-4" />
+              Add State
+            </Button>
+          </Link>
+          <Link href="/admin/AddDistrict">
+            <Button
+              className="gap-2 transition-all duration-200 hover:scale-105 border-0"
+              style={{
+                background: theme.buttonPrimary.bg,
+                color: theme.buttonPrimary.text,
+              }}
+            >
+              <Plus className="h-4 w-4" />
+              Add District
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* STATISTICS CARDS */}
