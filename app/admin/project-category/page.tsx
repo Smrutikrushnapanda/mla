@@ -2,8 +2,10 @@
 "use client"
 
 import { useState } from "react"
-import { Plus, FolderKanban, Clock, CheckCircle2, Filter } from "lucide-react"
+import { Plus, FolderKanban, Clock, CheckCircle2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Label } from "@/components/ui/label"
 import {
   Select,
   SelectContent,
@@ -13,37 +15,130 @@ import {
 } from "@/components/ui/select"
 import { useThemeStore } from "@/store/useThemeStore"
 import { ManageProjectsTable } from "@/components/admin-dashboard/manage-projects/table/manage-projects-table"
-import { Label } from "@/components/ui/label"
 import { useRouter } from "next/navigation"
+
+const mockProjects = [
+  {
+    id: "1",
+    name: "Road Construction",
+    category: "Infrastructure",
+    status: "In Progress",
+    state: "Odisha",
+    district: "Khordha",
+    constituency: "Bhubaneswar Central",
+  },
+  {
+    id: "2",
+    name: "School Building",
+    category: "Education",
+    status: "Completed",
+    state: "Odisha",
+    district: "Puri",
+    constituency: "Puri",
+  },
+  {
+    id: "3",
+    name: "Water Supply",
+    category: "Infrastructure",
+    status: "Planning",
+    state: "Odisha",
+    district: "Cuttack",
+    constituency: "Cuttack Sadar",
+  },
+  {
+    id: "4",
+    name: "Healthcare Center",
+    category: "Healthcare",
+    status: "In Progress",
+    state: "Odisha",
+    district: "Jajpur",
+    constituency: "Korei",
+  },
+];
+
+const states = ["Odisha", "Maharashtra", "Karnataka"];
+const allDistricts = [
+  { name: "Khordha", state: "Odisha" },
+  { name: "Puri", state: "Odisha" },
+  { name: "Cuttack", state: "Odisha" },
+  { name: "Ganjam", state: "Odisha" },
+  { name: "Jajpur", state: "Odisha" },
+];
+const allConstituencies = [
+  { name: "Bhubaneswar Central", district: "Khordha" },
+  { name: "Puri", district: "Puri" },
+  { name: "Cuttack Sadar", district: "Cuttack" },
+  { name: "Berhampur", district: "Ganjam" },
+  { name: "Korei", district: "Jajpur" },
+];
 
 export default function ManageProjectsPage() {
   const { theme } = useThemeStore()
   const router = useRouter()
+  const [selectedState, setSelectedState] = useState<string>("");
+  const [selectedDistrict, setSelectedDistrict] = useState<string>("");
+  const [selectedConstituency, setSelectedConstituency] = useState<string>("");
+  const [filteredProjects, setFilteredProjects] = useState<any[]>([]);
+  const [showTable, setShowTable] = useState(false);
 
-  // Filters
-  const [statusFilter, setStatusFilter] = useState<string>("all")
-  const [categoryFilter, setCategoryFilter] = useState<string>("all")
-  const [areaSort, setAreaSort] = useState<string>("none")
+  const handleStateChange = (value: string) => {
+    setSelectedState(value);
+    setSelectedDistrict("");
+    setSelectedConstituency("");
+  };
 
-  // Statistics
+  const handleDistrictChange = (value: string) => {
+    setSelectedDistrict(value);
+    setSelectedConstituency("");
+  };
+
+  // Get filtered districts based on selected state
+  const availableDistricts = selectedState && selectedState !== "all" 
+    ? allDistricts.filter(d => d.state === selectedState)
+    : [];
+
+  // Get filtered constituencies based on selected district
+  const availableConstituencies = selectedDistrict && selectedDistrict !== "all"
+    ? allConstituencies.filter(c => c.district === selectedDistrict)
+    : [];
+
+  const handleSubmitFilter = () => {
+    let filtered = mockProjects;
+    
+    if (selectedState && selectedState !== "all") {
+      filtered = filtered.filter(project => project.state === selectedState);
+    }
+    if (selectedDistrict && selectedDistrict !== "all") {
+      filtered = filtered.filter(project => project.district === selectedDistrict);
+    }
+    if (selectedConstituency && selectedConstituency !== "all") {
+      filtered = filtered.filter(project => project.constituency === selectedConstituency);
+    }
+    
+    setFilteredProjects(filtered);
+    setShowTable(true);
+  };
+
+  // Statistics based on filtered data
+  const dataToUse = showTable ? filteredProjects : mockProjects;
   const stats = [
     {
       title: "Total Projects",
-      value: "24",
+      value: dataToUse.length.toString(),
       icon: FolderKanban,
       description: "All projects",
       color: "bg-blue-500",
     },
     {
       title: "In Progress",
-      value: "12",
+      value: dataToUse.filter(p => p.status === "In Progress").length.toString(),
       icon: Clock,
       description: "Active projects",
       color: "bg-orange-500",
     },
     {
       title: "Completed",
-      value: "8",
+      value: dataToUse.filter(p => p.status === "Completed").length.toString(),
       icon: CheckCircle2,
       description: "Finished projects",
       color: "bg-green-500",
@@ -80,6 +175,106 @@ export default function ManageProjectsPage() {
           Add Project
         </Button>
       </div>
+
+      {/* FILTERS */}
+      <Card
+        className="shadow-lg"
+        style={{
+          backgroundColor: theme.cardBackground,
+          borderColor: theme.border,
+        }}
+      >
+        <CardContent className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+            <div className="space-y-2">
+              <Label style={{ color: theme.textPrimary }}>State</Label>
+              <Select value={selectedState} onValueChange={handleStateChange}>
+                <SelectTrigger style={{
+                  backgroundColor: theme.input.bg,
+                  borderColor: theme.input.border,
+                  color: theme.input.text,
+                }}>
+                  <SelectValue placeholder="Select State" />
+                </SelectTrigger>
+                <SelectContent style={{
+                  backgroundColor: theme.cardBackground,
+                  borderColor: theme.cardBorder,
+                  color: theme.textPrimary,
+                }}>
+                  <SelectItem value="all">All States</SelectItem>
+                  {states.map((state) => (
+                    <SelectItem key={state} value={state}>{state}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="space-y-2">
+              <Label style={{ color: theme.textPrimary }}>District</Label>
+              <Select 
+                value={selectedDistrict} 
+                onValueChange={handleDistrictChange}
+                disabled={!selectedState || selectedState === "all"}
+              >
+                <SelectTrigger style={{
+                  backgroundColor: theme.input.bg,
+                  borderColor: theme.input.border,
+                  color: theme.input.text,
+                }}>
+                  <SelectValue placeholder="Select District" />
+                </SelectTrigger>
+                <SelectContent style={{
+                  backgroundColor: theme.cardBackground,
+                  borderColor: theme.cardBorder,
+                  color: theme.textPrimary,
+                }}>
+                  <SelectItem value="all">All Districts</SelectItem>
+                  {availableDistricts.map((district) => (
+                    <SelectItem key={district.name} value={district.name}>{district.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="space-y-2">
+              <Label style={{ color: theme.textPrimary }}>Constituency</Label>
+              <Select 
+                value={selectedConstituency} 
+                onValueChange={setSelectedConstituency}
+                disabled={!selectedDistrict || selectedDistrict === "all"}
+              >
+                <SelectTrigger style={{
+                  backgroundColor: theme.input.bg,
+                  borderColor: theme.input.border,
+                  color: theme.input.text,
+                }}>
+                  <SelectValue placeholder="Select Constituency" />
+                </SelectTrigger>
+                <SelectContent style={{
+                  backgroundColor: theme.cardBackground,
+                  borderColor: theme.cardBorder,
+                  color: theme.textPrimary,
+                }}>
+                  <SelectItem value="all">All Constituencies</SelectItem>
+                  {availableConstituencies.map((constituency) => (
+                    <SelectItem key={constituency.name} value={constituency.name}>{constituency.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <Button
+              onClick={handleSubmitFilter}
+              style={{
+                background: theme.buttonPrimary.bg,
+                color: theme.buttonPrimary.text,
+              }}
+            >
+              Submit
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -124,209 +319,12 @@ export default function ManageProjectsPage() {
         ))}
       </div>
 
-      {/* Filters Section */}
-      <div 
-        className="rounded-lg border p-6 shadow-sm"
-        style={{
-          backgroundColor: theme.cardBackground,
-          borderColor: theme.border,
-        }}
-      >
-        <div className="flex items-center gap-2 mb-4">
-          <Filter className="h-5 w-5" style={{ color: theme.primary }} />
-          <h2 
-            className="text-lg font-semibold"
-            style={{ color: theme.textPrimary }}
-          >
-            Filters & Sorting
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Status Filter */}
-          <div className="space-y-2">
-            <Label style={{ color: theme.textSecondary }}>
-              Filter by Status
-            </Label>
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger
-                style={{
-                  borderColor: theme.border,
-                  backgroundColor: theme.backgroundSecondary,
-                  color: theme.textPrimary,
-                }}
-              >
-                <SelectValue placeholder="All Status" />
-              </SelectTrigger>
-              <SelectContent
-                style={{
-                  backgroundColor: theme.backgroundSecondary,
-                  borderColor: theme.border,
-                }}
-              >
-                <SelectItem value="all" style={{ color: theme.textPrimary }}>
-                  All Status
-                </SelectItem>
-                <SelectItem value="Planning" style={{ color: theme.textPrimary }}>
-                  Planning
-                </SelectItem>
-                <SelectItem value="In Progress" style={{ color: theme.textPrimary }}>
-                  In Progress
-                </SelectItem>
-                <SelectItem value="Completed" style={{ color: theme.textPrimary }}>
-                  Completed
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Category Filter */}
-          <div className="space-y-2">
-            <Label style={{ color: theme.textSecondary }}>
-              Filter by Category
-            </Label>
-            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-              <SelectTrigger
-                style={{
-                  borderColor: theme.border,
-                  backgroundColor: theme.backgroundSecondary,
-                  color: theme.textPrimary,
-                }}
-              >
-                <SelectValue placeholder="All Categories" />
-              </SelectTrigger>
-              <SelectContent
-                style={{
-                  backgroundColor: theme.backgroundSecondary,
-                  borderColor: theme.border,
-                }}
-              >
-                <SelectItem value="all" style={{ color: theme.textPrimary }}>
-                  All Categories
-                </SelectItem>
-                <SelectItem value="Infrastructure" style={{ color: theme.textPrimary }}>
-                  Infrastructure
-                </SelectItem>
-                <SelectItem value="Education" style={{ color: theme.textPrimary }}>
-                  Education
-                </SelectItem>
-                <SelectItem value="Healthcare" style={{ color: theme.textPrimary }}>
-                  Healthcare
-                </SelectItem>
-                <SelectItem value="Agriculture" style={{ color: theme.textPrimary }}>
-                  Agriculture
-                </SelectItem>
-                <SelectItem value="Water Supply" style={{ color: theme.textPrimary }}>
-                  Water Supply
-                </SelectItem>
-                <SelectItem value="Environment" style={{ color: theme.textPrimary }}>
-                  Environment
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Area Sorting */}
-          <div className="space-y-2">
-            <Label style={{ color: theme.textSecondary }}>
-              Sort by Area
-            </Label>
-            <Select value={areaSort} onValueChange={setAreaSort}>
-              <SelectTrigger
-                style={{
-                  borderColor: theme.border,
-                  backgroundColor: theme.backgroundSecondary,
-                  color: theme.textPrimary,
-                }}
-              >
-                <SelectValue placeholder="No Sorting" />
-              </SelectTrigger>
-              <SelectContent
-                style={{
-                  backgroundColor: theme.backgroundSecondary,
-                  borderColor: theme.border,
-                }}
-              >
-                <SelectItem value="none" style={{ color: theme.textPrimary }}>
-                  No Sorting
-                </SelectItem>
-                <SelectItem value="asc" style={{ color: theme.textPrimary }}>
-                  Area: A → Z
-                </SelectItem>
-                <SelectItem value="desc" style={{ color: theme.textPrimary }}>
-                  Area: Z → A
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-
-        {/* Active Filters Display */}
-        {(statusFilter !== "all" || categoryFilter !== "all" || areaSort !== "none") && (
-          <div className="mt-4 flex items-center gap-2 flex-wrap">
-            <span 
-              className="text-sm font-medium"
-              style={{ color: theme.textSecondary }}
-            >
-              Active Filters:
-            </span>
-            {statusFilter !== "all" && (
-              <span 
-                className="px-3 py-1 text-xs rounded-full"
-                style={{
-                  backgroundColor: theme.backgroundSecondary,
-                  color: theme.textPrimary,
-                  border: `1px solid ${theme.border}`,
-                }}
-              >
-                Status: {statusFilter}
-              </span>
-            )}
-            {categoryFilter !== "all" && (
-              <span 
-                className="px-3 py-1 text-xs rounded-full"
-                style={{
-                  backgroundColor: theme.backgroundSecondary,
-                  color: theme.textPrimary,
-                  border: `1px solid ${theme.border}`,
-                }}
-              >
-                Category: {categoryFilter}
-              </span>
-            )}
-            {areaSort !== "none" && (
-              <span 
-                className="px-3 py-1 text-xs rounded-full"
-                style={{
-                  backgroundColor: theme.backgroundSecondary,
-                  color: theme.textPrimary,
-                  border: `1px solid ${theme.border}`,
-                }}
-              >
-                Sorted: {areaSort === "asc" ? "A → Z" : "Z → A"}
-              </span>
-            )}
-            <button
-              onClick={() => {
-                setStatusFilter("all")
-                setCategoryFilter("all")
-                setAreaSort("none")
-              }}
-              className="text-xs underline hover:opacity-80"
-              style={{ color: theme.textPrimary }}
-            >
-              Clear All
-            </button>
-          </div>
-        )}
-      </div>
-
       {/* Projects Table */}
-      <ManageProjectsTable 
-        statusFilter={statusFilter}
-        categoryFilter={categoryFilter}
-        areaSort={areaSort}
-      />
+      {showTable && (
+        <ManageProjectsTable 
+          data={filteredProjects}
+        />
+      )}
     </div>
   )
 }

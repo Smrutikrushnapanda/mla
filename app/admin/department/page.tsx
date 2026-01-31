@@ -5,6 +5,15 @@ import { Plus, Building2 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -13,8 +22,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
 import { useThemeStore } from "@/store/useThemeStore";
 import { DepartmentTable } from "@/components/admin-dashboard/department/table/department-table";
 import { Department } from "@/components/admin-dashboard/department/table/columns";
@@ -31,6 +38,7 @@ const mockDepartments: Department[] = [
     contactPhone: "+91-9876543210",
     categories: ["Projects", "Infrastructure", "Development"],
     active: true,
+    state: "Odisha",
   },
   {
     id: "2",
@@ -42,6 +50,7 @@ const mockDepartments: Department[] = [
     contactPhone: "+91-9876543211",
     categories: ["Health", "Grievances"],
     active: true,
+    state: "Odisha",
   },
   {
     id: "3",
@@ -53,6 +62,7 @@ const mockDepartments: Department[] = [
     contactPhone: "+91-9876543212",
     categories: ["Education", "Development", "Events"],
     active: true,
+    state: "Maharashtra",
   },
   {
     id: "4",
@@ -64,6 +74,7 @@ const mockDepartments: Department[] = [
     contactPhone: "+91-9876543213",
     categories: ["Agriculture", "Development", "Projects"],
     active: false,
+    state: "Odisha",
   },
   {
     id: "5",
@@ -75,21 +86,39 @@ const mockDepartments: Department[] = [
     contactPhone: "+91-9876543214",
     categories: ["Social Welfare", "Grievances", "My Voice"],
     active: true,
+    state: "Karnataka",
   },
 ];
+
+const states = ["Odisha", "Maharashtra", "Karnataka"];
 
 export default function DepartmentPage() {
   const { theme } = useThemeStore();
   const [departments, setDepartments] = useState<Department[]>(mockDepartments);
+  const [selectedState, setSelectedState] = useState<string>("");
+  const [filteredDepartments, setFilteredDepartments] = useState<Department[]>([]);
+  const [showTable, setShowTable] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
   const [selectedDepartment, setSelectedDepartment] = useState<Department | null>(null);
 
-  // Statistics
+  const handleSubmitFilter = () => {
+    let filtered = departments;
+    
+    if (selectedState && selectedState !== "all") {
+      filtered = filtered.filter(dept => dept.state === selectedState);
+    }
+    
+    setFilteredDepartments(filtered);
+    setShowTable(true);
+  };
+
+  // Statistics based on filtered data
+  const dataToUse = showTable ? filteredDepartments : departments;
   const stats = {
-    total: departments.length,
-    active: departments.filter((d) => d.active).length,
-    inactive: departments.filter((d) => !d.active).length,
+    total: dataToUse.length,
+    active: dataToUse.filter((d) => d.active).length,
+    inactive: dataToUse.filter((d) => !d.active).length,
   };
 
   const handleToggleActive = (deptId: string) => {
@@ -141,6 +170,53 @@ export default function DepartmentPage() {
         </Link>
       </div>
 
+      {/* STATE FILTER */}
+      <Card
+        className="shadow-lg"
+        style={{
+          backgroundColor: theme.cardBackground,
+          borderColor: theme.border,
+        }}
+      >
+        <CardContent className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+            <div className="space-y-2">
+              <Label style={{ color: theme.textPrimary }}>State</Label>
+              <Select value={selectedState} onValueChange={setSelectedState}>
+                <SelectTrigger style={{
+                  backgroundColor: theme.input.bg,
+                  borderColor: theme.input.border,
+                  color: theme.input.text,
+                }}>
+                  <SelectValue placeholder="Select State" />
+                </SelectTrigger>
+                <SelectContent style={{
+                  backgroundColor: theme.cardBackground,
+                  borderColor: theme.cardBorder,
+                  color: theme.textPrimary,
+                }}>
+                  <SelectItem value="all">All States</SelectItem>
+                  {states.map((state) => (
+                    <SelectItem key={state} value={state}>{state}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <Button
+              onClick={handleSubmitFilter}
+              size="sm"
+              style={{
+                background: theme.buttonPrimary.bg,
+                color: theme.buttonPrimary.text,
+              }}
+            >
+              Submit
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* STATISTICS CARDS */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {[
@@ -187,12 +263,14 @@ export default function DepartmentPage() {
       </div>
 
       {/* DEPARTMENTS TABLE */}
-      <DepartmentTable
-        data={departments}
-        onEdit={openEditDialog}
-        onView={openViewDialog}
-        onToggleActive={handleToggleActive}
-      />
+      {showTable && (
+        <DepartmentTable
+          data={filteredDepartments}
+          onEdit={openEditDialog}
+          onView={openViewDialog}
+          onToggleActive={handleToggleActive}
+        />
+      )}
 
       {/* VIEW DEPARTMENT DIALOG */}
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>

@@ -184,6 +184,7 @@ const constituencyTypes = ["Urban", "Rural", "Semi-Urban"];
 export default function ConstituenciesPage() {
   const { theme } = useThemeStore();
   const [constituencies, setConstituencies] = useState<Constituency[]>(mockConstituencies);
+  const [selectedDistrict, setSelectedDistrict] = useState<string>("");
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
   const [selectedConstituency, setSelectedConstituency] = useState<Constituency | null>(null);
@@ -197,12 +198,20 @@ export default function ConstituenciesPage() {
     active: true,
   });
 
-  // Statistics
+  // Get unique districts for filter
+  const districts = Array.from(new Set(constituencies.map(c => c.district))).sort();
+
+  // Filter constituencies by selected district
+  const filteredConstituencies = selectedDistrict && selectedDistrict !== "all"
+    ? constituencies.filter(constituency => constituency.district === selectedDistrict)
+    : constituencies;
+
+  // Statistics based on filtered data
   const stats = {
-    total: constituencies.length,
-    active: constituencies.filter((c) => c.active).length,
-    inactive: constituencies.filter((c) => !c.active).length,
-    urban: constituencies.filter((c) => c.type === "Urban").length,
+    total: filteredConstituencies.length,
+    active: filteredConstituencies.filter((c) => c.active).length,
+    inactive: filteredConstituencies.filter((c) => !c.active).length,
+    urban: filteredConstituencies.filter((c) => c.type === "Urban").length,
   };
 
   const handleToggleActive = (constituencyId: string) => {
@@ -298,6 +307,32 @@ export default function ConstituenciesPage() {
         </Link>
       </div>
 
+      {/* DISTRICT FILTER */}
+      <div className="flex items-center gap-4">
+        <Label style={{ color: theme.textPrimary }}>Filter by District:</Label>
+        <Select value={selectedDistrict} onValueChange={setSelectedDistrict}>
+          <SelectTrigger className="w-64" style={{
+            backgroundColor: theme.input.bg,
+            borderColor: theme.input.border,
+            color: theme.input.text,
+          }}>
+            <SelectValue placeholder="All Districts" />
+          </SelectTrigger>
+          <SelectContent style={{
+            backgroundColor: theme.cardBackground,
+            borderColor: theme.cardBorder,
+            color: theme.textPrimary,
+          }}>
+            <SelectItem value="all">All Districts</SelectItem>
+            {districts.map((district) => (
+              <SelectItem key={district} value={district}>
+                {district}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
       {/* STATISTICS CARDS */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {[
@@ -346,7 +381,7 @@ export default function ConstituenciesPage() {
 
       {/* CONSTITUENCY TABLE */}
       <ConstituencyTable
-        data={constituencies}
+        data={filteredConstituencies}
         onEdit={openEditDialog}
         onView={openViewDialog}
         onToggleActive={handleToggleActive}

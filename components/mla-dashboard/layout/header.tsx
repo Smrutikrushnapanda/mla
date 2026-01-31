@@ -213,7 +213,7 @@ export default function Header() {
                       John Doe
                     </span>
                     <span className="text-xs" style={{ color: theme.textSecondary }}>
-                      Admin
+                      MLA
                     </span>
                   </div>
                   <ChevronDown className="h-4 w-4 transition-transform group-data-[state=open]:rotate-180" style={{ color: theme.textSecondary }} />
@@ -232,7 +232,7 @@ export default function Header() {
                   <div className="flex flex-col gap-1">
                     <span className="font-medium">John Doe</span>
                     <span className="text-xs font-normal" style={{ color: theme.textSecondary }}>
-                      john.doe@admin.com
+                      john.doe@mla.gov.in
                     </span>
                     <div className="mt-2 flex items-center gap-2">
                       <div className="flex-1 rounded-full h-1.5" style={{ background: theme.backgroundSecondary }}>

@@ -6,6 +6,13 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -13,13 +20,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
@@ -154,6 +154,7 @@ const indianStates = [
 export default function DistrictsPage() {
   const { theme } = useThemeStore();
   const [districts, setDistricts] = useState<District[]>(mockDistricts);
+  const [selectedState, setSelectedState] = useState<string>("");
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
   const [selectedDistrict, setSelectedDistrict] = useState<District | null>(null);
@@ -166,11 +167,16 @@ export default function DistrictsPage() {
     active: true,
   });
 
-  // Statistics
+  // Filter districts by selected state
+  const filteredDistricts = selectedState && selectedState !== "all"
+    ? districts.filter(district => district.state === selectedState)
+    : districts;
+
+  // Statistics based on filtered data
   const stats = {
-    total: districts.length,
-    active: districts.filter((d) => d.active).length,
-    inactive: districts.filter((d) => !d.active).length,
+    total: filteredDistricts.length,
+    active: filteredDistricts.filter((d) => d.active).length,
+    inactive: filteredDistricts.filter((d) => !d.active).length,
   };
 
   const handleToggleActive = (districtId: string) => {
@@ -253,11 +259,9 @@ export default function DistrictsPage() {
           <Link href="/admin/AddState">
             <Button
               className="gap-2 transition-all duration-200 hover:scale-105 border-0"
-              variant="outline"
               style={{
-                borderColor: theme.buttonPrimary.bg,
-                color: theme.buttonPrimary.bg,
-                backgroundColor: "transparent",
+                background: theme.buttonPrimary.bg,
+                color: theme.buttonPrimary.text,
               }}
             >
               <Plus className="h-4 w-4" />
@@ -277,6 +281,32 @@ export default function DistrictsPage() {
             </Button>
           </Link>
         </div>
+      </div>
+
+      {/* STATE FILTER */}
+      <div className="flex items-center gap-4">
+        <Label style={{ color: theme.textPrimary }}>Filter by State:</Label>
+        <Select value={selectedState} onValueChange={setSelectedState}>
+          <SelectTrigger className="w-64" style={{
+            backgroundColor: theme.input.bg,
+            borderColor: theme.input.border,
+            color: theme.input.text,
+          }}>
+            <SelectValue placeholder="All States" />
+          </SelectTrigger>
+          <SelectContent style={{
+            backgroundColor: theme.cardBackground,
+            borderColor: theme.cardBorder,
+            color: theme.textPrimary,
+          }}>
+            <SelectItem value="all">All States</SelectItem>
+            {indianStates.map((state) => (
+              <SelectItem key={state} value={state}>
+                {state}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       {/* STATISTICS CARDS */}
@@ -326,7 +356,7 @@ export default function DistrictsPage() {
 
       {/* DISTRICT TABLE */}
       <DistrictTable
-        data={districts}
+        data={filteredDistricts}
         onEdit={openEditDialog}
         onView={openViewDialog}
         onToggleActive={handleToggleActive}

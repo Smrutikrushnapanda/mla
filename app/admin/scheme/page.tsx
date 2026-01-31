@@ -5,6 +5,15 @@ import { Plus, FileText } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -13,8 +22,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
 import { useThemeStore } from "@/store/useThemeStore";
 import { SchemeTable } from "@/components/admin-dashboard/Scheme/table/scheme-table";
 import { Scheme } from "@/components/admin-dashboard/Scheme/table/columns";
@@ -47,6 +54,7 @@ const mockSchemes: Scheme[] = [
       "Enrollment through online portal, Gram Panchayat/ULB camps and designated assistance centres; verification by local officials",
     launchDate: new Date("2025-04-01"),
     active: true,
+    state: "Odisha",
   },
   {
     id: "1",
@@ -64,6 +72,7 @@ const mockSchemes: Scheme[] = [
       "Automatic selection from verified farmer database, with provision to apply/update details through block-level agriculture office or online portal",
     launchDate: new Date("2024-09-01"),
     active: true,
+    state: "Odisha",
   },
   {
     id: "2",
@@ -81,6 +90,7 @@ const mockSchemes: Scheme[] = [
       "Automatic enrollment of eligible families; Ayushman/State health cards distributed through camps and health facilities",
     launchDate: new Date("2024-10-01"),
     active: true,
+    state: "Maharashtra",
   },
   {
     id: "3",
@@ -98,6 +108,7 @@ const mockSchemes: Scheme[] = [
       "Apply through Gram Panchayat/ULB or online portal; existing beneficiaries upgraded automatically to revised pension rates",
     launchDate: new Date("2025-01-01"),
     active: true,
+    state: "Odisha",
   },
   {
     id: "4",
@@ -115,6 +126,7 @@ const mockSchemes: Scheme[] = [
       "Apply through District Labour Office, Common Service Centre or online labour welfare portal",
     launchDate: new Date("2024-11-01"),
     active: true,
+    state: "Karnataka",
   },
   {
     id: "5",
@@ -133,6 +145,7 @@ const mockSchemes: Scheme[] = [
     launchDate: new Date("2024-07-15"),
     endDate: new Date("2027-03-31"),
     active: true,
+    state: "Odisha",
   },
   {
     id: "6",
@@ -151,21 +164,39 @@ const mockSchemes: Scheme[] = [
       "Apply online through National Scholarship Portal; verification by school and district welfare office",
     launchDate: new Date("2025-06-01"),
     active: true,
+    state: "Odisha",
   },
 ];
+
+const states = ["Odisha", "Maharashtra", "Karnataka"];
 
 
 export default function SchemePage() {
   const { theme } = useThemeStore();
   const [schemes, setSchemes] = useState<Scheme[]>(mockSchemes);
+  const [selectedState, setSelectedState] = useState<string>("");
+  const [filteredSchemes, setFilteredSchemes] = useState<Scheme[]>([]);
+  const [showTable, setShowTable] = useState(false);
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
   const [selectedScheme, setSelectedScheme] = useState<Scheme | null>(null);
 
-  // Statistics
+  const handleSubmitFilter = () => {
+    let filtered = schemes;
+    
+    if (selectedState && selectedState !== "all") {
+      filtered = filtered.filter(scheme => scheme.state === selectedState);
+    }
+    
+    setFilteredSchemes(filtered);
+    setShowTable(true);
+  };
+
+  // Statistics based on filtered data
+  const dataToUse = showTable ? filteredSchemes : schemes;
   const stats = {
-    total: schemes.length,
-    active: schemes.filter((s) => s.active).length,
-    inactive: schemes.filter((s) => !s.active).length,
+    total: dataToUse.length,
+    active: dataToUse.filter((s) => s.active).length,
+    inactive: dataToUse.filter((s) => !s.active).length,
   };
 
   const handleToggleActive = (schemeId: string) => {
@@ -217,6 +248,53 @@ export default function SchemePage() {
         </Link>
       </div>
 
+      {/* STATE FILTER */}
+      <Card
+        className="shadow-lg"
+        style={{
+          backgroundColor: theme.cardBackground,
+          borderColor: theme.border,
+        }}
+      >
+        <CardContent className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+            <div className="space-y-2">
+              <Label style={{ color: theme.textPrimary }}>State</Label>
+              <Select value={selectedState} onValueChange={setSelectedState}>
+                <SelectTrigger style={{
+                  backgroundColor: theme.input.bg,
+                  borderColor: theme.input.border,
+                  color: theme.input.text,
+                }}>
+                  <SelectValue placeholder="Select State" />
+                </SelectTrigger>
+                <SelectContent style={{
+                  backgroundColor: theme.cardBackground,
+                  borderColor: theme.cardBorder,
+                  color: theme.textPrimary,
+                }}>
+                  <SelectItem value="all">All States</SelectItem>
+                  {states.map((state) => (
+                    <SelectItem key={state} value={state}>{state}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <Button
+              onClick={handleSubmitFilter}
+              size="sm"
+              style={{
+                background: theme.buttonPrimary.bg,
+                color: theme.buttonPrimary.text,
+              }}
+            >
+              Submit
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* STATISTICS CARDS */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {[
@@ -263,12 +341,14 @@ export default function SchemePage() {
       </div>
 
       {/* SCHEMES TABLE */}
-      <SchemeTable
-        data={schemes}
-        onEdit={openEditDialog}
-        onView={openViewDialog}
-        onToggleActive={handleToggleActive}
-      />
+      {showTable && (
+        <SchemeTable
+          data={filteredSchemes}
+          onEdit={openEditDialog}
+          onView={openViewDialog}
+          onToggleActive={handleToggleActive}
+        />
+      )}
 
       {/* VIEW SCHEME DIALOG */}
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>

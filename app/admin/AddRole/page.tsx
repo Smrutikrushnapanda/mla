@@ -30,13 +30,7 @@ interface Permission {
 }
 
 const predefinedRoles = [
-  { value: "admin", label: "Administrator" },
-  { value: "content_manager", label: "Content Manager" },
-  { value: "support_staff", label: "Support Staff" },
-  { value: "data_analyst", label: "Data Analyst" },
-  { value: "moderator", label: "Moderator" },
-  { value: "viewer", label: "Viewer" },
-  { value: "custom", label: "Custom Role" },
+  { value: "mla", label: "MLA (Member of Legislative Assembly)" },
 ];
 
 const roleStatuses = [
@@ -123,8 +117,6 @@ export default function AddRolePage() {
 
     if (!formData.name) {
       newErrors.name = "Role name is required";
-    } else if (formData.name === "custom" && !formData.customName.trim()) {
-      newErrors.name = "Custom role name is required";
     }
     if (!formData.description.trim()) {
       newErrors.description = "Description is required";
@@ -145,7 +137,7 @@ export default function AddRolePage() {
       return;
     }
 
-    const roleName = formData.name === "custom" ? formData.customName : formData.name;
+    const roleName = formData.name;
     console.log("Creating role:", { ...formData, finalName: roleName });
     
     toast.success("Role created successfully!");
@@ -230,7 +222,6 @@ export default function AddRolePage() {
   // Compute disabled state
   const isSubmitDisabled = 
     !formData.name || 
-    (formData.name === "custom" && !formData.customName.trim()) ||
     !formData.description || 
     formData.permissions.length === 0;
 

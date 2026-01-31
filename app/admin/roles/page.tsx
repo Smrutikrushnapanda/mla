@@ -1,4 +1,3 @@
-// roles/page.tsx
 "use client";
 
 import { useState } from "react";
@@ -11,6 +10,14 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -26,16 +33,6 @@ import Link from "next/link";
 
 const mockRoles: Role[] = [
   {
-    id: "1",
-    name: "Super Admin",
-    description: "Full system access with all permissions",
-    permissions: ["all"],
-    userCount: 3,
-    active: true,
-    createdAt: "2024-01-15",
-    isSystem: true,
-  },
-  {
     id: "2",
     name: "MLA",
     description: "Member of Legislative Assembly with constituency access",
@@ -44,52 +41,122 @@ const mockRoles: Role[] = [
     active: true,
     createdAt: "2024-01-20",
     isSystem: true,
+    state: "Odisha",
+    district: "Khordha",
+    constituency: "Bhubaneswar Central",
   },
   {
     id: "3",
-    name: "MLA Staff",
-    description: "Staff members assisting MLAs",
-    permissions: ["view_grievances", "update_grievances", "manage_events"],
-    userCount: 45,
+    name: "MLA",
+    description: "Member of Legislative Assembly with constituency access",
+    permissions: ["view_grievances", "manage_events", "view_reports", "manage_milestones"],
+    userCount: 8,
     active: true,
-    createdAt: "2024-02-01",
-    isSystem: false,
+    createdAt: "2024-01-25",
+    isSystem: true,
+    state: "Odisha",
+    district: "Puri",
+    constituency: "Puri",
   },
   {
     id: "4",
-    name: "Content Manager",
-    description: "Manages media and content updates",
-    permissions: ["manage_media", "manage_events", "manage_milestones"],
-    userCount: 8,
-    active: true,
-    createdAt: "2024-02-10",
-    isSystem: false,
+    name: "MLA",
+    description: "Member of Legislative Assembly with constituency access",
+    permissions: ["view_grievances", "manage_events", "view_reports", "manage_milestones"],
+    userCount: 15,
+    active: false,
+    createdAt: "2024-02-01",
+    isSystem: true,
+    state: "Odisha",
+    district: "Cuttack",
+    constituency: "Cuttack Sadar",
   },
   {
     id: "5",
-    name: "Support Staff",
-    description: "Basic support and grievance handling",
-    permissions: ["view_grievances", "update_grievances"],
-    userCount: 25,
-    active: false,
-    createdAt: "2024-03-05",
-    isSystem: false,
+    name: "MLA",
+    description: "Member of Legislative Assembly with constituency access",
+    permissions: ["view_grievances", "manage_events", "view_reports", "manage_milestones"],
+    userCount: 10,
+    active: true,
+    createdAt: "2024-02-05",
+    isSystem: true,
+    state: "Odisha",
+    district: "Jajpur",
+    constituency: "Korei",
   },
+];
+
+const states = ["Odisha", "Maharashtra", "Karnataka"];
+const allDistricts = [
+  { name: "Khordha", state: "Odisha" },
+  { name: "Puri", state: "Odisha" },
+  { name: "Cuttack", state: "Odisha" },
+  { name: "Ganjam", state: "Odisha" },
+  { name: "Jajpur", state: "Odisha" },
+];
+const allConstituencies = [
+  { name: "Bhubaneswar Central", district: "Khordha" },
+  { name: "Puri", district: "Puri" },
+  { name: "Cuttack Sadar", district: "Cuttack" },
+  { name: "Berhampur", district: "Ganjam" },
+  { name: "Korei", district: "Jajpur" },
 ];
 
 export default function RolesPage() {
   const { theme } = useThemeStore();
   const [roles, setRoles] = useState<Role[]>(mockRoles);
+  const [selectedState, setSelectedState] = useState<string>("");
+  const [selectedDistrict, setSelectedDistrict] = useState<string>("");
+  const [selectedConstituency, setSelectedConstituency] = useState<string>("");
+  const [filteredRoles, setFilteredRoles] = useState<Role[]>([]);
+  const [showTable, setShowTable] = useState(false);
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState<Role | null>(null);
 
-  // Statistics
+  const handleStateChange = (value: string) => {
+    setSelectedState(value);
+    setSelectedDistrict("");
+    setSelectedConstituency("");
+  };
+
+  const handleDistrictChange = (value: string) => {
+    setSelectedDistrict(value);
+    setSelectedConstituency("");
+  };
+
+  // Get filtered districts based on selected state
+  const availableDistricts = selectedState && selectedState !== "all" 
+    ? allDistricts.filter(d => d.state === selectedState)
+    : [];
+
+  // Get filtered constituencies based on selected district
+  const availableConstituencies = selectedDistrict && selectedDistrict !== "all"
+    ? allConstituencies.filter(c => c.district === selectedDistrict)
+    : [];
+  const handleSubmitFilter = () => {
+    let filtered = roles;
+    
+    if (selectedState && selectedState !== "all") {
+      filtered = filtered.filter(role => role.state === selectedState);
+    }
+    if (selectedDistrict && selectedDistrict !== "all") {
+      filtered = filtered.filter(role => role.district === selectedDistrict);
+    }
+    if (selectedConstituency && selectedConstituency !== "all") {
+      filtered = filtered.filter(role => role.constituency === selectedConstituency);
+    }
+    
+    setFilteredRoles(filtered);
+    setShowTable(true);
+  };
+
+  // Statistics based on filtered data
   const stats = {
-    total: roles.length,
-    active: roles.filter((r) => r.active).length,
-    inactive: roles.filter((r) => !r.active).length,
-    totalUsers: roles.reduce((sum, r) => sum + r.userCount, 0),
+    total: showTable ? filteredRoles.length : roles.length,
+    active: showTable ? filteredRoles.filter((r) => r.active).length : roles.filter((r) => r.active).length,
+    inactive: showTable ? filteredRoles.filter((r) => !r.active).length : roles.filter((r) => !r.active).length,
+    totalUsers: showTable ? filteredRoles.reduce((sum, r) => sum + r.userCount, 0) : roles.reduce((sum, r) => sum + r.userCount, 0),
   };
 
   const handleToggleActive = (roleId: string) => {
@@ -135,6 +202,106 @@ export default function RolesPage() {
           </Button>
         </Link>
       </div>
+
+      {/* FILTERS */}
+      <Card
+        className="shadow-lg"
+        style={{
+          backgroundColor: theme.cardBackground,
+          borderColor: theme.border,
+        }}
+      >
+        <CardContent className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+            <div className="space-y-2">
+              <Label style={{ color: theme.textPrimary }}>State</Label>
+              <Select value={selectedState} onValueChange={handleStateChange}>
+                <SelectTrigger style={{
+                  backgroundColor: theme.input.bg,
+                  borderColor: theme.input.border,
+                  color: theme.input.text,
+                }}>
+                  <SelectValue placeholder="Select State" />
+                </SelectTrigger>
+                <SelectContent style={{
+                  backgroundColor: theme.cardBackground,
+                  borderColor: theme.cardBorder,
+                  color: theme.textPrimary,
+                }}>
+                  <SelectItem value="all">All States</SelectItem>
+                  {states.map((state) => (
+                    <SelectItem key={state} value={state}>{state}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="space-y-2">
+              <Label style={{ color: theme.textPrimary }}>District</Label>
+              <Select 
+                value={selectedDistrict} 
+                onValueChange={handleDistrictChange}
+                disabled={!selectedState || selectedState === "all"}
+              >
+                <SelectTrigger style={{
+                  backgroundColor: theme.input.bg,
+                  borderColor: theme.input.border,
+                  color: theme.input.text,
+                }}>
+                  <SelectValue placeholder="Select District" />
+                </SelectTrigger>
+                <SelectContent style={{
+                  backgroundColor: theme.cardBackground,
+                  borderColor: theme.cardBorder,
+                  color: theme.textPrimary,
+                }}>
+                  <SelectItem value="all">All Districts</SelectItem>
+                  {availableDistricts.map((district) => (
+                    <SelectItem key={district.name} value={district.name}>{district.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="space-y-2">
+              <Label style={{ color: theme.textPrimary }}>Constituency</Label>
+              <Select 
+                value={selectedConstituency} 
+                onValueChange={setSelectedConstituency}
+                disabled={!selectedDistrict || selectedDistrict === "all"}
+              >
+                <SelectTrigger style={{
+                  backgroundColor: theme.input.bg,
+                  borderColor: theme.input.border,
+                  color: theme.input.text,
+                }}>
+                  <SelectValue placeholder="Select Constituency" />
+                </SelectTrigger>
+                <SelectContent style={{
+                  backgroundColor: theme.cardBackground,
+                  borderColor: theme.cardBorder,
+                  color: theme.textPrimary,
+                }}>
+                  <SelectItem value="all">All Constituencies</SelectItem>
+                  {availableConstituencies.map((constituency) => (
+                    <SelectItem key={constituency.name} value={constituency.name}>{constituency.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <Button
+              onClick={handleSubmitFilter}
+              style={{
+                background: theme.buttonPrimary.bg,
+                color: theme.buttonPrimary.text,
+              }}
+            >
+              Submit
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* STATISTICS CARDS */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -183,11 +350,13 @@ export default function RolesPage() {
       </div>
 
       {/* ROLES TABLE */}
-      <RoleTable
-        data={roles}
-        onView={openViewDialog}
-        onToggleActive={handleToggleActive}
-      />
+      {showTable && (
+        <RoleTable
+          data={filteredRoles}
+          onView={openViewDialog}
+          onToggleActive={handleToggleActive}
+        />
+      )}
 
       {/* VIEW PERMISSIONS DIALOG */}
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
