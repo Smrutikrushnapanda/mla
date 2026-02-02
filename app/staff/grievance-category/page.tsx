@@ -106,7 +106,7 @@ export default function GrievanceCategoryPage() {
           </p>
         </div>
         
-        <Link href="/staff/Add-grievance-category">
+        <Link href="/staff/add-grievance-category">
           <Button
             className="flex items-center gap-2"
             style={{

@@ -121,7 +121,7 @@ export default function ProjectManagementPage() {
           </p>
         </div>
         
-        <Link href="/staff/Add-project-category">
+        <Link href="/staff/add-project-category">
           <Button
             className="flex items-center gap-2"
             style={{

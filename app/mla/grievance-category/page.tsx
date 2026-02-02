@@ -27,7 +27,7 @@ export default function GrievanceCategoryPage() {
             View and manage grievance categories for Korei Constituency
           </p>
         </div>
-        <Link href="/mla/Add-project-category">
+        <Link href="/mla/add-grievance-category">
           <Button
             className="flex items-center gap-2"
             style={{
